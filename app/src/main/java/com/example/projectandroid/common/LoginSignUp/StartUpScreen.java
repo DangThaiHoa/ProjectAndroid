@@ -1,11 +1,12 @@
-package com.example.projectandroid;
+package com.example.projectandroid.common.LoginSignUp;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
-import android.widget.TextView;
 
-public class MainActivity extends AppCompatActivity {
+import com.example.projectandroid.R;
+
+public class StartUpScreen extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
