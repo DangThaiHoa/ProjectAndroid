@@ -27,21 +27,11 @@ public class StartUpScreen extends AppCompatActivity {
 
     public void callLoginSrceen(View view){
         Intent intent = new Intent(getApplicationContext(),Login.class);
-
-        Pair[] pairs = new Pair[1];
-        pairs[0] = new Pair<View, String>(findViewById(R.id.login_btn),"transition_login");
-
-        ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(StartUpScreen.this,pairs);
-        startActivity(intent,options.toBundle());
+        startActivity(intent);
     }
 
-//    public void callSignUpSrceen(View view){
-//        Intent intent = new Intent(getApplicationContext(),Signup.class);
-//
-//        Pair[] pairs = new Pair[1];
-//        pairs[0] = new Pair<View, String>(findViewById(R.id.signup_btn),"transition_login/back/signup");
-//
-//        ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(StartUpScreen.this,pairs);
-//        startActivity(intent,options.toBundle());
-//    }
+    public void callSignUpSrceen(View view){
+        Intent intent = new Intent(getApplicationContext(),SignUp.class);
+        startActivity(intent);
+    }
 }

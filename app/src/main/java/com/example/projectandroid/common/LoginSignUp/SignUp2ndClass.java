@@ -5,14 +5,14 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.app.ActivityOptions;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Pair;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.ImageView;
 
 import com.example.projectandroid.R;
 
-public class Login extends AppCompatActivity {
+public class SignUp2ndClass extends AppCompatActivity {
 
     ImageView backbtn;
 
@@ -21,16 +21,21 @@ public class Login extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         getSupportActionBar().hide();
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
-        setContentView(R.layout.activity_login);
+        setContentView(R.layout.activity_sign_up2nd_class);
 
-        backbtn = findViewById(R.id.login_back_button);
+        backbtn = findViewById(R.id.signup2nd_back_button);
 
         backbtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getApplicationContext(),StartUpScreen.class);
+                Intent intent = new Intent(getApplicationContext(),SignUp.class);
                 startActivity(intent);
             }
         });
+    }
+
+    public void callNextSignup2ndScreen(View view){
+        Intent intent = new Intent(getApplicationContext(),VerifySignUp.class);
+        startActivity(intent);
     }
 }
