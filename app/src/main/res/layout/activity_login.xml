@@ -87,9 +87,10 @@
                     android:layout_alignParentEnd="true"
                     android:layout_alignParentRight="true"
                     android:layout_centerInParent="true"
-                    android:text="Forget Password"
                     android:fontFamily="@font/muli_black"
-                    android:textAllCaps="true"/>
+                    android:text="Forget Password"
+                    android:onClick="CallForgetPassword"
+                    android:textAllCaps="true" />
 
             </RelativeLayout>
 

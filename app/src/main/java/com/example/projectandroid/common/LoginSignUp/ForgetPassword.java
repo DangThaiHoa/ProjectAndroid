@@ -2,17 +2,16 @@ package com.example.projectandroid.common.LoginSignUp;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.app.ActivityOptions;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Pair;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.ImageView;
 
 import com.example.projectandroid.R;
 
-public class Login extends AppCompatActivity {
+public class ForgetPassword extends AppCompatActivity {
 
     ImageView backbtn;
 
@@ -21,21 +20,21 @@ public class Login extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         getSupportActionBar().hide();
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
-        setContentView(R.layout.activity_login);
+        setContentView(R.layout.activity_forget_password);
 
-        backbtn = findViewById(R.id.login_back_button);
+        backbtn = findViewById(R.id.forgetPassword_button_back);
 
         backbtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getApplicationContext(),StartUpScreen.class);
+                Intent intent = new Intent(getApplicationContext(), Login.class);
                 startActivity(intent);
             }
         });
     }
 
-    public void CallForgetPassword(View view){
-        Intent intent = new Intent(getApplicationContext(),ForgetPassword.class);
+    public void CallCompleteForgetPassword(View view){
+        Intent intent = new Intent(getApplicationContext(), CompleteForgetPassword.class);
         startActivity(intent);
     }
 }
