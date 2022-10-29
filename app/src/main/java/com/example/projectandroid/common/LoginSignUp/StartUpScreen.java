@@ -1,5 +1,6 @@
 package com.example.projectandroid.common.LoginSignUp;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 
@@ -7,6 +8,7 @@ import android.app.ActivityOptions;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Configuration;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Pair;
@@ -16,56 +18,81 @@ import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.ShareActionProvider;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.projectandroid.MainActivity;
 import com.example.projectandroid.R;
+import com.example.projectandroid.UserSetting;
 import com.google.android.material.switchmaterial.SwitchMaterial;
 
 import java.util.Objects;
 
 public class StartUpScreen extends AppCompatActivity {
 
-    SwitchMaterial switchMode;
-    ImageView iconmode;
-    boolean nightMode;
-    SharedPreferences sharedPreferences;
-    SharedPreferences.Editor editor;
+    ImageView iconmode, imageStart;
+    Boolean isDarkModeOn = false;
+    Button btnLogin, btnSignUp;
+    TextView textViewWE, textViewDE, textViewWork;
+
+    private UserSetting setting;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getSupportActionBar().hide();
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_start_up_screen);
 
-        switchMode = findViewById(R.id.thememode);
         iconmode = findViewById(R.id.iconthememode);
+        imageStart = findViewById(R.id.imageStart);
+        btnLogin = findViewById(R.id.login_btn);
+        btnSignUp = findViewById(R.id.signup_btn);
+        textViewDE = findViewById(R.id.textviewDE);
+        textViewWE = findViewById(R.id.textViewWE);
+        textViewWork = findViewById(R.id.textviewWork);
 
-        sharedPreferences = getSharedPreferences("MODE", Context.MODE_PRIVATE);
-        nightMode = sharedPreferences.getBoolean("Night",false);
+        iconmode.setTranslationY(300);
+        imageStart.setTranslationX(1000);
+        btnLogin.setTranslationY(300);
+        btnSignUp.setTranslationY(300);
+        textViewDE.setTranslationX(1000);
+        textViewWE.setTranslationX(1000);
+        textViewWork.setTranslationY(300);
 
-        switchMode.setOnClickListener(new View.OnClickListener() {
+
+        iconmode.animate().translationY(0).alpha(1).setDuration(1000).setStartDelay(300).start();
+        imageStart.animate().translationX(0).alpha(1).setDuration(1000).setStartDelay(700).start();
+        btnLogin.animate().translationY(0).alpha(1).setDuration(1000).setStartDelay(1500).start();
+        btnSignUp.animate().translationY(0).alpha(1).setDuration(1000).setStartDelay(1500).start();
+        textViewDE.animate().translationX(0).alpha(1).setDuration(1000).setStartDelay(900).start();
+        textViewWE.animate().translationX(0).alpha(1).setDuration(1000).setStartDelay(800).start();
+        textViewWork.animate().translationY(0).alpha(1).setDuration(1000).setStartDelay(1600).start();
+
+
+        isDarkModeOn = getDarkModeStatus();
+        if (isDarkModeOn) {
+            iconmode.setImageResource(R.drawable.moon);
+        } else {
+            iconmode.setImageResource(R.drawable.sun);
+        }
+
+        iconmode.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(nightMode){
+                if (isDarkModeOn) {
                     AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
-                    editor = sharedPreferences.edit();
+                    iconmode.setImageResource(R.drawable.moon);
+                    isDarkModeOn = false;
+                } else {
+                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+                    iconmode.setImageResource(R.drawable.sun);
+                    isDarkModeOn = true;
                 }
             }
         });
-//
-//        boolean IsNightModeOn = AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES;
-//        switchMode.setChecked(IsNightModeOn);
-//        if(IsNightModeOn){
-//            iconmode.setImageResource(R.drawable.moon);
-//        }else{
-//            iconmode.setImageResource(R.drawable.sun);
-//        }
-
     }
-
     @Override
     public void recreate(){
         finish();
@@ -73,6 +100,19 @@ public class StartUpScreen extends AppCompatActivity {
 
         startActivity(getIntent());
         overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+    }
+
+    public Boolean getDarkModeStatus() {
+        int nightmodeFlags = StartUpScreen.this.getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_MASK;
+        switch (nightmodeFlags){
+            case Configuration.UI_MODE_NIGHT_YES:
+                return true;
+            case Configuration.UI_MODE_NIGHT_NO:
+                return false;
+            case Configuration.UI_MODE_NIGHT_UNDEFINED:
+                return false;
+        }
+        return false;
     }
 
     public void callLoginSrceen(View view){
