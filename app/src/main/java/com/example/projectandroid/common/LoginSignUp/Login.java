@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.ImageView;
 
+import com.example.projectandroid.DashBoard;
 import com.example.projectandroid.R;
 
 public class Login extends AppCompatActivity {
@@ -35,12 +36,17 @@ public class Login extends AppCompatActivity {
     }
 
     public void CallForgetPassword(View view){
-        Intent intent = new Intent(getApplicationContext(),ForgetPassword.class);
+        Intent intent = new Intent(getApplicationContext(), ForgetPassword.class);
         startActivity(intent);
     }
 
     public void CallSignUp(View view){
-        Intent intent = new Intent(getApplicationContext(),SignUp.class);
+        Intent intent = new Intent(getApplicationContext(), SignUp.class);
+        startActivity(intent);
+    }
+
+    public void CallDashBoard(View view){
+        Intent intent = new Intent(getApplicationContext(), DashBoard.class);
         startActivity(intent);
     }
 }
