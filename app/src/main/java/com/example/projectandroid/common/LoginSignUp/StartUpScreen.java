@@ -1,32 +1,20 @@
 package com.example.projectandroid.common.LoginSignUp;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 
-import android.app.ActivityOptions;
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
-import android.net.Uri;
 import android.os.Bundle;
-import android.util.Pair;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
-import android.widget.CompoundButton;
 import android.widget.ImageView;
-import android.widget.ShareActionProvider;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.example.projectandroid.MainActivity;
 import com.example.projectandroid.R;
-import com.example.projectandroid.UserSetting;
 import com.google.android.material.switchmaterial.SwitchMaterial;
-
-import java.util.Objects;
 
 public class StartUpScreen extends AppCompatActivity {
 
@@ -34,9 +22,6 @@ public class StartUpScreen extends AppCompatActivity {
     Boolean isDarkModeOn = false;
     Button btnLogin, btnSignUp;
     TextView textViewWE, textViewDE, textViewWork;
-
-    private UserSetting setting;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,7 +46,6 @@ public class StartUpScreen extends AppCompatActivity {
         textViewWE.setTranslationX(1000);
         textViewWork.setTranslationY(300);
 
-
         iconmode.animate().translationY(0).alpha(1).setDuration(1000).setStartDelay(300).start();
         imageStart.animate().translationX(0).alpha(1).setDuration(1000).setStartDelay(700).start();
         btnLogin.animate().translationY(0).alpha(1).setDuration(1000).setStartDelay(1500).start();
@@ -69,7 +53,6 @@ public class StartUpScreen extends AppCompatActivity {
         textViewDE.animate().translationX(0).alpha(1).setDuration(1000).setStartDelay(900).start();
         textViewWE.animate().translationX(0).alpha(1).setDuration(1000).setStartDelay(800).start();
         textViewWork.animate().translationY(0).alpha(1).setDuration(1000).setStartDelay(1600).start();
-
 
         isDarkModeOn = getDarkModeStatus();
         if (isDarkModeOn) {
