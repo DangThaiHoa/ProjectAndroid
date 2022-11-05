@@ -13,7 +13,7 @@
         android:theme="@style/Theme.ProjectAndroid"
         tools:targetApi="31">
         <activity
-            android:name=".DashBoard"
+            android:name=".User.DashBoard"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"

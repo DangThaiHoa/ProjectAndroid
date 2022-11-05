@@ -3,16 +3,14 @@ package com.example.projectandroid.common.LoginSignUp;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 
-import android.app.ActivityOptions;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Pair;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.ImageView;
 
-import com.example.projectandroid.DashBoard;
 import com.example.projectandroid.R;
+import com.example.projectandroid.User.DashBoard;
 
 public class Login extends AppCompatActivity {
 
