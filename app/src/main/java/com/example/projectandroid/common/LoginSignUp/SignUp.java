@@ -22,7 +22,6 @@ public class SignUp extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         getSupportActionBar().hide();
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_sign_up);
 
         backbtn = findViewById(R.id.signup_back_button);
