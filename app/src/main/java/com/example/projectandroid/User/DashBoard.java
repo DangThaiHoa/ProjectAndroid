@@ -8,6 +8,7 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.Gravity;
@@ -83,11 +84,11 @@ public class DashBoard extends AppCompatActivity implements NavigationView.OnNav
             }
         });
 
-        animateNaviagtionDrawer();
+        animateNavigationDrawer();
 
     }
 
-    private void animateNaviagtionDrawer() {
+    private void animateNavigationDrawer() {
 
         drawerLayout.setScrimColor(getResources().getColor(R.color.mainColor));
         drawerLayout.addDrawerListener(new DrawerLayout.SimpleDrawerListener() {
@@ -121,7 +122,19 @@ public class DashBoard extends AppCompatActivity implements NavigationView.OnNav
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-        return true;
+
+        switch (item.getItemId()){
+
+            case R.id.nav_home:
+                startActivity(new Intent(getApplicationContext(), DashBoard.class));
+                break;
+
+            case R.id.nav_all_categories:
+                startActivity(new Intent(getApplicationContext(), AllCategories.class));
+                break;
+        }
+
+        return false;
     }
 
 
