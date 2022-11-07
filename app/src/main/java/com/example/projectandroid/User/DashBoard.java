@@ -34,7 +34,7 @@ import java.util.ArrayList;
 
 public class DashBoard extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
-    static final float END_SCALE = 0.7f;
+    static final float END_SCALE = 1f;
 
     RecyclerView featuredRecycle,mostviewRecycle,categoriesRecycle;
     RecyclerView.Adapter feaadapter,mvadapter,cateadapter;
@@ -90,7 +90,7 @@ public class DashBoard extends AppCompatActivity implements NavigationView.OnNav
 
     private void animateNavigationDrawer() {
 
-        drawerLayout.setScrimColor(getResources().getColor(R.color.mainColor));
+        drawerLayout.setScrimColor(Color.parseColor("#FF9800"));
         drawerLayout.addDrawerListener(new DrawerLayout.SimpleDrawerListener() {
                                            @Override
                                            public void onDrawerSlide(@NonNull View drawerView, float slideOffset) {
@@ -134,7 +134,7 @@ public class DashBoard extends AppCompatActivity implements NavigationView.OnNav
                 break;
         }
 
-        return false;
+        return true;
     }
 
 
