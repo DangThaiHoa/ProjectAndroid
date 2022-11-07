@@ -72,23 +72,12 @@
                     android:layout_marginRight="40dp"
                     android:layout_marginTop="20dp"
                     android:layout_marginBottom="20dp"
-                    android:elevation="8dp"
-                    android:background="@drawable/outline">
+                    android:elevation="8dp">
 
-                    <TextView
+                    <SearchView
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Search"
-                        android:layout_centerVertical="true"
-                        android:layout_marginLeft="15dp"/>
-
-                    <ImageView
-                        android:layout_width="30dp"
-                        android:layout_height="30dp"
-                        android:src="@drawable/ic_baseline_search_24"
-                        android:layout_alignParentRight="true"
-                        android:layout_centerVertical="true"
-                        android:layout_marginRight="15dp"/>
+                        android:layout_height="match_parent"
+                        android:layout_centerInParent="true" />
 
                 </RelativeLayout>
 
@@ -106,6 +95,7 @@
                     android:orientation="vertical">
 
                     <RelativeLayout
+                        android:id="@+id/dashboard_product"
                         android:layout_width="60dp"
                         android:layout_height="60dp"
                         android:layout_margin="10dp"
@@ -116,7 +106,7 @@
                             android:layout_width="30dp"
                             android:layout_height="30dp"
                             android:layout_centerInParent="true"
-                            android:src="@drawable/ic_baseline_restaurant_24" />
+                            android:src="@drawable/product" />
 
                     </RelativeLayout>
 
@@ -125,7 +115,7 @@
                         android:layout_height="wrap_content"
                         android:textAlignment="center"
                         android:gravity="center_horizontal"
-                        android:text="Restaurants"/>
+                        android:text="Sản Phẩm"/>
 
                 </LinearLayout>
 
@@ -135,6 +125,7 @@
                     android:orientation="vertical">
 
                     <RelativeLayout
+                        android:id="@+id/dashboard_shopping"
                         android:layout_width="60dp"
                         android:layout_height="60dp"
                         android:layout_margin="10dp"
@@ -145,7 +136,7 @@
                             android:layout_width="30dp"
                             android:layout_height="30dp"
                             android:layout_centerInParent="true"
-                            android:src="@drawable/ic_baseline_account_balance_24" />
+                            android:src="@drawable/ic_baseline_shopping_cart_24" />
 
                     </RelativeLayout>
 
@@ -154,7 +145,7 @@
                         android:layout_height="wrap_content"
                         android:textAlignment="center"
                         android:gravity="center_horizontal"
-                        android:text="Bank"/>
+                        android:text="Bán Hàng"/>
 
                 </LinearLayout>
 
@@ -164,6 +155,7 @@
                     android:orientation="vertical">
 
                     <RelativeLayout
+                        android:id="@+id/dashboard_analysis"
                         android:layout_width="60dp"
                         android:layout_height="60dp"
                         android:layout_margin="10dp"
@@ -174,7 +166,7 @@
                             android:layout_width="30dp"
                             android:layout_height="30dp"
                             android:layout_centerInParent="true"
-                            android:src="@drawable/ic_baseline_hotel_24" />
+                            android:src="@drawable/analysis" />
 
                     </RelativeLayout>
 
@@ -183,36 +175,7 @@
                         android:layout_height="wrap_content"
                         android:textAlignment="center"
                         android:gravity="center_horizontal"
-                        android:text="Hotel"/>
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical">
-
-                    <RelativeLayout
-                        android:layout_width="60dp"
-                        android:layout_height="60dp"
-                        android:layout_margin="10dp"
-                        android:elevation="8dp"
-                        android:background="@drawable/card_ds">
-
-                        <ImageView
-                            android:layout_width="30dp"
-                            android:layout_height="30dp"
-                            android:layout_centerInParent="true"
-                            android:src="@drawable/ic_baseline_work_24" />
-
-                    </RelativeLayout>
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:textAlignment="center"
-                        android:gravity="center_horizontal"
-                        android:text="Work"/>
+                        android:text="Thống Kê"/>
 
                 </LinearLayout>
 
