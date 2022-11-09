@@ -127,6 +127,8 @@
             android:layout_gravity="center"
             android:layout_marginTop="20dp"
             android:text="Login"
+            android:textColor="@color/black"
+            android:background="#00000000"
             android:textAllCaps="true"/>
 
     </LinearLayout>

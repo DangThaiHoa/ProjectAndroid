@@ -1,13 +1,11 @@
 package com.example.projectandroid.User;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -15,8 +13,10 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 
 import com.example.projectandroid.R;
+import com.example.projectandroid.User.MProduct.AddProduct;
 import com.google.android.material.navigation.NavigationView;
 
 public class Product extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
@@ -26,6 +26,7 @@ public class Product extends AppCompatActivity implements NavigationView.OnNavig
     ImageView menuIcon;
 
     LinearLayout contentView;
+    RelativeLayout addProuct;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,7 +41,22 @@ public class Product extends AppCompatActivity implements NavigationView.OnNavig
         drawerLayout = findViewById(R.id.drawer_layout);
         navigationView = findViewById(R.id.navigation_view);
 
+        addProuct = findViewById(R.id.Add_Product_btn);
+
         navigationDrawer();
+
+        addProuct();
+    }
+
+    private void addProuct() {
+
+        addProuct.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getApplicationContext(), AddProduct.class);
+                startActivity(intent);
+            }
+        });
 
     }
 
