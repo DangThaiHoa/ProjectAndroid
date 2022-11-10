@@ -49,6 +49,7 @@
             android:layout_height="190dp">
 
             <RelativeLayout
+                android:id="@+id/createBill"
                 android:layout_width="150dp"
                 android:layout_height="150dp"
                 android:layout_marginStart="20dp"
@@ -110,6 +111,7 @@
             android:layout_height="190dp">
 
             <RelativeLayout
+                android:id="@+id/createPromotion"
                 android:layout_width="150dp"
                 android:layout_height="150dp"
                 android:layout_marginStart="20dp"

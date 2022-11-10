@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".User.MShopping.CreateBill.CreateBill"
+    tools:context=".User.MShopping.Promotion.CreatePromotion"
     android:orientation="vertical"
     android:padding="10dp">
 
@@ -29,19 +29,10 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Tạo Hóa Đơn"
+            android:text="Tạo Khuyến Mãi"
             android:textStyle="bold"
-            android:textSize="25sp"
-            android:padding="10dp"
+            android:textSize="35sp"
             android:textAllCaps="true"/>
-
-        <ImageView
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:src="@drawable/step1"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:layout_marginRight="30dp"/>
 
     </RelativeLayout>
 
@@ -66,7 +57,7 @@
                 app:endIconMode="dropdown_menu"
                 android:layout_marginBottom="10dp">
                 <AutoCompleteTextView
-                    android:id="@+id/type_product_createBill"
+                    android:id="@+id/type_product_createPromation"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="none"
@@ -83,7 +74,7 @@
                 app:endIconMode="dropdown_menu"
                 android:layout_marginBottom="10dp">
                 <AutoCompleteTextView
-                    android:id="@+id/name_product_createBill"
+                    android:id="@+id/name_product_createPromation"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="none"
@@ -95,17 +86,17 @@
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Đơn Giá (VNĐ)"
+                android:hint="Đơn Giá"
                 app:boxStrokeWidthFocused="2dp"
-                app:endIconMode="clear_text"
-                android:layout_marginBottom="10dp">
+                app:endIconMode="clear_text">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/price_product_createBill"
+                    android:id="@+id/price_product_createPromation"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:fontFamily="@font/muli_black"
-                    android:inputType="numberDecimal"/>
+                    android:inputType="text"
+                    android:layout_marginBottom="10dp"/>
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -113,16 +104,16 @@
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Số lượng"
+                android:hint="Phần Trăm Giảm ( % )"
                 app:boxStrokeWidthFocused="2dp"
-                app:endIconMode="custom">
+                app:endIconMode="clear_text">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/quality_product_createBill"
+                    android:id="@+id/percent_product_createPromotion"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:fontFamily="@font/muli_black"
-                    android:inputType="number"
+                    android:inputType="text"
                     android:layout_marginBottom="10dp"/>
 
             </com.google.android.material.textfield.TextInputLayout>
@@ -131,23 +122,50 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:layout_marginTop="30dp"
-                android:padding="10dp">
+                android:layout_marginTop="20dp"
+                android:background="@drawable/outline">
 
-                <ImageView
-                    android:id="@+id/image_product_createBill"
-                    android:layout_width="match_parent"
-                    android:layout_height="300dp"
-                    android:src="@drawable/image_test"
-                    android:scaleType="fitCenter"
-                    android:layout_marginBottom="10dp"/>
-
-                <Button
+                <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Chọn Hình Ảnh"
-                    android:textStyle="bold"
-                    android:layout_marginBottom="20dp"/>
+                    android:text="Ngày Bắt Đầu"
+                    android:fontFamily="@font/muli_black"
+                    android:textSize="18sp"
+                    android:gravity="center_horizontal"/>
+
+                <DatePicker
+                    android:id="@+id/startDay_product_createPromotion"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:calendarViewShown="false"
+                    android:datePickerMode="spinner"
+                    android:spinnersShown="true" />
+
+            </LinearLayout>
+
+            <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/outline"
+            android:layout_marginBottom="70dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Ngày Kết Thúc"
+                android:fontFamily="@font/muli_black"
+                android:textSize="18sp"
+                android:gravity="center_horizontal"/>
+
+            <DatePicker
+                android:id="@+id/endDay_product_createPromotion"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:calendarViewShown="false"
+                android:datePickerMode="spinner"
+                android:spinnersShown="true" />
 
             </LinearLayout>
 
@@ -163,10 +181,10 @@
         android:padding="10dp">
 
         <Button
-            android:id="@+id/next_btn"
+            android:id="@+id/confirm_btn"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Tiếp Tục"
+            android:text="Xác Nhận"
             android:textStyle="bold"/>
 
     </LinearLayout>

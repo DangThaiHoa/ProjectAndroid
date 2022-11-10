@@ -15,8 +15,11 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 
 import com.example.projectandroid.R;
+import com.example.projectandroid.User.MShopping.CreateBill.CreateBill;
+import com.example.projectandroid.User.MShopping.Promotion.CreatePromotion;
 import com.google.android.material.navigation.NavigationView;
 
 public class Shopping extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
@@ -26,6 +29,8 @@ public class Shopping extends AppCompatActivity implements NavigationView.OnNavi
     ImageView menuIcon;
 
     LinearLayout contentView;
+
+    RelativeLayout btnCreateBill, btnCreatePromotion;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,7 +45,37 @@ public class Shopping extends AppCompatActivity implements NavigationView.OnNavi
         drawerLayout = findViewById(R.id.drawer_layout);
         navigationView = findViewById(R.id.navigation_view);
 
+        btnCreateBill = findViewById(R.id.createBill);
+        btnCreatePromotion = findViewById(R.id.createPromotion);
+
         navigationDrawer();
+
+        btnCreateBill();
+        btnCreatePromotion();
+
+    }
+
+    private void btnCreatePromotion() {
+
+        btnCreatePromotion.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent =  new Intent(getApplicationContext(), CreatePromotion.class);
+                startActivity(intent );
+            }
+        });
+
+    }
+
+    private void btnCreateBill() {
+
+        btnCreateBill.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent =  new Intent(getApplicationContext(), CreateBill.class);
+                startActivity(intent );
+            }
+        });
 
     }
 

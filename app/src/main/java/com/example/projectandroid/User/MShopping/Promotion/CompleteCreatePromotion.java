@@ -1,4 +1,4 @@
-package com.example.projectandroid.User.MProduct.AddProduct;
+package com.example.projectandroid.User.MShopping.Promotion;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
@@ -11,7 +11,7 @@ import android.widget.Button;
 import com.example.projectandroid.R;
 import com.example.projectandroid.User.DashBoard;
 
-public class CompleteAddProduct extends AppCompatActivity {
+public class CompleteCreatePromotion extends AppCompatActivity {
 
     Button backtoDashboard;
 
@@ -20,7 +20,7 @@ public class CompleteAddProduct extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         getSupportActionBar().hide();
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
-        setContentView(R.layout.activity_complete_add_product);
+        setContentView(R.layout.activity_complete_create_promotion);
 
         backtoDashboard = findViewById(R.id.back_to_Dashboard);
 
