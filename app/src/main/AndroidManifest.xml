@@ -13,6 +13,13 @@
         android:theme="@style/Theme.ProjectAndroid"
         tools:targetApi="31">
         <activity
+            android:name=".CreateBill"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
             android:name=".User.MProduct.ListProduct.DetailProduct"
             android:exported="false">
             <meta-data
@@ -28,13 +35,6 @@
         </activity>
         <activity
             android:name=".User.MProduct.AddProduct.CompleteAddProduct"
-            android:exported="false">
-            <meta-data
-                android:name="android.app.lib_name"
-                android:value="" />
-        </activity>
-        <activity
-            android:name=".User.MProduct.AddProduct.AddProduct3"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"

@@ -45,6 +45,11 @@
 
     </RelativeLayout>
 
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="500dp"
+        android:scrollbars="none">
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -53,19 +58,19 @@
         android:padding="10dp">
 
         <com.google.android.material.textfield.TextInputLayout
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Mã sản phẩm"
+            android:hint="Loại sản phẩm"
             app:boxStrokeWidthFocused="2dp"
-            app:endIconMode="clear_text"
+            app:endIconMode="dropdown_menu"
             android:layout_marginBottom="10dp">
-
-            <com.google.android.material.textfield.TextInputEditText
+            <AutoCompleteTextView
+                android:id="@+id/type_product_addProduct"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:fontFamily="@font/muli_black"
-                android:inputType="text" />
+                android:layout_height="wrap_content"
+                android:inputType="none"
+                android:fontFamily="@font/muli_black"/>
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -79,6 +84,7 @@
             android:layout_marginBottom="10dp">
 
             <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/name_product_addProduct"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:fontFamily="@font/muli_black"
@@ -95,6 +101,7 @@
             app:endIconMode="clear_text">
 
             <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/quality_product_addProduct"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:fontFamily="@font/muli_black"
@@ -112,6 +119,7 @@
             app:endIconMode="clear_text">
 
             <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/unit_product_addProduct"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:fontFamily="@font/muli_black"
@@ -129,6 +137,7 @@
             app:endIconMode="clear_text">
 
             <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/price_product_addProduct"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:fontFamily="@font/muli_black"
@@ -136,7 +145,33 @@
 
         </com.google.android.material.textfield.TextInputLayout>
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginTop="50dp"
+            android:padding="10dp">
+
+            <ImageView
+                android:id="@+id/image_product_addProduct"
+                android:layout_width="match_parent"
+                android:layout_height="300dp"
+                android:src="@drawable/image_test"
+                android:scaleType="fitCenter"
+                android:layout_marginBottom="10dp"/>
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Chọn Hình Ảnh"
+                android:textStyle="bold"
+                android:layout_marginBottom="20dp"/>
+
+        </LinearLayout>
+
     </LinearLayout>
+
+    </ScrollView>
 
     <LinearLayout
         android:layout_width="match_parent"

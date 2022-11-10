@@ -4,9 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".User.MProduct.ListProduct.ListProduct"
+    tools:context=".User.MShopping.CreateBill"
     android:orientation="vertical"
-    android:layout_marginTop="10dp">
+    android:padding="10dp">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -22,12 +22,6 @@
             android:layout_centerVertical="true"
             android:padding="15dp"/>
 
-        <SearchView
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"/>
-
     </RelativeLayout>
 
     <RelativeLayout
@@ -39,32 +33,12 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Danh Sách Sản Phẩm"
+            android:text="Tạo Hóa Đơn"
             android:textStyle="bold"
             android:textSize="25sp"
             android:padding="10dp"
             android:textAllCaps="true"/>
 
     </RelativeLayout>
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <View
-            android:layout_width="150dp"
-            android:layout_height="match_parent"
-            android:background="@drawable/view_bg_list_product"/>
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/List_Product_recycler"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_margin="10dp"
-            android:scrollbars="none"/>
-
-    </RelativeLayout>
-
-
 
 </LinearLayout>
