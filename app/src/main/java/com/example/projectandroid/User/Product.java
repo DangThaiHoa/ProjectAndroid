@@ -16,7 +16,8 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
 import com.example.projectandroid.R;
-import com.example.projectandroid.User.MProduct.AddProduct;
+import com.example.projectandroid.User.MProduct.AddProduct.AddProduct;
+import com.example.projectandroid.User.MProduct.ListProduct.ListProduct;
 import com.google.android.material.navigation.NavigationView;
 
 public class Product extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
@@ -26,7 +27,7 @@ public class Product extends AppCompatActivity implements NavigationView.OnNavig
     ImageView menuIcon;
 
     LinearLayout contentView;
-    RelativeLayout addProuct;
+    RelativeLayout addProuct, listProduct;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,10 +43,25 @@ public class Product extends AppCompatActivity implements NavigationView.OnNavig
         navigationView = findViewById(R.id.navigation_view);
 
         addProuct = findViewById(R.id.Add_Product_btn);
+        listProduct = findViewById(R.id.List_Product);
 
         navigationDrawer();
 
         addProuct();
+        listProduct();
+
+    }
+
+    private void listProduct() {
+
+        listProduct.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getApplicationContext(), ListProduct.class);
+                startActivity(intent);
+            }
+        });
+
     }
 
     private void addProuct() {

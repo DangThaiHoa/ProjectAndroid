@@ -1,4 +1,4 @@
-package com.example.projectandroid.User.MProduct;
+package com.example.projectandroid.User.MProduct.AddProduct;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
@@ -11,7 +11,7 @@ import android.widget.ImageView;
 
 import com.example.projectandroid.R;
 
-public class AddProduct extends AppCompatActivity {
+public class AddProduct2 extends AppCompatActivity {
 
     ImageView btnBack;
     Button btnNext;
@@ -21,14 +21,13 @@ public class AddProduct extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         getSupportActionBar().hide();
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
-        setContentView(R.layout.activity_add_product);
+        setContentView(R.layout.activity_add_product2);
 
         btnBack = findViewById(R.id.back_btn);
         btnNext = findViewById(R.id.next_btn);
 
         btnBack();
         btnNext();
-
     }
 
     private void btnBack() {
@@ -36,7 +35,7 @@ public class AddProduct extends AppCompatActivity {
         btnBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                AddProduct.super.onBackPressed();
+                AddProduct2.super.onBackPressed();
             }
         });
     }
@@ -46,7 +45,7 @@ public class AddProduct extends AppCompatActivity {
         btnNext.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getApplicationContext(), AddProduct2.class);
+                Intent intent = new Intent(getApplicationContext(), AddProduct3.class);
                 startActivity(intent);
             }
         });

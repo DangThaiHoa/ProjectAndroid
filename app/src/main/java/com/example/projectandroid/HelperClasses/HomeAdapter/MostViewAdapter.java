@@ -15,10 +15,10 @@ import java.util.ArrayList;
 
 public class MostViewAdapter extends RecyclerView.Adapter<MostViewAdapter.MostViewViewHolder>{
 
-    ArrayList<MostViewHelperClass> featuredLocation;
+    ArrayList<MostViewHelperClass> mostviewLocation;
 
-    public MostViewAdapter(ArrayList<MostViewHelperClass> featuredLocation) {
-        this.featuredLocation = featuredLocation;
+    public MostViewAdapter(ArrayList<MostViewHelperClass> mostviewLocation) {
+        this.mostviewLocation = mostviewLocation;
     }
 
     @NonNull
@@ -31,7 +31,7 @@ public class MostViewAdapter extends RecyclerView.Adapter<MostViewAdapter.MostVi
 
     @Override
     public void onBindViewHolder(@NonNull MostViewViewHolder holder, int position) {
-        MostViewHelperClass mostViewHelperClass = featuredLocation.get(position);
+        MostViewHelperClass mostViewHelperClass = mostviewLocation.get(position);
 
         holder.image.setImageResource(mostViewHelperClass.getImage());
         holder.title.setText(mostViewHelperClass.getTitle());
@@ -40,7 +40,7 @@ public class MostViewAdapter extends RecyclerView.Adapter<MostViewAdapter.MostVi
 
     @Override
     public int getItemCount() {
-        return featuredLocation.size();
+        return mostviewLocation.size();
     }
 
     public static class MostViewViewHolder extends RecyclerView.ViewHolder{

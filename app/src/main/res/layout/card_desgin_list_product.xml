@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:layout_marginTop="30dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:layout_marginBottom="10dp">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginRight="20dp"
+            android:layout_marginLeft="60dp">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:src="@drawable/bg_list_product"
+                android:alpha="0.5"
+                app:tint="#77000000" />
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="2dp"
+                android:layout_marginRight="2dp"
+                android:src="@drawable/bg_list_product"/>
+
+        </RelativeLayout>
+
+        <ImageView
+            android:id="@+id/img_Product"
+            android:layout_width="120dp"
+            android:layout_height="match_parent"
+            android:src="@drawable/image_test"
+            android:padding="15dp"/>
+
+        <RelativeLayout
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:src="@drawable/bg_icon_list_product"
+                android:alpha="0.1"
+                app:tint="#77000000" />
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="1dp"
+                android:layout_marginRight="1dp"
+                android:layout_marginLeft="1dp"
+                android:src="@drawable/bg_icon_list_product"/>
+
+            <ImageView
+                android:id="@+id/detail_Product"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:src="@drawable/ic_baseline_keyboard_arrow_right_24"
+                android:padding="5dp"
+                app:tint="@color/mainColor" />
+
+        </RelativeLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:layout_marginLeft="120dp">
+
+            <TextView
+                android:id="@+id/Txv_NameProduct"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_weight="1"
+                android:text="Tên Sản Phẩm"
+                android:textSize="17sp"
+                android:gravity="bottom"
+                android:fontFamily="@font/muli_black"
+                android:textAllCaps="true"
+                android:paddingBottom="1dp"
+                android:textColor="#000"
+                />
+
+            <TextView
+                android:id="@+id/Txv_QualityProduct"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_weight="1"
+                android:text="Số lượng"
+                android:textSize="15sp"
+                android:textColor="#A6A6A6"/>
+
+        </LinearLayout>
+
+    </RelativeLayout>
+
+</RelativeLayout>

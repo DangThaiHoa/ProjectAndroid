@@ -48,8 +48,8 @@ public class FeaturedAdapter extends RecyclerView.Adapter<FeaturedAdapter.Featur
 
     public static class FeaturedViewHolder extends RecyclerView.ViewHolder{
 
-        ImageView image, Mvimage, Cateimage;
-        TextView title, desc, Mvtitle, Mvdesc, Catetitle;
+        ImageView image;
+        TextView title, desc;
 
         public FeaturedViewHolder(@NonNull View itemView) {
             super(itemView);

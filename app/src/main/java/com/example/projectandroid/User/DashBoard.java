@@ -33,10 +33,9 @@ import java.util.ArrayList;
 public class DashBoard extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     static final float END_SCALE = 1f;
-    AlertDialog.Builder builder;
 
     RecyclerView featuredRecycle,mostviewRecycle,categoriesRecycle;
-    RecyclerView.Adapter feaadapter,mvadapter,cateadapter;
+    RecyclerView.Adapter feadapter,mvadapter,cateadapter;
 
     DrawerLayout drawerLayout;
     NavigationView navigationView;
@@ -52,7 +51,6 @@ public class DashBoard extends AppCompatActivity implements NavigationView.OnNav
         getSupportActionBar().hide();
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
         setContentView(R.layout.activity_dash_board);
-        builder = new AlertDialog.Builder(this);
 
         featuredRecycle = findViewById(R.id.featured_recycler);
         mostviewRecycle = findViewById(R.id.most_view_recycler);
@@ -194,8 +192,8 @@ public class DashBoard extends AppCompatActivity implements NavigationView.OnNav
         featuredLocation.add(new FeaturedHelperClass(R.drawable.ls_startupimage,"Mcdonal's","Lorem ipsum dolor sit amet, consectetuer adipiscing elit."));
         featuredLocation.add(new FeaturedHelperClass(R.drawable.ls_startupimage,"Mcdonal's","Lorem ipsum dolor sit amet, consectetuer adipiscing elit."));
 
-        feaadapter = new FeaturedAdapter(featuredLocation);
-        featuredRecycle.setAdapter(feaadapter);
+        feadapter = new FeaturedAdapter(featuredLocation);
+        featuredRecycle.setAdapter(feadapter);
 
     }
 
@@ -204,13 +202,13 @@ public class DashBoard extends AppCompatActivity implements NavigationView.OnNav
         mostviewRecycle.setHasFixedSize(true);
         mostviewRecycle.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
 
-        ArrayList<MostViewHelperClass> featuredLocation = new ArrayList<>();
+        ArrayList<MostViewHelperClass> mostviewLocation = new ArrayList<>();
 
-        featuredLocation.add(new MostViewHelperClass(R.drawable.ls_startupimage,"Mcdonal's","Lorem ipsum dolor sit amet, consectetuer adipiscing elit."));
-        featuredLocation.add(new MostViewHelperClass(R.drawable.ls_startupimage,"Mcdonal's","Lorem ipsum dolor sit amet, consectetuer adipiscing elit."));
-        featuredLocation.add(new MostViewHelperClass(R.drawable.ls_startupimage,"Mcdonal's","Lorem ipsum dolor sit amet, consectetuer adipiscing elit."));
+        mostviewLocation.add(new MostViewHelperClass(R.drawable.ls_startupimage,"Mcdonal's","Lorem ipsum dolor sit amet, consectetuer adipiscing elit."));
+        mostviewLocation.add(new MostViewHelperClass(R.drawable.ls_startupimage,"Mcdonal's","Lorem ipsum dolor sit amet, consectetuer adipiscing elit."));
+        mostviewLocation.add(new MostViewHelperClass(R.drawable.ls_startupimage,"Mcdonal's","Lorem ipsum dolor sit amet, consectetuer adipiscing elit."));
 
-        mvadapter = new MostViewAdapter(featuredLocation);
+        mvadapter = new MostViewAdapter(mostviewLocation);
         mostviewRecycle.setAdapter(mvadapter);
 
     }
@@ -220,13 +218,13 @@ public class DashBoard extends AppCompatActivity implements NavigationView.OnNav
         categoriesRecycle.setHasFixedSize(true);
         categoriesRecycle.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
 
-        ArrayList<CategoriesHelperClass> featuredLocation = new ArrayList<>();
+        ArrayList<CategoriesHelperClass> categoriesLocation = new ArrayList<>();
 
-        featuredLocation.add(new CategoriesHelperClass(R.drawable.ls_startupimage,"Mcdonal's", Color.parseColor("#FF9800")));
-        featuredLocation.add(new CategoriesHelperClass(R.drawable.ls_startupimage,"Mcdonal's",Color.parseColor("#FF9800")));
-        featuredLocation.add(new CategoriesHelperClass(R.drawable.ls_startupimage,"Mcdonal's",Color.parseColor("#FF9800")));
+        categoriesLocation.add(new CategoriesHelperClass(R.drawable.ls_startupimage,"Mcdonal's", Color.parseColor("#FF9800")));
+        categoriesLocation.add(new CategoriesHelperClass(R.drawable.ls_startupimage,"Mcdonal's",Color.parseColor("#FF9800")));
+        categoriesLocation.add(new CategoriesHelperClass(R.drawable.ls_startupimage,"Mcdonal's",Color.parseColor("#FF9800")));
 
-        cateadapter = new CategoriesAdapter(featuredLocation);
+        cateadapter = new CategoriesAdapter(categoriesLocation);
         categoriesRecycle.setAdapter(cateadapter);
     }
 }

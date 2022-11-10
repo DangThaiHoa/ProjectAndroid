@@ -1,4 +1,4 @@
-package com.example.projectandroid.User.MProduct;
+package com.example.projectandroid.User.MProduct.AddProduct;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
@@ -10,27 +10,24 @@ import android.widget.Button;
 import android.widget.ImageView;
 
 import com.example.projectandroid.R;
-import com.example.projectandroid.User.Product;
 
-public class AddProduct3 extends AppCompatActivity {
+public class AddProduct extends AppCompatActivity {
 
     ImageView btnBack;
-    Button btnNext, btnCancel;
+    Button btnNext;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getSupportActionBar().hide();
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
-        setContentView(R.layout.activity_add_product3);
+        setContentView(R.layout.activity_add_product);
 
         btnBack = findViewById(R.id.back_btn);
-        btnNext = findViewById(R.id.comfirm_btn);
-        btnCancel = findViewById(R.id.cancel_btn);
+        btnNext = findViewById(R.id.next_btn);
 
         btnBack();
-        btnComfim();
-        btnCancel();
+        btnNext();
 
     }
 
@@ -39,30 +36,20 @@ public class AddProduct3 extends AppCompatActivity {
         btnBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                AddProduct3.super.onBackPressed();
+                AddProduct.super.onBackPressed();
             }
         });
     }
 
-    private void btnComfim() {
+    private void btnNext() {
 
         btnNext.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getApplicationContext(), CompleteAddProduct.class);
+                Intent intent = new Intent(getApplicationContext(), AddProduct2.class);
                 startActivity(intent);
             }
         });
-    }
 
-    private void btnCancel() {
-
-        btnCancel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(getApplicationContext(), Product.class);
-                startActivity(intent);
-            }
-        });
     }
 }
