@@ -39,8 +39,8 @@ public class ListPromotionAdapter extends  RecyclerView.Adapter<ListPromotionAda
 
         holder.ImagePromotion.setImageResource(listPromotionHelperClass.getImage());
         holder.TextPPromotion.setText(listPromotionHelperClass.getPresent());
-        holder.TextSPromotion.setText(listPromotionHelperClass.getStartDay());
-        holder.TextEPromotion.setText(listPromotionHelperClass.getEndDay());
+        holder.TextSPromotion.setText((CharSequence) listPromotionHelperClass.getStartDay());
+        holder.TextEPromotion.setText((CharSequence) listPromotionHelperClass.getEndDay());
 
         holder.DetailPromotion_btn.setOnClickListener(new View.OnClickListener() {
             @Override

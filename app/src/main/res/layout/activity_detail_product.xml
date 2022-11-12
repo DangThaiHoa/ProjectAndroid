@@ -76,6 +76,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Mã sản phẩm :"
+                    android:textSize="20sp"
                     android:layout_below="@id/lb_idproduct"
                     android:layout_centerHorizontal="true"/>
 
@@ -100,6 +101,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Tên sản phẩm :"
+                    android:textSize="20sp"
                     android:layout_below="@id/lb_nameproduct"
                     android:layout_centerHorizontal="true"/>
 
@@ -124,6 +126,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Số lượng :"
+                    android:textSize="20sp"
                     android:layout_below="@id/lb_qualitysp"
                     android:layout_centerHorizontal="true"/>
 
@@ -147,6 +150,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Đơn Vị Tính :"
+                    android:textSize="20sp"
                     android:layout_below="@id/lb_unitsp"
                     android:layout_centerHorizontal="true"/>
 
@@ -170,6 +174,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Đơn Giá :"
+                    android:textSize="20sp"
                     android:layout_below="@id/lb_pricesp"
                     android:layout_centerHorizontal="true"/>
 
