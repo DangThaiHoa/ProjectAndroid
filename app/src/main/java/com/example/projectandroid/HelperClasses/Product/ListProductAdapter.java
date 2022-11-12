@@ -1,25 +1,17 @@
 package com.example.projectandroid.HelperClasses.Product;
 
-import android.content.Context;
-import android.graphics.Color;
-import android.speech.RecognizerIntent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.projectandroid.HelperClasses.HomeAdapter.CategoriesAdapter;
-import com.example.projectandroid.HelperClasses.HomeAdapter.CategoriesHelperClass;
 import com.example.projectandroid.R;
-import com.example.projectandroid.User.MProduct.ListProduct.ListProduct;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class ListProductAdapter extends RecyclerView.Adapter<ListProductAdapter.ListProductViewHolder> {
 
@@ -35,7 +27,7 @@ public class ListProductAdapter extends RecyclerView.Adapter<ListProductAdapter.
     @NonNull
     @Override
     public ListProductViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.card_desgin_list_product,parent,false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_product_card_desgin,parent,false);
         ListProductViewHolder listProductViewHolder = new ListProductViewHolder(view);
         return listProductViewHolder;
     }

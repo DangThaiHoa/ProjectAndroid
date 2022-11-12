@@ -56,7 +56,8 @@
                 android:layout_marginTop="20dp"
                 android:layout_marginEnd="20dp"
                 android:layout_marginBottom="20dp"
-                android:background="@drawable/item_cate_bg">
+                android:background="@drawable/item_cate_bg"
+                android:elevation="8dp">
 
                 <ImageView
                     android:layout_width="70dp"
@@ -84,7 +85,8 @@
                 android:layout_marginTop="20dp"
                 android:layout_marginEnd="20dp"
                 android:layout_marginBottom="20dp"
-                android:background="@drawable/item_cate_bg">
+                android:background="@drawable/item_cate_bg"
+                android:elevation="8dp">
 
                 <ImageView
                     android:layout_width="70dp"
@@ -118,12 +120,13 @@
                 android:layout_marginTop="20dp"
                 android:layout_marginEnd="20dp"
                 android:layout_marginBottom="20dp"
-                android:background="@drawable/item_cate_bg">
+                android:background="@drawable/item_cate_bg"
+                android:elevation="8dp">
 
                 <ImageView
                     android:layout_width="70dp"
                     android:layout_height="70dp"
-                    android:src="@drawable/discount"
+                    android:src="@drawable/promotion"
                     android:layout_centerHorizontal="true"
                     android:layout_marginTop="10dp"/>
 
@@ -138,6 +141,35 @@
 
             </RelativeLayout>
 
+                <RelativeLayout
+                    android:id="@+id/listPromotion"
+                    android:layout_width="150dp"
+                    android:layout_height="150dp"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginEnd="20dp"
+                    android:layout_marginBottom="20dp"
+                    android:layout_alignParentEnd="true"
+                    android:background="@drawable/item_cate_bg"
+                    android:elevation="8dp">
+
+                    <ImageView
+                        android:layout_width="70dp"
+                        android:layout_height="70dp"
+                        android:src="@drawable/list_promotion"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginTop="10dp"/>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="10dp"
+                        android:textAlignment="center"
+                        android:text="Danh Sách Khuyến Mãi"
+                        android:layout_alignParentBottom="true"
+                        android:textSize="20sp" />
+
+            </RelativeLayout>
 
         </RelativeLayout>
 
