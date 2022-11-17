@@ -19,6 +19,7 @@ import android.widget.RelativeLayout;
 
 import com.example.projectandroid.R;
 import com.example.projectandroid.User.MShopping.CreateBill.CreateBill;
+import com.example.projectandroid.User.MShopping.ListBill.ListBill;
 import com.example.projectandroid.User.MShopping.ListPromotion.ListPromotion;
 import com.example.projectandroid.User.MShopping.Promotion.CreatePromotion;
 import com.google.android.material.navigation.NavigationView;
@@ -31,7 +32,7 @@ public class Shopping extends AppCompatActivity implements NavigationView.OnNavi
 
     LinearLayout contentView;
 
-    RelativeLayout btnCreateBill, btnCreatePromotion, btnListPromotion;
+    RelativeLayout btnCreateBill, btnCreatePromotion, btnListPromotion, btnListBill;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,12 +50,26 @@ public class Shopping extends AppCompatActivity implements NavigationView.OnNavi
         btnCreateBill = findViewById(R.id.createBill);
         btnCreatePromotion = findViewById(R.id.createPromotion);
         btnListPromotion = findViewById(R.id.listPromotion);
+        btnListBill = findViewById(R.id.listBill);
 
         navigationDrawer();
 
         btnCreateBill();
         btnCreatePromotion();
         btnListPromotion();
+        btnListBill();
+
+    }
+
+    private void btnListBill() {
+
+        btnListBill.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent =  new Intent(getApplicationContext(), ListBill.class);
+                startActivity(intent );
+            }
+        });
 
     }
 

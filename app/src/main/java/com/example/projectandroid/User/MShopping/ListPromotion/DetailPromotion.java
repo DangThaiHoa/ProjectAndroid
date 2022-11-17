@@ -8,10 +8,8 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.example.projectandroid.HelperClasses.Product.ListProductHelperClass;
-import com.example.projectandroid.HelperClasses.Shopping.ListPromotionHelperClass;
+import com.example.projectandroid.HelperClasses.Shopping.ListPromotion.ListPromotionHelperClass;
 import com.example.projectandroid.R;
-import com.example.projectandroid.User.MProduct.ListProduct.DetailProduct;
 
 public class DetailPromotion extends AppCompatActivity {
 

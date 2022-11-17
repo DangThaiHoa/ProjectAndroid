@@ -13,6 +13,20 @@
         android:theme="@style/Theme.ProjectAndroid"
         tools:targetApi="31">
         <activity
+            android:name=".User.MShopping.ListBill.DetailBill"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
+            android:name=".User.MShopping.ListBill.ListBill"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
             android:name=".User.MShopping.ListPromotion.DetailPromotion"
             android:exported="false">
             <meta-data

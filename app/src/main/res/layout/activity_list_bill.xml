@@ -39,7 +39,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Danh Sách Sản Phẩm"
+            android:text="Danh Sách Hóa Đơn"
             android:textStyle="bold"
             android:textSize="25sp"
             android:padding="10dp"
@@ -57,7 +57,7 @@
             android:background="@drawable/view_bg_list_view"/>
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/List_Product_recycler"
+            android:id="@+id/List_Bill_recycler"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginStart="10dp"

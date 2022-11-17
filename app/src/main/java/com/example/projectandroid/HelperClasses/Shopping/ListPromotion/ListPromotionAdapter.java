@@ -1,4 +1,4 @@
-package com.example.projectandroid.HelperClasses.Shopping;
+package com.example.projectandroid.HelperClasses.Shopping.ListPromotion;
 
 import android.view.LayoutInflater;
 import android.view.View;

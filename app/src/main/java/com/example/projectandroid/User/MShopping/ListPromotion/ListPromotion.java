@@ -10,18 +10,12 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 
-import com.example.projectandroid.HelperClasses.Product.ListProductAdapter;
-import com.example.projectandroid.HelperClasses.Product.ListProductHelperClass;
-import com.example.projectandroid.HelperClasses.Product.ListProductInterface;
-import com.example.projectandroid.HelperClasses.Shopping.ListPromotionAdapter;
-import com.example.projectandroid.HelperClasses.Shopping.ListPromotionHelperClass;
-import com.example.projectandroid.HelperClasses.Shopping.ListPromotionInterface;
+import com.example.projectandroid.HelperClasses.Shopping.ListPromotion.ListPromotionAdapter;
+import com.example.projectandroid.HelperClasses.Shopping.ListPromotion.ListPromotionHelperClass;
+import com.example.projectandroid.HelperClasses.Shopping.ListPromotion.ListPromotionInterface;
 import com.example.projectandroid.R;
-import com.example.projectandroid.User.MProduct.ListProduct.DetailProduct;
-import com.example.projectandroid.User.MProduct.ListProduct.ListProduct;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class ListPromotion extends AppCompatActivity {
 
@@ -74,8 +68,8 @@ public class ListPromotion extends AppCompatActivity {
 
         lpromotionadapter = new ListPromotionAdapter(lPromotionLocation, new ListPromotionInterface() {
             @Override
-            public void onClickItemPromotion(ListPromotionHelperClass listProductHelperClass) {
-                onclickGoToDetail(listProductHelperClass);
+            public void onClickItemPromotion(ListPromotionHelperClass listPromotionHelperClass) {
+                onclickGoToDetail(listPromotionHelperClass);
             }
         });
         listPromotionRecycle.setAdapter(lpromotionadapter);
