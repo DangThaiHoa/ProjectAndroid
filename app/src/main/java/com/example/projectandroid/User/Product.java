@@ -18,6 +18,7 @@ import android.widget.RelativeLayout;
 import com.example.projectandroid.R;
 import com.example.projectandroid.User.MProduct.AddProduct.AddProduct;
 import com.example.projectandroid.User.MProduct.ListProduct.ListProduct;
+import com.example.projectandroid.User.Profile.Profile;
 import com.google.android.material.navigation.NavigationView;
 
 public class Product extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
@@ -148,6 +149,10 @@ public class Product extends AppCompatActivity implements NavigationView.OnNavig
             case R.id.nav_analysis:
                 startActivity(new Intent(getApplicationContext(), Analysis.class));
                 break;
+            case R.id.nav_profile:
+                startActivity(new Intent(getApplicationContext(), Profile.class));
+                break;
+
         }
         return true;
     }

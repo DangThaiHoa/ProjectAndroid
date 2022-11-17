@@ -26,6 +26,7 @@ import com.example.projectandroid.HelperClasses.HomeAdapter.FeaturedHelperClass;
 import com.example.projectandroid.HelperClasses.HomeAdapter.MostViewAdapter;
 import com.example.projectandroid.HelperClasses.HomeAdapter.MostViewHelperClass;
 import com.example.projectandroid.R;
+import com.example.projectandroid.User.Profile.Profile;
 import com.google.android.material.navigation.NavigationView;
 
 import java.util.ArrayList;
@@ -175,6 +176,9 @@ public class DashBoard extends AppCompatActivity implements NavigationView.OnNav
 
             case R.id.nav_analysis:
                 startActivity(new Intent(getApplicationContext(), Analysis.class));
+                break;
+            case R.id.nav_profile:
+                startActivity(new Intent(getApplicationContext(), Profile.class));
                 break;
 
         }
