@@ -6,7 +6,6 @@ import androidx.cardview.widget.CardView;
 
 import android.app.Dialog;
 import android.content.Intent;
-import android.media.Image;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.View;
@@ -14,21 +13,20 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.PopupMenu;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.projectandroid.R;
-import com.example.projectandroid.User.MShopping.CreateBill.CreateBill;
 import com.example.projectandroid.common.LoginSignUp.StartUpScreen;
+import com.google.android.material.textfield.TextInputEditText;
 
-public class Profile extends AppCompatActivity {
+public class EditProfile extends AppCompatActivity {
 
     ImageView btnBack;
-    CardView Setting, changePassword, Information, ChangeImage;
-    Button editProfile, ConfirmBtnDia, CancelBtnDia;
+    TextInputEditText EName, EEmail, EPhone;
+    Button submitBtn, deleteBtn, ConfirmBtnDia, CancelBtnDia;
     TextView ContentDia;
-    
-    RelativeLayout btnLogout;
+    CardView ChangeImage;
 
     Dialog dialog;
 
@@ -37,29 +35,45 @@ public class Profile extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         getSupportActionBar().hide();
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
-        setContentView(R.layout.activity_profile);
+        setContentView(R.layout.activity_edit_profile);
 
         btnBack = findViewById(R.id.back_btn);
-        Setting = findViewById(R.id.card_icon_Setting_profile);
-        changePassword = findViewById(R.id.card_icon_Password_profile);
-        Information = findViewById(R.id.card_icon_Info_profile);
-        btnLogout = findViewById(R.id.logout_btn);
-        editProfile = findViewById(R.id.btn_Edit_profile);
+        EName = findViewById(R.id.Txt_username_Profile);
+        EEmail = findViewById(R.id.Txt_email_Profile);
+        EPhone = findViewById(R.id.Txt_phone_Profile);
+        submitBtn = findViewById(R.id.btn_Submit_Edit_profile);
+        deleteBtn = findViewById(R.id.btn_Delete_profile);
         ChangeImage = findViewById(R.id.card_Image_profile);
 
-        ChangeImage();
-        btnBack();
-        Setting();
-        changePassword();
-        Information();
-        btnLogout();
-        editProfile();
+        Intent intent = getIntent();
+
+        EName.setText(intent.getStringExtra("NameProfile"));
+        EEmail.setText(intent.getStringExtra("EmailProfile"));
+        EPhone.setText(intent.getStringExtra("PhoneProfile"));
+
+        submitBtn();
+        deleteBtn();
         ShowDiaLog();
+        btnBack();
+        ChangeImage();
+    }
+
+    private void ChangeImage() {
+
+        ChangeImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                PopupMenu popupMenu = new PopupMenu(EditProfile.this, view);
+                popupMenu.inflate(R.menu.edit_image_menu);
+                popupMenu.show();
+            }
+        });
+
     }
 
     public void ShowDiaLog() {
 
-        dialog = new Dialog(Profile.this);
+        dialog = new Dialog(EditProfile.this);
         dialog.setContentView(R.layout.custom_dialog);
         dialog.getWindow().setBackgroundDrawable(getDrawable(R.drawable.bg_dialog));
         dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT,ViewGroup.LayoutParams.WRAP_CONTENT);
@@ -88,41 +102,12 @@ public class Profile extends AppCompatActivity {
 
     }
 
-    private void ChangeImage() {
+    private void deleteBtn() {
 
-        ChangeImage.setOnClickListener(new View.OnClickListener() {
+        deleteBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                PopupMenu popupMenu = new PopupMenu(Profile.this, view);
-                popupMenu.inflate(R.menu.edit_image_menu);
-                popupMenu.show();
-            }
-        });
-
-    }
-
-    private void editProfile() {
-
-        editProfile.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(getApplicationContext(), EditProfile.class);
-                intent.putExtra("NameProfile","QuafBanhMi");
-                intent.putExtra("EmailProfile","quafbanhmi@gmail.com");
-                intent.putExtra("PhoneProfile","0903209212");
-                intent.putExtra("ImageProfile",R.drawable.image_test);
-                startActivity(intent);
-            }
-        });
-
-    }
-
-    private void btnLogout() {
-
-        btnLogout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                ContentDia.setText("Bạn có chắc chắn muốn đăng xuất!?");
+                ContentDia.setText("Bạn có chắc chắn muốn xóa tài khoản?!");
                 dialog.show();
             }
         });
@@ -130,22 +115,17 @@ public class Profile extends AppCompatActivity {
 
     }
 
-    private void Information() {
-    }
+    private void submitBtn() {
 
-    private void changePassword() {
-
-        changePassword.setOnClickListener(new View.OnClickListener() {
+        submitBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getApplicationContext(), ChangePassword.class);
+                Toast.makeText(EditProfile.this, "Thay Đổi Thông Tin Thành Công", Toast.LENGTH_LONG).show();
+                Intent intent = new Intent(getApplicationContext(), Profile.class);
                 startActivity(intent);
             }
         });
 
-    }
-
-    private void Setting() {
     }
 
     private void btnBack() {
@@ -153,7 +133,7 @@ public class Profile extends AppCompatActivity {
         btnBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Profile.super.onBackPressed();
+                EditProfile.super.onBackPressed();
             }
         });
     }
