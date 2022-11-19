@@ -16,18 +16,20 @@
         app:srcCompat="@drawable/sit_back_and_relax" />
 
     <TextView
-        android:id="@+id/slider_heading"
+        android:id="@+id/slider_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="176dp"
         android:layout_marginEnd="177dp"
-        android:fontFamily="@font/muli_black"
         android:gravity="center"
-        android:text="TextView"
+        android:text="eqfqef"
         android:textSize="30sp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.482"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/slider_image" />
+        app:layout_constraintTop_toBottomOf="@+id/slider_image"
+        app:layout_constraintVertical_bias="0.0" />
 
     <TextView
         android:id="@+id/slider_desc"
@@ -35,7 +37,10 @@
         android:layout_height="wrap_content"
         android:gravity="center"
         android:text="Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus."
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/slider_heading" />
+        app:layout_constraintTop_toBottomOf="@+id/slider_title"
+        app:layout_constraintVertical_bias="0.0" />
 </androidx.constraintlayout.widget.ConstraintLayout>

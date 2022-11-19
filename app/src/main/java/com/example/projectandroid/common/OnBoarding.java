@@ -13,12 +13,11 @@ import com.example.projectandroid.HelperClasses.SplashScreen.SliderHelperClass;
 import com.example.projectandroid.R;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class OnBoarding extends AppCompatActivity {
 
-    ViewPager2 viewPager2;
-    ArrayList<SliderHelperClass> sliderHelperClassArrayList;
-    LinearLayout dots;
+    private SliderAdapter setAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,42 +26,43 @@ public class OnBoarding extends AppCompatActivity {
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
         setContentView(R.layout.activity_on_boarding);
 
-        viewPager2 = findViewById(R.id.slider);
-        dots = findViewById(R.id.LLLdost);
+        setupSliderItems();
 
-        int image[] = {
-                R.drawable.sit_back_and_relax,
-                R.drawable.make_a_call,
-                R.drawable.add_missing_place,
-                R.drawable.search_place
-        };
+        ViewPager2 sliderViewPager = findViewById(R.id.slider);
+        sliderViewPager.setAdapter(setAdapter);
 
-        String headings[] = {
-                String.valueOf(R.string.first_slide_title),
-                String.valueOf(R.string.second_slide_title),
-                String.valueOf(R.string.third_slide_title),
-                String.valueOf(R.string.four_slide_title),
-        };
+    }
 
-        String description[] = {
-                String.valueOf(R.string.first_slide_description),
-                String.valueOf(R.string.second_slide_description),
-                String.valueOf(R.string.third_slide_description),
-                String.valueOf(R.string.four_slide_description),
-        };
+    private  void setupSliderItems(){
 
-        sliderHelperClassArrayList = new ArrayList<>();
+        List<SliderHelperClass> sliderHelperClass = new ArrayList<>();
 
-        for (int i=0;i<image.length; i++){
+        SliderHelperClass first = new SliderHelperClass();
+        first.setTitle("Search Your Location");
+        first.setDesc("Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.");
+        first.setImage(R.drawable.search_place);
 
-            SliderHelperClass sliderHelperClass = new SliderHelperClass(image[i],headings[i],description[i]);
-            sliderHelperClassArrayList.add(sliderHelperClass);
+        SliderHelperClass second = new SliderHelperClass();
+        second.setTitle("Make A Call");
+        second.setDesc("Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.");
+        second.setImage(R.drawable.make_a_call);
 
-        }
+        SliderHelperClass third = new SliderHelperClass();
+        third.setTitle("Add Missing Place");
+        third.setDesc("Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.");
+        third.setImage(R.drawable.add_missing_place);
 
-        SliderAdapter sliderAdapter = new SliderAdapter(sliderHelperClassArrayList);
-        viewPager2.setAdapter(sliderAdapter);
+        SliderHelperClass four = new SliderHelperClass();
+        four.setTitle("Sit Back And Relax");
+        four.setDesc("Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.");
+        four.setImage(R.drawable.sit_back_and_relax);
 
+        sliderHelperClass.add(first);
+        sliderHelperClass.add(second);
+        sliderHelperClass.add(third);
+        sliderHelperClass.add(four);
+
+        setAdapter = new SliderAdapter(sliderHelperClass);
 
     }
 }

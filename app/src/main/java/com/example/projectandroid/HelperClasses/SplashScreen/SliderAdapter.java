@@ -1,5 +1,6 @@
 package com.example.projectandroid.HelperClasses.SplashScreen;
 
+import android.animation.RectEvaluator;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,52 +20,54 @@ import androidx.viewpager.widget.PagerAdapter;
 import com.example.projectandroid.R;
 
 import java.util.ArrayList;
+import java.util.List;
 
-public class SliderAdapter extends RecyclerView.Adapter<SliderAdapter.ViewHolder> {
+public class SliderAdapter extends RecyclerView.Adapter<SliderAdapter.SliderViewHolder> {
 
-    ArrayList<SliderHelperClass> sliderHelperClassArrayList;
+    private List<SliderHelperClass> sliderHelperClass;
 
-    public SliderAdapter(ArrayList<SliderHelperClass> sliderHelperClasses) {
-        this.sliderHelperClassArrayList = sliderHelperClassArrayList;
+    public SliderAdapter(List<SliderHelperClass> sliderHelperClass) {
+        this.sliderHelperClass = sliderHelperClass;
     }
 
     @NonNull
     @Override
-    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-
-        View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.slides_layout,parent,false);
-
-        return new ViewHolder(view);
+    public SliderViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        return new SliderViewHolder(
+                LayoutInflater.from(parent.getContext()).inflate(
+                        R.layout.slides_layout, parent, false)
+        );
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-
-        SliderHelperClass sliderHelperClass = sliderHelperClassArrayList.get(position);
-
-        holder.imageView.setImageResource(sliderHelperClass.image);
-        holder.tvHeading.setText(sliderHelperClass.heading);
-        holder.tvDesc.setText(sliderHelperClass.desc);
-
+    public void onBindViewHolder(@NonNull SliderViewHolder holder, int position) {
+        holder.setSliderData(sliderHelperClass.get(position));
     }
 
     @Override
     public int getItemCount() {
-        return sliderHelperClassArrayList.size();
+        return sliderHelperClass.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder{
+    class SliderViewHolder extends RecyclerView.ViewHolder {
 
-        ImageView  imageView;
-        TextView tvHeading, tvDesc;
+        private TextView title;
+        private TextView desc;
+        private ImageView image;
 
-        public ViewHolder(@NonNull View itemView) {
+        SliderViewHolder(@NonNull View itemView) {
             super(itemView);
+            title = itemView.findViewById(R.id.slider_title);
+            desc = itemView.findViewById(R.id.slider_desc);
+            image = itemView.findViewById(R.id.slider_image);
+        }
 
-            imageView = itemView.findViewById(R.id.slider_image);
-            tvHeading = itemView.findViewById(R.id.slider_heading);
-            tvDesc = itemView.findViewById(R.id.slider_desc);
+        void setSliderData(SliderHelperClass sliderHelperClass){
+
+            title.setText(sliderHelperClass.getTitle());
+            desc.setText(sliderHelperClass.getDesc());
+            image.setImageResource(sliderHelperClass.getImage());
+
         }
     }
 
