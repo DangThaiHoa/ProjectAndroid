@@ -11,6 +11,7 @@ import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.projectandroid.MainActivity;
 import com.example.projectandroid.R;
 import com.example.projectandroid.common.LoginSignUp.StartUpScreen;
 

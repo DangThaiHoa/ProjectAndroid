@@ -11,11 +11,11 @@ import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity {
 
+    private View decorView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getSupportActionBar().hide();
-        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
         setContentView(R.layout.activity_main);
     }
 }

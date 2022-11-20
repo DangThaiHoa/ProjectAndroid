@@ -13,10 +13,11 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.projectandroid.MainActivity;
 import com.example.projectandroid.R;
 import com.google.android.material.switchmaterial.SwitchMaterial;
 
-public class StartUpScreen extends AppCompatActivity {
+public class StartUpScreen extends MainActivity {
 
     ImageView imageStart;
     Boolean isDarkModeOn = false;

@@ -25,6 +25,7 @@ import com.example.projectandroid.HelperClasses.HomeAdapter.FeaturedAdapter;
 import com.example.projectandroid.HelperClasses.HomeAdapter.FeaturedHelperClass;
 import com.example.projectandroid.HelperClasses.HomeAdapter.MostViewAdapter;
 import com.example.projectandroid.HelperClasses.HomeAdapter.MostViewHelperClass;
+import com.example.projectandroid.MainActivity;
 import com.example.projectandroid.R;
 import com.example.projectandroid.User.Profile.Profile;
 import com.google.android.material.navigation.NavigationView;

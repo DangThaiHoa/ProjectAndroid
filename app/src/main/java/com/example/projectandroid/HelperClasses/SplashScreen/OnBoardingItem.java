@@ -1,10 +1,10 @@
 package com.example.projectandroid.HelperClasses.SplashScreen;
 
-public class SliderHelperClass {
+public class OnBoardingItem {
 
     private int image;
     private String title;
-    private String desc;
+    private String description;
 
     public int getImage() {
         return image;
@@ -22,11 +22,11 @@ public class SliderHelperClass {
         this.title = title;
     }
 
-    public String getDesc() {
-        return desc;
+    public String getDescription() {
+        return description;
     }
 
-    public void setDesc(String desc) {
-        this.desc = desc;
+    public void setDescription(String description) {
+        this.description = description;
     }
 }
