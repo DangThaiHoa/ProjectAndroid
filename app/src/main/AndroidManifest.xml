@@ -167,7 +167,7 @@
                 android:value="" />
         </activity>
         <activity
-            android:name=".common.LoginSignUp.StartUpScreen"
+            android:name=".common.SplashScreen"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
@@ -195,13 +195,6 @@
                 android:value="" />
         </activity>
         <activity
-            android:name=".common.LoginSignUp.SignUp2ndClass"
-            android:exported="false">
-            <meta-data
-                android:name="android.app.lib_name"
-                android:value="" />
-        </activity>
-        <activity
             android:name=".common.LoginSignUp.SignUp"
             android:exported="false">
             <meta-data
@@ -223,7 +216,7 @@
                 android:value="" />
         </activity>
         <activity
-            android:name=".common.SplashScreen"
+            android:name=".common.LoginSignUp.StartUpScreen"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

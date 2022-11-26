@@ -78,7 +78,6 @@ public class EditProfile extends AppCompatActivity {
         dialog.getWindow().setBackgroundDrawable(getDrawable(R.drawable.bg_dialog));
         dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT,ViewGroup.LayoutParams.WRAP_CONTENT);
         dialog.setCancelable(false);
-        dialog.getWindow().getAttributes().windowAnimations = R.style.ActivityAnim;
 
         ConfirmBtnDia = dialog.findViewById(R.id.Confirm_dialog_btn);
         CancelBtnDia = dialog.findViewById(R.id.Cancel_dialog_btn);
