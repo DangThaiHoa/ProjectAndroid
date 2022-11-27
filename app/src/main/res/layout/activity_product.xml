@@ -42,6 +42,7 @@
             android:text="Sản Phẩm"
             android:textSize="36sp"
             android:padding="10dp"
+            android:fontFamily="@font/muli_black"
             android:textAllCaps="true"/>
 
         <RelativeLayout
@@ -78,7 +79,7 @@
             </RelativeLayout>
 
             <RelativeLayout
-                android:id="@+id/List_Product"
+                android:id="@+id/List_Product_btn"
                 android:layout_width="150dp"
                 android:layout_height="150dp"
                 android:layout_alignParentEnd="true"
@@ -102,6 +103,41 @@
                     android:padding="10dp"
                     android:textAlignment="center"
                     android:text="Danh Sách Sản Phẩm"
+                    android:layout_alignParentBottom="true"
+                    android:textSize="20sp" />
+
+            </RelativeLayout>
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="190dp">
+
+            <RelativeLayout
+                android:id="@+id/Type_Product_btn"
+                android:layout_width="150dp"
+                android:layout_height="150dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginEnd="20dp"
+                android:layout_marginBottom="20dp"
+                android:background="@drawable/item_cate_bg"
+                android:elevation="8dp">
+
+                <ImageView
+                    android:layout_width="70dp"
+                    android:layout_height="70dp"
+                    android:src="@drawable/type_product"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="10dp"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="10dp"
+                    android:textAlignment="center"
+                    android:text="Loại Sản Phẩm"
                     android:layout_alignParentBottom="true"
                     android:textSize="20sp" />
 

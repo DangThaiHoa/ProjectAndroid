@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 
 import android.content.Intent;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -11,18 +12,24 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.example.projectandroid.HelperClasses.SqlLite.SqlDatabaseHelper;
 import com.example.projectandroid.R;
+
+import java.util.ArrayList;
 
 public class AddProduct extends AppCompatActivity {
 
-    String[] itemTypeProduct = {"Đồ Ăn", "Đồ Uống"};
+    ArrayList<String> itemTypeProduct;
     AutoCompleteTextView TypeProduct;
-    ArrayAdapter<String> adapterItemTypeProduct;
+    ArrayAdapter adapterItemTypeProduct;
 
     ImageView btnBack, ImageProduct;
     Button btnNext;
     TextView NameProduct, QualityProduct, UnitProduct, PriceProduct;
+
+    SqlDatabaseHelper db;
 
 
     @Override
@@ -31,6 +38,8 @@ public class AddProduct extends AppCompatActivity {
         getSupportActionBar().hide();
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
         setContentView(R.layout.activity_add_product);
+
+        db = new SqlDatabaseHelper(AddProduct.this);
 
         btnBack = findViewById(R.id.back_btn);
         btnNext = findViewById(R.id.next_btn);
@@ -41,12 +50,28 @@ public class AddProduct extends AppCompatActivity {
         PriceProduct = findViewById(R.id.price_product_addProduct);
         ImageProduct = findViewById(R.id.image_product_addProduct);
 
-        adapterItemTypeProduct = new ArrayAdapter<String>(this, R.layout.list_item_dropmenu,itemTypeProduct);
-
-        TypeProduct.setAdapter(adapterItemTypeProduct);
-
         btnBack();
         btnNext();
+        loadDataTypeProduct();
+
+    }
+
+    private void loadDataTypeProduct() {
+
+        Cursor cursor = db.readTypeProduct_AddProduct();
+
+        itemTypeProduct = new ArrayList<>();
+        if(cursor.getCount() == 0){
+            Toast.makeText(this, "Không có dữ liệu loại sản phẩm", Toast.LENGTH_SHORT).show();
+        }else{
+            while (cursor.moveToNext()){
+                itemTypeProduct.add(cursor.getString(1));
+            }
+
+        }
+
+        adapterItemTypeProduct = new ArrayAdapter<String>(this, R.layout.list_item_dropmenu,itemTypeProduct);
+        TypeProduct.setAdapter(adapterItemTypeProduct);
 
     }
 

@@ -13,6 +13,13 @@
         android:theme="@style/Theme.ProjectAndroid"
         tools:targetApi="31">
         <activity
+            android:name=".User.MProduct.TypeProduct.AddTypeProduct"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
             android:name=".common.OnBoarding"
             android:exported="false">
             <meta-data
@@ -159,15 +166,15 @@
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
+<!--        <activity-->
+<!--            android:name=".User.Product"-->
+<!--            android:exported="false">-->
+<!--            <meta-data-->
+<!--                android:name="android.app.lib_name"-->
+<!--                android:value="" />-->
+<!--        </activity>-->
         <activity
-            android:name=".User.Product"
-            android:exported="false">
-            <meta-data
-                android:name="android.app.lib_name"
-                android:value="" />
-        </activity>
-        <activity
-            android:name=".common.SplashScreen"
+            android:name=".common.LoginSignUp.StartUpScreen"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
@@ -216,7 +223,7 @@
                 android:value="" />
         </activity>
         <activity
-            android:name=".common.LoginSignUp.StartUpScreen"
+            android:name=".User.Product"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

@@ -94,28 +94,28 @@ public class SignUp extends AppCompatActivity {
 
                     if (gPassword.equals(grePassword)) {
 
-                        Boolean userCheckResult = db.checkUsername(gUserName);
+                        Boolean userCheckResult = db.checkUsername_Users(gUserName);
                         if (userCheckResult == true) {
 
                             Toast.makeText(SignUp.this, "Tên đăng nhập đã tồn tại. \nVui lòng Đăng Nhập", Toast.LENGTH_LONG).show();
 
                         } else {
 
-                            Boolean emailCheckResult = db.checkEmail(gEmail);
+                            Boolean emailCheckResult = db.checkEmail_Users(gEmail);
                             if (emailCheckResult == true) {
 
                                 Toast.makeText(SignUp.this, "Email đã tồn tại. \nVui lòng Đăng Nhập", Toast.LENGTH_LONG).show();
 
                             } else {
 
-                                Boolean phoneCheckResult = db.checkPhone(gPhone);
+                                Boolean phoneCheckResult = db.checkPhone_Users(gPhone);
                                 if (phoneCheckResult == true) {
 
                                     Toast.makeText(SignUp.this, "Số Điện Thoại đã tồn tại. \nVui lòng Đăng Nhập", Toast.LENGTH_LONG).show();
 
                                 } else {
 
-                                    Boolean regResult = db.insertData(gUserName, gPassword, gName, gEmail, gPhone, gGender, gAge);
+                                    Boolean regResult = db.insertData_Users(gUserName, gPassword, gName, gEmail, gPhone, gGender, gAge);
                                     if (regResult == true) {
 
                                         progessLoading.show();

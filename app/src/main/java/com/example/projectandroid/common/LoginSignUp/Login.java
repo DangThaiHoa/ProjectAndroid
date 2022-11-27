@@ -63,9 +63,9 @@ public class Login extends AppCompatActivity {
 
                 }else{
 
-                    Boolean resultUserName = db.checkUsernamePassword(gUsername,gPassword);
-                    Boolean resultEmail = db.checkEmailPassword(gUsername,gPassword);
-                    Boolean resultPhone = db.checkPhonePassword(gUsername,gPassword);
+                    Boolean resultUserName = db.checkUsernamePassword_Users(gUsername,gPassword);
+                    Boolean resultEmail = db.checkEmailPassword_Users(gUsername,gPassword);
+                    Boolean resultPhone = db.checkPhonePassword_Users(gUsername,gPassword);
                     if (resultUserName == true || resultEmail == true || resultPhone == true){
 
                         progessLoading.show();
@@ -99,6 +99,19 @@ public class Login extends AppCompatActivity {
         });
 
         backbtn();
+        signupBtn();
+    }
+
+    private void signupBtn() {
+
+        signupBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getApplicationContext(),SignUp.class);
+                startActivity(intent);
+            }
+        });
+
     }
 
     private void backbtn() {
