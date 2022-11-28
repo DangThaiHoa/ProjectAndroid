@@ -32,7 +32,7 @@ public class AddTypeProduct extends AppCompatActivity {
 
         final ProgessLoading progessLoading = new ProgessLoading(this);
 
-        confirmBtn = findViewById(R.id.confirm_btn);
+        confirmBtn = findViewById(R.id.confirm_btn_addTypeProduct);
         typeProductName = findViewById(R.id.name_typeProduct_typeProduct);
         typeProductDesc = findViewById(R.id.desc_typeProduct_Product);
         backBtn = findViewById(R.id.back_btn);

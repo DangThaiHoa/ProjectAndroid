@@ -1,11 +1,20 @@
 package com.example.projectandroid.User.MProduct.AddProduct;
 
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContract;
+import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 
 import android.content.Intent;
 import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
+import android.provider.MediaStore;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
@@ -14,8 +23,11 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.projectandroid.HelperClasses.Product.GetImageProductClass;
 import com.example.projectandroid.HelperClasses.SqlLite.SqlDatabaseHelper;
+import com.example.projectandroid.ProgessLoading;
 import com.example.projectandroid.R;
+import com.example.projectandroid.User.MProduct.TypeProduct.AddTypeProduct;
 
 import java.util.ArrayList;
 
@@ -26,11 +38,12 @@ public class AddProduct extends AppCompatActivity {
     ArrayAdapter adapterItemTypeProduct;
 
     ImageView btnBack, ImageProduct;
-    Button btnNext;
+    Button ConfirmBtn, choseImageBtn;
     TextView NameProduct, QualityProduct, UnitProduct, PriceProduct;
 
     SqlDatabaseHelper db;
 
+    ActivityResultLauncher<String> GetImage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,24 +54,106 @@ public class AddProduct extends AppCompatActivity {
 
         db = new SqlDatabaseHelper(AddProduct.this);
 
+        final ProgessLoading progessLoading = new ProgessLoading(this);
+
         btnBack = findViewById(R.id.back_btn);
-        btnNext = findViewById(R.id.next_btn);
+        ConfirmBtn = findViewById(R.id.confirm_btn);
         TypeProduct = findViewById(R.id.type_product_addProduct);
         NameProduct = findViewById(R.id.name_product_addProduct);
         QualityProduct = findViewById(R.id.quality_product_addProduct);
         UnitProduct = findViewById(R.id.unit_product_addProduct);
         PriceProduct = findViewById(R.id.price_product_addProduct);
         ImageProduct = findViewById(R.id.image_product_addProduct);
+        choseImageBtn = findViewById(R.id.chose_image_btn_addProduct);
+
+        GetImage = registerForActivityResult(new ActivityResultContracts.GetContent(), new ActivityResultCallback<Uri>() {
+            @Override
+            public void onActivityResult(Uri result) {
+                ImageProduct.setImageURI(result);
+            }
+        });
+
+        ConfirmBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                String typeProductName = TypeProduct.getText().toString();
+
+                Cursor cursor = db.getTypeProductID_Product(typeProductName);
+                if (cursor.getCount() == 0) {
+
+                    Toast.makeText(AddProduct.this, "Không có dữ liệu loại sản phẩm", Toast.LENGTH_SHORT).show();
+
+                } else {
+
+                    String gIDTypeProduct = null;
+                    String gProductName = NameProduct.getText().toString();
+                    String gProductQuality = QualityProduct.getText().toString();
+                    String gProductUnit = UnitProduct.getText().toString();
+                    String gProductPrice = PriceProduct.getText().toString();
+                    while (cursor.moveToNext()) {
+                        gIDTypeProduct = cursor.getString(0);
+
+                    }
+                    if (gIDTypeProduct.isEmpty() || gProductName.isEmpty() || gProductQuality.isEmpty() || gProductUnit.isEmpty() || gProductPrice.isEmpty() || ImageProduct.getDrawable() == null || GetImage ==null) {
+
+                        Toast.makeText(AddProduct.this, "Vui Lòng Nhập Đầy Đủ Thông Tin", Toast.LENGTH_SHORT).show();
+
+                    }else{
+
+//                        Boolean resultInserData = db.insertData_Product(gProductName,gProductQuality,gProductUnit,gProductPrice,new GetImageProductClass(GetImage),gIDTypeProduct);
+                        if (true){
+
+                            progessLoading.show();
+                            new Handler().postDelayed(new Runnable() {
+                                @Override
+                                public void run() {
+                                    Toast.makeText(AddProduct.this, "Thêm Loại Sản Phẩm Thành Công", Toast.LENGTH_SHORT).show();
+                                    progessLoading.dismiss();
+                                }
+                            },2000);
+
+                        }else{
+
+                            progessLoading.show();
+                            new Handler().postDelayed(new Runnable() {
+                                @Override
+                                public void run() {
+                                    Toast.makeText(AddProduct.this, "Thêm Loại Sản Phẩm Thất Bại", Toast.LENGTH_SHORT).show();
+                                    progessLoading.dismiss();
+                                }
+                            },2000);
+
+                        }
+
+                    }
+
+                }
+
+
+
+            }
+        });
+
 
         btnBack();
-        btnNext();
         loadDataTypeProduct();
+        choseImageBtn();
 
+    }
+
+    private void choseImageBtn() {
+        choseImageBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                GetImage.launch("image/*");
+            }
+        });
     }
 
     private void loadDataTypeProduct() {
 
-        Cursor cursor = db.readTypeProduct_AddProduct();
+        Cursor cursor = db.readTypeProduct_Product();
 
         itemTypeProduct = new ArrayList<>();
         if(cursor.getCount() == 0){
@@ -83,23 +178,5 @@ public class AddProduct extends AppCompatActivity {
                 AddProduct.super.onBackPressed();
             }
         });
-    }
-
-    private void btnNext() {
-
-        btnNext.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(getApplicationContext(), AddProduct2.class);
-                intent.putExtra("TypeProduct",TypeProduct.getText().toString());
-                intent.putExtra("NameProduct",NameProduct.getText().toString());
-                intent.putExtra("QualityProduct",QualityProduct.getText().toString());
-                intent.putExtra("UnitProduct", UnitProduct.getText().toString());
-                intent.putExtra("PriceProduct",PriceProduct.getText().toString());
-                intent.putExtra("ImageProduct",R.drawable.image_test);
-                startActivity(intent);
-            }
-        });
-
     }
 }

@@ -85,7 +85,7 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <Button
-                android:id="@+id/confirm_btn"
+                android:id="@+id/confirm_btn_addTypeProduct"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Xác Nhận"

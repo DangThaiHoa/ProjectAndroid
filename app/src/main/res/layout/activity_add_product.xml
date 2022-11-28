@@ -161,6 +161,7 @@
                 android:layout_marginBottom="10dp"/>
 
             <Button
+                android:id="@+id/chose_image_btn_addProduct"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Chọn Hình Ảnh"
@@ -181,10 +182,10 @@
         android:padding="10dp">
 
         <Button
-            android:id="@+id/next_btn"
+            android:id="@+id/confirm_btn"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Tiếp Tục"
+            android:text="Xác Nhận"
             android:textStyle="bold"/>
 
     </LinearLayout>
