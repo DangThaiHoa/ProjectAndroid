@@ -17,7 +17,7 @@ import com.google.android.material.textfield.TextInputEditText;
 
 public class AddTypeProduct extends AppCompatActivity {
 
-    TextInputEditText typeProductName, typeProductDesc;
+    TextInputEditText nameTypeProduct, descTypeProduct;
     Button confirmBtn;
     ImageView backBtn;
 
@@ -33,16 +33,16 @@ public class AddTypeProduct extends AppCompatActivity {
         final ProgessLoading progessLoading = new ProgessLoading(this);
 
         confirmBtn = findViewById(R.id.confirm_btn_addTypeProduct);
-        typeProductName = findViewById(R.id.name_typeProduct_typeProduct);
-        typeProductDesc = findViewById(R.id.desc_typeProduct_Product);
+        nameTypeProduct = findViewById(R.id.name_typeProduct_typeProduct);
+        descTypeProduct = findViewById(R.id.desc_typeProduct_Product);
         backBtn = findViewById(R.id.back_btn);
 
         confirmBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
-                String gName = typeProductName.getText().toString();
-                String gDesc = typeProductDesc.getText().toString();
+                String gName = nameTypeProduct.getText().toString();
+                String gDesc = descTypeProduct.getText().toString();
 
                 if(gName.isEmpty() || gDesc.isEmpty()){
 
@@ -53,8 +53,8 @@ public class AddTypeProduct extends AppCompatActivity {
                     Boolean resultNameTypeProduct = db.checkNameTypeProduct_TypeProduct(gName);
                     if(resultNameTypeProduct == false){
 
-                        Boolean resultInserData = db.insertData_TypeProduct(gName,gDesc);
-                        if (resultInserData  == true){
+                        Boolean resultInsertData = db.insertData_TypeProduct(gName,gDesc);
+                        if (resultInsertData  == true){
 
                             progessLoading.show();
                             new Handler().postDelayed(new Runnable() {
@@ -86,6 +86,7 @@ public class AddTypeProduct extends AppCompatActivity {
                             public void run() {
                                 Toast.makeText(AddTypeProduct.this, "Tên Loại Sản Phẩm Đã Tồn Tại", Toast.LENGTH_SHORT).show();
                                 progessLoading.dismiss();
+                                nameTypeProduct.forceLayout();
                             }
                         },2000);
 

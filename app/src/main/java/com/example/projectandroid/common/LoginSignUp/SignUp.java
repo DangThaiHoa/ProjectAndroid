@@ -98,6 +98,7 @@ public class SignUp extends AppCompatActivity {
                         if (userCheckResult == true) {
 
                             Toast.makeText(SignUp.this, "Tên đăng nhập đã tồn tại. \nVui lòng Đăng Nhập", Toast.LENGTH_LONG).show();
+                            username.forceLayout();
 
                         } else {
 
@@ -105,6 +106,7 @@ public class SignUp extends AppCompatActivity {
                             if (emailCheckResult == true) {
 
                                 Toast.makeText(SignUp.this, "Email đã tồn tại. \nVui lòng Đăng Nhập", Toast.LENGTH_LONG).show();
+                                email.forceLayout();
 
                             } else {
 
@@ -112,6 +114,7 @@ public class SignUp extends AppCompatActivity {
                                 if (phoneCheckResult == true) {
 
                                     Toast.makeText(SignUp.this, "Số Điện Thoại đã tồn tại. \nVui lòng Đăng Nhập", Toast.LENGTH_LONG).show();
+                                    phone.forceLayout();
 
                                 } else {
 

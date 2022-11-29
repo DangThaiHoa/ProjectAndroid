@@ -5,7 +5,7 @@
     <translate
         android:fromYDelta="0%"
         android:toYDelta="0%"
-        android:fromXDelta="-100%"
-        android:toXDelta="0%"/>
+        android:fromXDelta="0%"
+        android:toXDelta="-100%"/>
 
 </set>

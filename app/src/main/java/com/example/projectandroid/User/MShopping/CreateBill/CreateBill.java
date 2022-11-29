@@ -13,8 +13,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.projectandroid.R;
-import com.example.projectandroid.User.MProduct.AddProduct.AddProduct;
-import com.example.projectandroid.User.MProduct.AddProduct.AddProduct2;
 
 public class CreateBill extends AppCompatActivity {
 

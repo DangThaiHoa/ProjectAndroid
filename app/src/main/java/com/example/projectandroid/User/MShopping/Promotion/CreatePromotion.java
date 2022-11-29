@@ -10,7 +10,6 @@ import android.widget.Button;
 import android.widget.ImageView;
 
 import com.example.projectandroid.R;
-import com.example.projectandroid.User.MProduct.AddProduct.AddProduct2;
 
 public class CreatePromotion extends AppCompatActivity {
 

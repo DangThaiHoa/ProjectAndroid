@@ -11,9 +11,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.projectandroid.R;
-import com.example.projectandroid.User.MProduct.AddProduct.AddProduct2;
-import com.example.projectandroid.User.MProduct.AddProduct.CompleteAddProduct;
-import com.example.projectandroid.User.Product;
 import com.example.projectandroid.User.Shopping;
 
 public class CreateBill2 extends AppCompatActivity {
