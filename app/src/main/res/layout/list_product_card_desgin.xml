@@ -40,7 +40,7 @@
             android:layout_width="120dp"
             android:layout_height="match_parent"
             android:src="@drawable/image_test"
-            android:padding="15dp"/>
+            android:paddingRight="15dp"/>
 
         <RelativeLayout
             android:layout_width="50dp"
@@ -74,8 +74,9 @@
         </RelativeLayout>
 
         <LinearLayout
+            android:id="@+id/Rname"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="50dp"
             android:orientation="vertical"
             android:layout_marginLeft="120dp">
 
@@ -85,24 +86,50 @@
                 android:layout_height="1dp"
                 android:layout_weight="1"
                 android:text="Tên Sản Phẩm"
-                android:textSize="17sp"
+                android:textSize="20sp"
                 android:gravity="bottom"
                 android:fontFamily="@font/muli_black"
                 android:textAllCaps="true"
                 android:paddingBottom="1dp"
-                android:textColor="#000"
-                />
+                android:textColor="#000" />
+
+        </LinearLayout>
+
+        <RelativeLayout
+            android:id="@+id/Rquality"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginLeft="120dp"
+            android:layout_below="@+id/Rname">
+
+
+            <TextView
+                android:id="@+id/lb_quality"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Số Lượng:"
+                android:layout_centerVertical="true"
+                android:textSize="13sp"
+                android:fontFamily="@font/muli_black"
+                android:textAllCaps="true"
+                android:paddingBottom="1dp"
+                android:textColor="#000"/>
 
             <TextView
                 android:id="@+id/Txv_QualityProduct"
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_weight="1"
-                android:text="Số lượng"
-                android:textSize="15sp"
-                android:textColor="#A6A6A6"/>
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@+id/lb_quality"
+                android:text="Số Lượng"
+                android:layout_marginLeft="10dp"
+                android:layout_centerVertical="true"
+                android:textSize="13sp"
+                android:fontFamily="@font/muli_black"
+                android:textAllCaps="true"
+                android:paddingBottom="1dp"
+                android:textColor="#000"/>
 
-        </LinearLayout>
+        </RelativeLayout>
 
     </RelativeLayout>
 

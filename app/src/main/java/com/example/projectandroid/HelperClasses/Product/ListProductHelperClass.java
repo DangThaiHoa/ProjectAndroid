@@ -4,24 +4,26 @@ import java.io.Serializable;
 
 public class ListProductHelperClass implements Serializable {
 
-    int image;
-    String name,qualityItem;
+    private String name;
+    private String quality;
+    private byte[] image;
 
-    public ListProductHelperClass(int image, String name, String qualityItem) {
+    public ListProductHelperClass(String name, String quality, byte[] image) {
         this.image = image;
         this.name = name;
-        this.qualityItem = qualityItem;
+        this.quality = quality;
     }
 
-    public int getImage() {
-        return image;
-    }
 
     public String getName() {
         return name;
     }
 
-    public String getQualityItem() {
-        return qualityItem;
+    public String getQuality() {
+        return quality;
+    }
+
+    public byte[] getImage() {
+        return image;
     }
 }

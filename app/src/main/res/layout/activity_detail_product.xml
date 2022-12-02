@@ -45,7 +45,9 @@
         android:layout_width="wrap_content"
         android:layout_height="2dp"
         android:layout_marginTop="5dp"
-        android:background="#5E5D5D"/>
+        android:background="#5E5D5D"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"/>
 
     <ScrollView
         android:layout_width="match_parent"
@@ -64,20 +66,20 @@
                 android:layout_marginBottom="10dp">
 
                 <TextView
-                    android:id="@+id/lb_idproduct"
+                    android:id="@+id/lb_typeproduct"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Mã Sản Phẩm :"
+                    android:text="Loại Sản Phẩm :"
                     android:layout_centerHorizontal="true"
                     android:layout_marginBottom="10dp"/>
 
                 <TextView
-                    android:id="@+id/detail_product_id"
+                    android:id="@+id/detail_product_type"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Mã sản phẩm :"
+                    android:text="Loại Sản Phẩm"
                     android:textSize="20sp"
-                    android:layout_below="@id/lb_idproduct"
+                    android:layout_below="@id/lb_typeproduct"
                     android:layout_centerHorizontal="true"/>
 
             </RelativeLayout>
@@ -100,7 +102,7 @@
                     android:id="@+id/detail_product_name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Tên sản phẩm :"
+                    android:text="Tên sản phẩm"
                     android:textSize="20sp"
                     android:layout_below="@id/lb_nameproduct"
                     android:layout_centerHorizontal="true"/>
@@ -122,10 +124,10 @@
                     android:layout_marginBottom="10dp"/>
 
                 <TextView
-                    android:id="@+id/detail_product_quanlity"
+                    android:id="@+id/detail_product_quality"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Số lượng :"
+                    android:text="Số lượng"
                     android:textSize="20sp"
                     android:layout_below="@id/lb_qualitysp"
                     android:layout_centerHorizontal="true"/>
@@ -147,9 +149,10 @@
                     android:layout_marginBottom="10dp"/>
 
                 <TextView
+                    android:id="@+id/detail_product_unit"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Đơn Vị Tính :"
+                    android:text="Đơn Vị Tính"
                     android:textSize="20sp"
                     android:layout_below="@id/lb_unitsp"
                     android:layout_centerHorizontal="true"/>
@@ -171,9 +174,10 @@
                     android:layout_marginBottom="10dp"/>
 
                 <TextView
+                    android:id="@+id/detail_product_price"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Đơn Giá :"
+                    android:text="Đơn Giá"
                     android:textSize="20sp"
                     android:layout_below="@id/lb_pricesp"
                     android:layout_centerHorizontal="true"/>

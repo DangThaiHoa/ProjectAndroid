@@ -6,13 +6,16 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.example.projectandroid.HelperClasses.Product.ListProductAdapter;
 import com.example.projectandroid.HelperClasses.Product.ListProductHelperClass;
-import com.example.projectandroid.HelperClasses.Product.ListProductInterface;
+import com.example.projectandroid.HelperClasses.SqlLite.SqlDatabaseHelper;
 import com.example.projectandroid.R;
 
 import java.util.ArrayList;
@@ -20,9 +23,10 @@ import java.util.ArrayList;
 public class ListProduct extends AppCompatActivity {
 
     ImageView btnBack;
-
+    SQLiteDatabase sqLiteDatabase;
     RecyclerView listProductRecycle;
-    RecyclerView.Adapter lproductdapter;
+    SqlDatabaseHelper db;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,10 +38,32 @@ public class ListProduct extends AppCompatActivity {
         listProductRecycle = findViewById(R.id.List_Product_recycler);
         btnBack = findViewById(R.id.back_btn);
 
+        db = new SqlDatabaseHelper(this);
+        listProductRecycle.setLayoutManager(new LinearLayoutManager(this, RecyclerView.VERTICAL,false));
 
         btnBack();
+        readData();
+    }
 
-        listProductRecycle();
+    private void readData() {
+
+        Cursor cursor = db.ReadData_Product();
+        ArrayList<ListProductHelperClass> listProductHelperClassArrayList = new ArrayList<>();
+        if(cursor == null){
+            Toast.makeText(this, "Không Có Sản Phẩm ", Toast.LENGTH_SHORT).show();
+        }else{
+            while (cursor.moveToNext()) {
+                String productName = cursor.getString(1);
+                String productQuality = cursor.getString(2);
+                byte[] productImage = cursor.getBlob(5);
+                listProductHelperClassArrayList.add(new ListProductHelperClass(productName, productQuality, productImage));
+
+            }
+            ListProductAdapter listProductAdapter = new ListProductAdapter(this, R.layout.list_product_card_desgin, listProductHelperClassArrayList, sqLiteDatabase);
+            listProductRecycle.setAdapter(listProductAdapter);
+
+        }
+
     }
 
     private void btnBack() {
@@ -50,47 +76,8 @@ public class ListProduct extends AppCompatActivity {
         });
     }
 
-    private void listProductRecycle() {
-
-        listProductRecycle.setHasFixedSize(true);
-        listProductRecycle.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
-
-        ArrayList<ListProductHelperClass> lProductLocation = new ArrayList<>();
-
-        lProductLocation.add(new ListProductHelperClass(R.drawable.image_test,"Tên Sản Phẩm","20"));
-        lProductLocation.add(new ListProductHelperClass(R.drawable.ls_startupimage,"Tên Sản Phẩm 2","30"));
-        lProductLocation.add(new ListProductHelperClass(R.drawable.image_test,"Tên Sản Phẩm 3","100"));
-        lProductLocation.add(new ListProductHelperClass(R.drawable.image_test,"Tên Sản Phẩm","Tên Sản Phẩm"));
-        lProductLocation.add(new ListProductHelperClass(R.drawable.image_test,"Tên Sản Phẩm","Tên Sản Phẩm"));
-        lProductLocation.add(new ListProductHelperClass(R.drawable.image_test,"Tên Sản Phẩm","Tên Sản Phẩm"));
-        lProductLocation.add(new ListProductHelperClass(R.drawable.image_test,"Tên Sản Phẩm","Tên Sản Phẩm"));
-        lProductLocation.add(new ListProductHelperClass(R.drawable.image_test,"Tên Sản Phẩm","Tên Sản Phẩm"));
-        lProductLocation.add(new ListProductHelperClass(R.drawable.image_test,"Tên Sản Phẩm","Tên Sản Phẩm"));
-        lProductLocation.add(new ListProductHelperClass(R.drawable.image_test,"Tên Sản Phẩm","Tên Sản Phẩm"));
-        lProductLocation.add(new ListProductHelperClass(R.drawable.image_test,"Tên Sản Phẩm","Tên Sản Phẩm"));
-        lProductLocation.add(new ListProductHelperClass(R.drawable.image_test,"Tên Sản Phẩm","Tên Sản Phẩm"));
-        lProductLocation.add(new ListProductHelperClass(R.drawable.image_test,"Tên Sản Phẩm","Tên Sản Phẩm"));
-
-        lproductdapter = new ListProductAdapter(lProductLocation, new ListProductInterface() {
-            @Override
-            public void onClickItemProduct(ListProductHelperClass listProductHelperClass) {
-                onclickGoToDetail(listProductHelperClass);
-            }
-        });
-        listProductRecycle.setAdapter(lproductdapter);
-
-    }
-
     @Override
     protected void onDestroy(){
         super.onDestroy();
-    }
-
-    private void onclickGoToDetail(ListProductHelperClass listProductHelperClass){
-        Intent intent = new Intent(this, DetailProduct.class);
-        Bundle bundle = new Bundle();
-        bundle.putSerializable("Id_Product", listProductHelperClass);
-        intent.putExtras(bundle);
-        startActivity(intent);
     }
 }

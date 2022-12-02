@@ -173,7 +173,7 @@ public class SqlDatabaseHelper extends SQLiteOpenHelper {
     }
 
     public boolean checkUsername_Users(String username){
-        SQLiteDatabase db = this.getWritableDatabase();
+        SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery("select * from "+ TABLE_USERS +" where "+ COLUMN_USERNAME_USERS +" = ?", new String[] {username});
 
         if (cursor.getCount()>0){
@@ -184,7 +184,7 @@ public class SqlDatabaseHelper extends SQLiteOpenHelper {
     }
 
     public boolean checkEmail_Users(String email){
-        SQLiteDatabase db = this.getWritableDatabase();
+        SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery("select * from "+ TABLE_USERS +" where "+ COLUMN_EMAIL_USERS +" = ?", new String[] {email});
 
         if (cursor.getCount()>0){
@@ -195,7 +195,7 @@ public class SqlDatabaseHelper extends SQLiteOpenHelper {
     }
 
     public boolean checkPhone_Users(String phone){
-        SQLiteDatabase db = this.getWritableDatabase();
+        SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery("select * from "+ TABLE_USERS +" where "+ COLUMN_PHONE_USERS +" = ?", new String[] {phone});
 
 
@@ -207,7 +207,7 @@ public class SqlDatabaseHelper extends SQLiteOpenHelper {
     }
 
     public boolean checkUsernamePassword_Users(String username, String password){
-        SQLiteDatabase db = this.getWritableDatabase();
+        SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery("select * from "+ TABLE_USERS +" where "+ COLUMN_USERNAME_USERS +" = ? AND "+ COLUMN_PASSWORD_USERS +" = ?", new String[] {username,password});
 
         if (cursor.getCount()>0){
@@ -218,7 +218,7 @@ public class SqlDatabaseHelper extends SQLiteOpenHelper {
     }
 
     public boolean checkEmailPassword_Users(String email, String password){
-        SQLiteDatabase db = this.getWritableDatabase();
+        SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery("select * from "+ TABLE_USERS +" where "+ COLUMN_EMAIL_USERS +" = ? AND "+ COLUMN_PASSWORD_USERS +" = ?", new String[] {email,password});
 
         if (cursor.getCount()>0){
@@ -229,7 +229,7 @@ public class SqlDatabaseHelper extends SQLiteOpenHelper {
     }
 
     public boolean checkPhonePassword_Users(String phone, String password){
-        SQLiteDatabase db = this.getWritableDatabase();
+        SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery("select * from "+ TABLE_USERS +" where "+ COLUMN_PHONE_USERS +" = ? AND "+ COLUMN_PASSWORD_USERS +" = ?", new String[] {phone,password});
 
         if (cursor.getCount()>0){
@@ -258,7 +258,7 @@ public class SqlDatabaseHelper extends SQLiteOpenHelper {
     }
 
     public boolean checkNameTypeProduct_TypeProduct(String type_product_name){
-        SQLiteDatabase db = this.getWritableDatabase();
+        SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery("select * from "+ TABLE_TYPE_PRODUCT +" where "+ COLUMN_TYPE_PRODUCT_NAME +"  = ?", new String[] {type_product_name});
 
         if (cursor.getCount()>0){
@@ -321,7 +321,7 @@ public class SqlDatabaseHelper extends SQLiteOpenHelper {
     }
 
     public boolean checkNameProduct_Product(String product_name){
-        SQLiteDatabase db = this.getWritableDatabase();
+        SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery("select * from "+ TABLE_PRODUCT +" where "+ COLUMN_PRODUCT_NAME +"  = ?", new String[] {product_name});
 
         if (cursor.getCount()>0){
@@ -329,6 +329,58 @@ public class SqlDatabaseHelper extends SQLiteOpenHelper {
         }else{
             return false;
         }
+    }
+
+    public Cursor ReadData_Product(){
+        String query = "Select "+ COLUMN_TYPE_PRODUCT_NAME +","+
+                COLUMN_PRODUCT_NAME +","+
+                COLUMN_PRODUCT_QUALITY +","+
+                COLUMN_PRODUCT_UNIT +"," +
+                COLUMN_PRODUCT_PRICE +","+
+                COLUMN_PRODUCT_IMAGE +
+                " From "+ TABLE_PRODUCT+ ","+ TABLE_TYPE_PRODUCT +
+                " Where "+ TABLE_PRODUCT +"."+ F_PRODUCT_COLUMN_ID_TYPE_PRODUCT +"="+ TABLE_TYPE_PRODUCT +"."+ COLUMN_ID_TYPE_PRODUCT +
+                " ORDER BY " + COLUMN_ID_PRODUCT + " ASC ";
+
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        Cursor cursor = null;
+        if(db != null){
+           cursor = db.rawQuery(query ,null);
+        }
+
+        return cursor;
+    }
+
+    public Cursor ReadAllData_Product(Integer product_id){
+
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        Cursor cursor = null;
+        if(db != null){
+            cursor = db.rawQuery("Select "+ COLUMN_ID_PRODUCT + "," +
+                    COLUMN_TYPE_PRODUCT_NAME +","+
+                    COLUMN_PRODUCT_NAME +","+
+                    COLUMN_PRODUCT_QUALITY +","+
+                    COLUMN_PRODUCT_UNIT +"," +
+                    COLUMN_PRODUCT_PRICE +","+
+                    COLUMN_PRODUCT_IMAGE +
+                    " From "+ TABLE_PRODUCT+ ","+ TABLE_TYPE_PRODUCT +
+                    " Where "+ TABLE_PRODUCT +"."+ F_PRODUCT_COLUMN_ID_TYPE_PRODUCT +"="+ TABLE_TYPE_PRODUCT +"."+ COLUMN_ID_TYPE_PRODUCT +
+                    " AND " + COLUMN_ID_PRODUCT + " = " +product_id,null);
+        }
+
+        return cursor;
+    }
+
+    public Cursor getIdProduct_Product(String product_name){
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = null;
+        if(db != null) {
+            cursor = db.rawQuery("select " + COLUMN_ID_PRODUCT + " from " + TABLE_PRODUCT + " Where " + COLUMN_PRODUCT_NAME + " = ?", new String[] {product_name});
+
+        }
+        return cursor;
     }
     //AddProduct
 
