@@ -15,9 +15,6 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.projectandroid.HelperClasses.Shopping.ListBill.ListBillAdapter;
-import com.example.projectandroid.HelperClasses.Shopping.ListBill.ListBillHelperClass;
-import com.example.projectandroid.HelperClasses.SqlLite.SqlDatabaseHelper;
 import com.example.projectandroid.R;
 import com.example.projectandroid.User.MShopping.ListPromotion.DetailPromotion;
 

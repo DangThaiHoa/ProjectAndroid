@@ -10,8 +10,6 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.projectandroid.HelperClasses.Product.ListProduct.ListProductAdapter;
-import com.example.projectandroid.HelperClasses.Product.ListProduct.ListProductHelperClass;
 import com.example.projectandroid.HelperClasses.SqlLite.SqlDatabaseHelper;
 import com.example.projectandroid.R;
 

@@ -1,4 +1,4 @@
-package com.example.projectandroid.User.MProduct.AddProduct;
+package com.example.projectandroid.User.MProduct.ListProduct;
 
 import androidx.activity.result.ActivityResult;
 import androidx.activity.result.ActivityResultCallback;
@@ -12,6 +12,7 @@ import android.content.ContentValues;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
@@ -22,20 +23,19 @@ import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.projectandroid.HelperClasses.Product.ListProduct.GetImageProductClass;
 import com.example.projectandroid.HelperClasses.SqlLite.SqlDatabaseHelper;
 import com.example.projectandroid.ProgessLoading;
 import com.example.projectandroid.R;
-import com.example.projectandroid.User.MProduct.TypeProduct.AddTypeProduct;
+import com.example.projectandroid.User.Product;
 import com.google.android.material.textfield.TextInputEditText;
 
 import java.io.IOException;
 import java.util.ArrayList;
 
-public class AddProduct extends AppCompatActivity {
+public class UpdateProduct extends AppCompatActivity {
 
     ArrayList<String> itemTypeProduct;
     AutoCompleteTextView TypeProduct;
@@ -46,6 +46,7 @@ public class AddProduct extends AppCompatActivity {
     TextInputEditText NameProduct, QualityProduct, UnitProduct, PriceProduct;
 
     SqlDatabaseHelper db;
+    int id_Product;
 
     ActivityResultLauncher<String> getImage;
     ActivityResultLauncher<Intent> getCamera;
@@ -53,23 +54,20 @@ public class AddProduct extends AppCompatActivity {
     Uri imageFilePath,camUri;
     Bitmap imageToStore;
 
-    Button ConfirmBtnDia, CancelBtnDia;
-    TextView ContentDia;
-    Dialog dialog;
+    ProgessLoading progessLoading;
 
     Dialog pickImageDialog;
     ImageView GalleryOpen,CameraOpen;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
-        setContentView(R.layout.activity_add_product);
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_update_product);
 
-        db = new SqlDatabaseHelper(AddProduct.this);
+        db = new SqlDatabaseHelper(this);
 
-        final ProgessLoading progessLoading = new ProgessLoading(this);
+        progessLoading = new ProgessLoading(this);
 
         getImage = registerForActivityResult(new ActivityResultContracts.GetContent(), new ActivityResultCallback<Uri>() {
             @Override
@@ -101,15 +99,17 @@ public class AddProduct extends AppCompatActivity {
 
         btnBack = findViewById(R.id.back_btn);
         ConfirmBtn = findViewById(R.id.confirm_btn);
-        TypeProduct = findViewById(R.id.type_product_addProduct);
-        NameProduct = findViewById(R.id.name_product_addProduct);
-        QualityProduct = findViewById(R.id.quality_product_addProduct);
-        UnitProduct = findViewById(R.id.unit_product_addProduct);
-        PriceProduct = findViewById(R.id.price_product_addProduct);
-        ImageProduct = findViewById(R.id.image_product_addProduct);
-        choseImageBtn = findViewById(R.id.chose_image_btn_addProduct);
+        TypeProduct = findViewById(R.id.type_product_updateProduct);
+        NameProduct = findViewById(R.id.name_product_updateProduct);
+        QualityProduct = findViewById(R.id.quality_product_updateProduct);
+        UnitProduct = findViewById(R.id.unit_product_updateProduct);
+        PriceProduct = findViewById(R.id.price_product_updateProduct);
+        ImageProduct = findViewById(R.id.image_product_updateProduct);
+        choseImageBtn = findViewById(R.id.chose_image_btn_updateProduct);
 
-
+        Intent i = getIntent();
+        String id = i.getStringExtra("Id_Product");
+        id_Product = Integer.parseInt(id);
 
         ConfirmBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -120,7 +120,7 @@ public class AddProduct extends AppCompatActivity {
                 Cursor cursor = db.getTypeProductID_Product(typeProductName);
                 if (cursor.getCount() == 0) {
 
-                    Toast.makeText(AddProduct.this, "Vui Lòng Nhập Loại Sản Phẩm", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(UpdateProduct.this, "Vui Lòng Nhập Loại Sản Phẩm", Toast.LENGTH_SHORT).show();
 
                 } else {
 
@@ -134,22 +134,23 @@ public class AddProduct extends AppCompatActivity {
                     }
                     if (gIDTypeProduct == 0 || gProductName.isEmpty() || gProductQuality.isEmpty() || gProductUnit.isEmpty() || gProductPrice.isEmpty() || ImageProduct.getDrawable() == null || imageToStore == null) {
 
-                        Toast.makeText(AddProduct.this, "Vui Lòng Nhập Đầy Đủ Thông Tin", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(UpdateProduct.this, "Vui Lòng Nhập Đầy Đủ Thông Tin", Toast.LENGTH_SHORT).show();
 
                     } else {
 
                         Boolean resultNameProduct = db.checkNameProduct_Product(gProductName);
                         if (resultNameProduct == false) {
 
-                            Boolean resultInsertData = db.insertData_Product(gProductName, gProductQuality, gProductUnit, gProductPrice, new GetImageProductClass(imageToStore), gIDTypeProduct);
-                            if (resultInsertData == true) {
+                            Boolean resultUpdateData = db.updateData_Product(id_Product,gProductName, gProductQuality, gProductUnit, gProductPrice, new GetImageProductClass(imageToStore), gIDTypeProduct);
+                            if (resultUpdateData == true) {
 
                                 progessLoading.show();
                                 new Handler().postDelayed(new Runnable() {
                                     @Override
                                     public void run() {
-                                        Intent intent = new Intent(AddProduct.this, CompleteAddProduct.class);
+                                        Intent intent = new Intent(UpdateProduct.this, Product.class);
                                         startActivity(intent);
+                                        Toast.makeText(UpdateProduct.this, "Sửa Sản Phẩm Thành Công", Toast.LENGTH_SHORT).show();
                                         progessLoading.dismiss();
                                     }
                                 }, 2000);
@@ -160,7 +161,7 @@ public class AddProduct extends AppCompatActivity {
                                 new Handler().postDelayed(new Runnable() {
                                     @Override
                                     public void run() {
-                                        Toast.makeText(AddProduct.this, "Thêm Sản Phẩm Thất Bại", Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(UpdateProduct.this, "Sửa Sản Phẩm Thất Bại", Toast.LENGTH_SHORT).show();
                                         progessLoading.dismiss();
                                     }
                                 }, 2000);
@@ -172,7 +173,7 @@ public class AddProduct extends AppCompatActivity {
                             new Handler().postDelayed(new Runnable() {
                                 @Override
                                 public void run() {
-                                    Toast.makeText(AddProduct.this, "Tên Sản Phẩm Đã Tồn Tại", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(UpdateProduct.this, "Tên Sản Phẩm Đã Tồn Tại", Toast.LENGTH_SHORT).show();
                                     progessLoading.dismiss();
                                     NameProduct.forceLayout();
                                 }
@@ -191,13 +192,29 @@ public class AddProduct extends AppCompatActivity {
             }
         });
 
-
+        readAllData();
         btnBack();
-        loadDataTypeProduct();
         choseImageBtn();
-        ShowDiaLog();
         ShowPickImageDiaLog();
+        loadDataTypeProduct();
+    }
+    private void readAllData() {
+        Cursor cursor = db.ReadAllData_Product(id_Product);
+        if(cursor.getCount() == 0){
+            Toast.makeText(this, "Không Có Id Sản Phẩm", Toast.LENGTH_SHORT).show();
+        }else{
+            while (cursor.moveToNext()){
+                TypeProduct.setText(cursor.getString(1));
+                NameProduct.setText(cursor.getString(2));
+                QualityProduct.setText(cursor.getString(3));
+                UnitProduct.setText(cursor.getString(4));
+                PriceProduct.setText(cursor.getString(5));
+                byte[] image = cursor.getBlob(6);
+                Bitmap bitmap = BitmapFactory.decodeByteArray(image, 0, image.length);
+                ImageProduct.setImageBitmap(bitmap);
+            }
 
+        }
     }
 
     private void loadDataTypeProduct() {
@@ -206,13 +223,6 @@ public class AddProduct extends AppCompatActivity {
 
         itemTypeProduct = new ArrayList<>();
         if(cursor.getCount() == 0){
-            new Handler().postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    ContentDia.setText("Chưa có Loại Sản Phẩm, Bạn Có Muốn Thêm Không?");
-                    dialog.show();
-                }
-            },500);
 
         }else{
             while (cursor.moveToNext()){
@@ -235,40 +245,9 @@ public class AddProduct extends AppCompatActivity {
         });
     }
 
-
-    public void ShowDiaLog() {
-
-        dialog = new Dialog(AddProduct.this);
-        dialog.setContentView(R.layout.custom_dialog);
-        dialog.getWindow().setBackgroundDrawable(getDrawable(R.drawable.bg_dialog));
-        dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT,ViewGroup.LayoutParams.WRAP_CONTENT);
-        dialog.setCancelable(false);
-
-        ConfirmBtnDia = dialog.findViewById(R.id.Confirm_dialog_btn);
-        CancelBtnDia = dialog.findViewById(R.id.Cancel_dialog_btn);
-        ContentDia = dialog.findViewById(R.id.tv_Content_dialog);
-
-        ConfirmBtnDia.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(getApplicationContext(), AddTypeProduct.class);
-                startActivity(intent);
-                dialog.dismiss();
-            }
-        });
-
-        CancelBtnDia.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                dialog.dismiss();
-            }
-        });
-
-    }
-
     public void ShowPickImageDiaLog() {
 
-        pickImageDialog = new Dialog(AddProduct.this);
+        pickImageDialog = new Dialog(UpdateProduct.this);
         pickImageDialog.setContentView(R.layout.custom_dialog_pick_image);
         pickImageDialog.getWindow().setBackgroundDrawable(getDrawable(R.drawable.bg_dialog));
         pickImageDialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT,ViewGroup.LayoutParams.WRAP_CONTENT);
@@ -306,8 +285,9 @@ public class AddProduct extends AppCompatActivity {
         btnBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                AddProduct.super.onBackPressed();
+                UpdateProduct.super.onBackPressed();
             }
         });
+
     }
 }

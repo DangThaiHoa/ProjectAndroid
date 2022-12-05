@@ -3,16 +3,10 @@ package com.example.projectandroid.common.LoginSignUp;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 
-import android.app.Activity;
-import android.app.AlertDialog;
-import android.app.Dialog;
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
@@ -21,7 +15,6 @@ import com.example.projectandroid.HelperClasses.SqlLite.SqlDatabaseHelper;
 import com.example.projectandroid.ProgessLoading;
 import com.example.projectandroid.R;
 import com.example.projectandroid.User.DashBoard;
-import com.example.projectandroid.User.Profile.EditProfile;
 import com.google.android.material.textfield.TextInputEditText;
 
 public class Login extends AppCompatActivity {

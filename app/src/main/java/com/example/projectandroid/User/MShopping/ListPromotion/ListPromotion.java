@@ -17,14 +17,10 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.example.projectandroid.HelperClasses.Product.ListProduct.ListProductAdapter;
-import com.example.projectandroid.HelperClasses.Product.ListProduct.ListProductHelperClass;
 import com.example.projectandroid.HelperClasses.Shopping.ListPromotion.ListPromotionAdapter;
 import com.example.projectandroid.HelperClasses.Shopping.ListPromotion.ListPromotionHelperClass;
 import com.example.projectandroid.HelperClasses.SqlLite.SqlDatabaseHelper;
 import com.example.projectandroid.R;
-import com.example.projectandroid.User.MProduct.AddProduct.AddProduct;
-import com.example.projectandroid.User.MProduct.ListProduct.ListProduct;
 import com.example.projectandroid.User.MShopping.Promotion.CreatePromotion;
 
 import java.util.ArrayList;

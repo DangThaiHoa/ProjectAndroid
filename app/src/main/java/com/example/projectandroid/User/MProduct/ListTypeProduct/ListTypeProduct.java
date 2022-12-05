@@ -16,17 +16,12 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.example.projectandroid.HelperClasses.Product.ListProduct.ListProductAdapter;
-import com.example.projectandroid.HelperClasses.Product.ListProduct.ListProductHelperClass;
 import com.example.projectandroid.HelperClasses.Product.ListTypeProduct.ListTypeProductAdapter;
 import com.example.projectandroid.HelperClasses.Product.ListTypeProduct.ListTypeProductHelperClass;
 import com.example.projectandroid.HelperClasses.SqlLite.SqlDatabaseHelper;
 import com.example.projectandroid.R;
-import com.example.projectandroid.User.MProduct.AddProduct.AddProduct;
 import com.example.projectandroid.User.MProduct.TypeProduct.AddTypeProduct;
-import com.example.projectandroid.User.MShopping.ListBill.ListBill;
 
 import java.util.ArrayList;
 

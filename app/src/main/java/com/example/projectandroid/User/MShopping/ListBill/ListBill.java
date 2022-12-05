@@ -16,14 +16,12 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.projectandroid.HelperClasses.Shopping.ListBill.ListBillAdapter;
 import com.example.projectandroid.HelperClasses.Shopping.ListBill.ListBillHelperClass;
 import com.example.projectandroid.HelperClasses.SqlLite.SqlDatabaseHelper;
 import com.example.projectandroid.R;
 import com.example.projectandroid.User.MProduct.AddProduct.AddProduct;
-import com.example.projectandroid.User.MProduct.ListProduct.ListProduct;
 
 import java.util.ArrayList;
 

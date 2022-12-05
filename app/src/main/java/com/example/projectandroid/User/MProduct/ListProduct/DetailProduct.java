@@ -1,6 +1,5 @@
 package com.example.projectandroid.User.MProduct.ListProduct;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.appcompat.widget.Toolbar;
@@ -12,9 +11,6 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.os.Handler;
-import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,9 +22,6 @@ import android.widget.Toast;
 import com.example.projectandroid.HelperClasses.SqlLite.SqlDatabaseHelper;
 import com.example.projectandroid.ProgessLoading;
 import com.example.projectandroid.R;
-import com.example.projectandroid.User.MProduct.TypeProduct.AddTypeProduct;
-import com.example.projectandroid.User.MShopping.CreateBill.CompleteCreateBill;
-import com.example.projectandroid.User.MShopping.CreateBill.CreateBill;
 import com.example.projectandroid.User.Product;
 
 public class DetailProduct extends AppCompatActivity {
@@ -67,6 +60,10 @@ public class DetailProduct extends AppCompatActivity {
         toolbar = findViewById(R.id.detail_product_toolBar);
         toolbar.inflateMenu(R.menu.option_menu);
 
+        Intent i = getIntent();
+        String id = i.getStringExtra("Id_Product");
+        id_Product = Integer.parseInt(id);
+
         toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
@@ -75,15 +72,18 @@ public class DetailProduct extends AppCompatActivity {
                     case R.id.delete:
                         ContentDia.setText("Bạn Có Chắc Chắn Muốn Xóa Không?!\n Tất cả Hóa Đơn Và Khuyến Mãi Đều Bị Xóa");
                         dialog.show();
+                        break;
+
+                    case R.id.update:
+                        Intent intent = new Intent(DetailProduct.this, UpdateProduct.class);
+                        intent.putExtra("Id_Product", id);
+                        startActivity(intent);
+                        break;
 
                 }
                 return true;
             }
         });
-
-        Intent i = getIntent();
-        String id = i.getStringExtra("Id_Product");
-        id_Product = Integer.parseInt(id);
 
         readAllData();
         ShowDiaLog();
@@ -134,12 +134,12 @@ public class DetailProduct extends AppCompatActivity {
                             Intent intent = new Intent(getApplicationContext(), Product.class);
                             startActivity(intent);
                             progessLoading.dismiss();
-                            Toast.makeText(getApplicationContext(), "Xóa Thành Công", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getApplicationContext(), "Xóa Sản Phẩm Thành Công", Toast.LENGTH_SHORT).show();
                         }
                     }, 2000);
 
                 }else{
-                    Toast.makeText(getApplicationContext(), "Xóa Thất Bại", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "Xóa Sản Phẩm Thất Bại", Toast.LENGTH_SHORT).show();
                 }
             }
         });

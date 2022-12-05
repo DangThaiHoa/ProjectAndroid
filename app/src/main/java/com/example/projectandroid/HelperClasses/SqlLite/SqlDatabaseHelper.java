@@ -483,6 +483,32 @@ public class SqlDatabaseHelper extends SQLiteOpenHelper {
             return true;
         }
     }
+
+    public boolean updateData_Product(Integer product_id, String product_name, String product_quality, String product_unit, String product_price, GetImageProductClass imageProduct, Integer type_product_id) {
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        Bitmap imageStoreBitMap = imageProduct.getImage();
+
+        byteArrayOutputStreamProduct = new ByteArrayOutputStream();
+        imageStoreBitMap.compress(Bitmap.CompressFormat.JPEG, 100, byteArrayOutputStreamProduct);
+
+        imageProductByte = byteArrayOutputStreamProduct.toByteArray();
+
+        ContentValues contentValues = new ContentValues();
+
+        contentValues.put(COLUMN_PRODUCT_NAME, product_name);
+        contentValues.put(COLUMN_PRODUCT_QUALITY, product_quality);
+        contentValues.put(COLUMN_PRODUCT_UNIT, product_unit);
+        contentValues.put(COLUMN_PRODUCT_PRICE, product_price);
+        contentValues.put(COLUMN_PRODUCT_IMAGE, imageProductByte);
+        contentValues.put(F_PRODUCT_COLUMN_ID_TYPE_PRODUCT, type_product_id);
+        long result = db.update(TABLE_PRODUCT, contentValues, COLUMN_ID_PRODUCT + "= ?", new String[]{String.valueOf(product_id)});
+        if (result == -1) {
+            return false;
+        } else {
+            return true;
+        }
+    }
     //Product
 
 
@@ -599,6 +625,38 @@ public class SqlDatabaseHelper extends SQLiteOpenHelper {
             cursor = db.rawQuery(query,null);
         }
         return cursor;
+    }
+
+    public boolean deleteData_Bill(Integer bill_id){
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        long result = db.delete(TABLE_BILL,COLUMN_ID_BILL + "= ?", new String[] {String.valueOf(bill_id)});
+        if(result == -1){
+            return false;
+        }else{
+            return true;
+        }
+    }
+    public boolean updateData_Bill(Integer id_bill,String product_quality, String total_price, String bill_create_Day, String bill_create_Time, Integer type_product_id, Integer product_id) {
+
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        ContentValues contentValues = new ContentValues();
+
+        contentValues.put(COLUMN_BILL_QUALITY, product_quality);
+        contentValues.put(COLUMN_BILL_TOTAL_PRICE, total_price);
+        contentValues.put(COLUMN_BILL_CREATE_DAY, bill_create_Day);
+        contentValues.put(COLUMN_BILL_CREATE_TIME, bill_create_Time);
+        contentValues.put(F_BILL_COLUMN_ID_TYPE_PRODUCT, type_product_id);
+        contentValues.put(F_BILL_COLUMN_ID_PRODUCT, product_id);
+
+        long result = db.update(TABLE_BILL, contentValues, COLUMN_ID_BILL + "= ?", new String[]{String.valueOf(id_bill)});
+
+        if (result == -1) {
+            return false;
+        } else {
+            return true;
+        }
     }
     //Bill
 
@@ -722,7 +780,7 @@ public class SqlDatabaseHelper extends SQLiteOpenHelper {
     public boolean checkName_Promotion(Integer product_id){
 
         SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cursor = db.rawQuery("select "+ COLUMN_ID_PRODUCT +" from "+ TABLE_PRODUCT +" where "+ COLUMN_ID_PRODUCT +"  = ?", new String[] {String.valueOf(product_id)});
+        Cursor cursor = db.rawQuery("select "+ F_PROMOTION_COLUMN_ID_PRODUCT +" from "+ TABLE_PROMOTION +" where "+ F_PROMOTION_COLUMN_ID_PRODUCT +"  = ?", new String[] {String.valueOf(product_id)});
 
         if (cursor.getCount()>0){
             return true;

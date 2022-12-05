@@ -11,7 +11,6 @@ import android.os.Handler;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
-import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -27,8 +26,6 @@ import com.example.projectandroid.HelperClasses.SqlLite.SqlDatabaseHelper;
 import com.example.projectandroid.ProgessLoading;
 import com.example.projectandroid.R;
 import com.example.projectandroid.User.MProduct.TypeProduct.AddTypeProduct;
-import com.example.projectandroid.User.MShopping.CreateBill.CompleteCreateBill;
-import com.example.projectandroid.User.MShopping.CreateBill.CreateBill;
 import com.google.android.material.textfield.TextInputEditText;
 
 import java.text.ParseException;
@@ -36,7 +33,6 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.Locale;
 
 public class CreatePromotion extends AppCompatActivity {
 

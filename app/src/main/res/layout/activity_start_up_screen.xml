@@ -66,17 +66,17 @@
                 android:id="@+id/login_btn"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="Login"
                 android:layout_marginRight="10dp"
-                android:textStyle="bold"
                 android:layout_weight="1"
-                android:onClick="callLoginSrceen" />
+                android:onClick="callLoginSrceen"
+                android:text="Đăng Nhập"
+                android:textStyle="bold" />
 
             <Button
                 android:id="@+id/signup_btn"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="Sign Up"
+                android:text="Đăng Ký"
                 android:layout_marginLeft="10dp"
                 android:textStyle="bold"
                 android:layout_weight="1"
