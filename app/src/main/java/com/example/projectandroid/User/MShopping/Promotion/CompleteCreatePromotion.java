@@ -10,6 +10,7 @@ import android.widget.Button;
 
 import com.example.projectandroid.R;
 import com.example.projectandroid.User.DashBoard;
+import com.example.projectandroid.User.Shopping;
 
 public class CompleteCreatePromotion extends AppCompatActivity {
 
@@ -18,7 +19,6 @@ public class CompleteCreatePromotion extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getSupportActionBar().hide();
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
         setContentView(R.layout.activity_complete_create_promotion);
 
@@ -32,7 +32,7 @@ public class CompleteCreatePromotion extends AppCompatActivity {
         backtoDashboard.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getApplicationContext(), DashBoard.class);
+                Intent intent = new Intent(getApplicationContext(), Shopping.class);
                 startActivity(intent);
             }
         });

@@ -72,10 +72,10 @@
                     android:layout_marginBottom="10dp"/>
 
                 <TextView
-                    android:id="@+id/detail_promotion_type"
+                    android:id="@+id/detail_promotion_typeProduct"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Mã sản phẩm :"
+                    android:text="Loại Sản Phẩm"
                     android:textSize="20sp"
                     android:layout_below="@id/lb_typepromotion"
                     android:layout_centerHorizontal="true"/>
@@ -97,12 +97,37 @@
                     android:layout_marginBottom="10dp"/>
 
                 <TextView
-                    android:id="@+id/detail_promotion_name"
+                    android:id="@+id/detail_promotion_nameProduct"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Tên sản phẩm :"
+                    android:text="Tên sản phẩm"
                     android:textSize="20sp"
                     android:layout_below="@id/lb_namepromotion"
+                    android:layout_centerHorizontal="true"/>
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="10dp">
+
+                <TextView
+                    android:id="@+id/lb_priceproduct"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Giá Sản Phẩm Chưa Giảm (VNĐ) x 1000 :"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginBottom="10dp"/>
+
+                <TextView
+                    android:id="@+id/detail_promotion_priceBefore"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Giá Sản Phẩm Chưa Giảm"
+                    android:textSize="20sp"
+                    android:layout_below="@id/lb_priceproduct"
                     android:layout_centerHorizontal="true"/>
 
             </RelativeLayout>
@@ -125,7 +150,7 @@
                     android:id="@+id/detail_promotion_percent"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Số lượng :"
+                    android:text="Phần Trăm Giảm"
                     android:textSize="20sp"
                     android:layout_below="@id/lb_percentpromotion"
                     android:layout_centerHorizontal="true"/>
@@ -139,20 +164,20 @@
                 android:layout_marginBottom="10dp">
 
                 <TextView
-                    android:id="@+id/lb_startDaypromotion"
+                    android:id="@+id/lb_priceafter"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Ngày Bắt Đầu :"
+                    android:text="Giá Sản Phẩm Sau Khi Giảm (VNĐ) x 1000 :"
                     android:layout_centerHorizontal="true"
                     android:layout_marginBottom="10dp"/>
 
                 <TextView
-                    android:id="@+id/detail_promotion_startDay"
+                    android:id="@+id/detail_promotion_priceAfter"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Đơn Vị Tính :"
+                    android:text="Giá Sản Phẩm Sau Khi Giảm"
                     android:textSize="20sp"
-                    android:layout_below="@id/lb_startDaypromotion"
+                    android:layout_below="@id/lb_priceafter"
                     android:layout_centerHorizontal="true"/>
 
             </RelativeLayout>
@@ -164,10 +189,35 @@
                 android:layout_marginBottom="10dp">
 
                 <TextView
-                    android:id="@+id/lb_endDaypromotion"
+                    android:id="@+id/lb_startday"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Ngày Kết Thúc :"
+                    android:text="Ngày Bắt Đầu Giảm :"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginBottom="10dp"/>
+
+                <TextView
+                    android:id="@+id/detail_promotion_startDay"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Ngày Bắt Đầu Giảm:"
+                    android:textSize="20sp"
+                    android:layout_below="@id/lb_startday"
+                    android:layout_centerHorizontal="true"/>
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="10dp">
+
+                <TextView
+                    android:id="@+id/lb_endday"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Ngày Kết Thúc Giảm :"
                     android:layout_centerHorizontal="true"
                     android:layout_marginBottom="10dp"/>
 
@@ -175,37 +225,12 @@
                     android:id="@+id/detail_promotion_endDay"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Đơn Giá :"
+                    android:text="Ngày Kết Thúc Giảm"
                     android:textSize="20sp"
-                    android:layout_below="@id/lb_endDaypromotion"
+                    android:layout_below="@id/lb_endday"
                     android:layout_centerHorizontal="true"/>
 
             </RelativeLayout>
-
-<!--            <RelativeLayout-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:layout_marginTop="20dp"-->
-<!--                android:layout_marginBottom="10dp">-->
-
-<!--                <TextView-->
-<!--                    android:id="@+id/lb_priceAfter"-->
-<!--                    android:layout_width="wrap_content"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:text="Giá Sau Khi Giảm :"-->
-<!--                    android:layout_centerHorizontal="true"-->
-<!--                    android:layout_marginBottom="10dp"/>-->
-
-<!--                <TextView-->
-<!--                    android:id="@+id/detail_promotion_priceAfter"-->
-<!--                    android:layout_width="wrap_content"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:text="Đơn Giá :"-->
-<!--                    android:textSize="20sp"-->
-<!--                    android:layout_below="@id/lb_priceAfter"-->
-<!--                    android:layout_centerHorizontal="true"/>-->
-
-<!--            </RelativeLayout>-->
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -217,12 +242,12 @@
                     android:id="@+id/lb_imagesp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Hình Ảnh :"
+                    android:text="Hình Ảnh Sản Phẩm :"
                     android:layout_centerHorizontal="true"
                     android:layout_marginBottom="10dp"/>
 
                 <ImageView
-                    android:id="@+id/detail_promotion_image"
+                    android:id="@+id/detail_promotion_imageProduct"
                     android:layout_width="match_parent"
                     android:layout_height="300dp"
                     android:src="@drawable/image_test"

@@ -1,4 +1,4 @@
-package com.example.projectandroid.User.MProduct.ListProduct;
+package com.example.projectandroid.User.MProduct.ListTypeProduct;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
@@ -20,14 +20,17 @@ import android.widget.Toast;
 
 import com.example.projectandroid.HelperClasses.Product.ListProduct.ListProductAdapter;
 import com.example.projectandroid.HelperClasses.Product.ListProduct.ListProductHelperClass;
+import com.example.projectandroid.HelperClasses.Product.ListTypeProduct.ListTypeProductAdapter;
+import com.example.projectandroid.HelperClasses.Product.ListTypeProduct.ListTypeProductHelperClass;
 import com.example.projectandroid.HelperClasses.SqlLite.SqlDatabaseHelper;
 import com.example.projectandroid.R;
 import com.example.projectandroid.User.MProduct.AddProduct.AddProduct;
 import com.example.projectandroid.User.MProduct.TypeProduct.AddTypeProduct;
+import com.example.projectandroid.User.MShopping.ListBill.ListBill;
 
 import java.util.ArrayList;
 
-public class ListProduct extends AppCompatActivity {
+public class ListTypeProduct extends AppCompatActivity {
 
     ImageView btnBack;
     SQLiteDatabase sqLiteDatabase;
@@ -42,9 +45,10 @@ public class ListProduct extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
-        setContentView(R.layout.activity_list_product);
+        setContentView(R.layout.activity_list_type_product);
 
-        listProductRecycle = findViewById(R.id.List_Product_recycler);
+
+        listProductRecycle = findViewById(R.id.List_Type_Product_recycler);
         btnBack = findViewById(R.id.back_btn);
 
         db = new SqlDatabaseHelper(this);
@@ -53,30 +57,30 @@ public class ListProduct extends AppCompatActivity {
         btnBack();
         readData();
         ShowDiaLog();
+
     }
 
     private void readData() {
 
-        Cursor cursor = db.ReadData_Product();
-        ArrayList<ListProductHelperClass> listProductHelperClassArrayList = new ArrayList<>();
+        Cursor cursor = db.readData_TypeProduct();
+        ArrayList<ListTypeProductHelperClass> listTypeProductHelperClassArrayList = new ArrayList<>();
         if(cursor.getCount() == 0){
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
-                    ContentDia.setText("Chưa Có Sản Phẩm, Bạn Có Muốn Thêm Không?");
+                    ContentDia.setText("Chưa Có Loại Sản Phẩm, Bạn Có Muốn Thêm Không?");
                     dialog.show();
                 }
             },500);
         }else{
             while (cursor.moveToNext()) {
-                String productName = cursor.getString(1);
-                String productQuality = cursor.getString(2);
-                byte[] productImage = cursor.getBlob(5);
-                listProductHelperClassArrayList.add(new ListProductHelperClass(productName, productQuality, productImage));
+                String typeProductName = cursor.getString(1);
+                String typeProductDesc = cursor.getString(2);
+                listTypeProductHelperClassArrayList.add(new ListTypeProductHelperClass(typeProductName, typeProductDesc));
 
             }
-            ListProductAdapter listProductAdapter = new ListProductAdapter(this, R.layout.list_product_card_desgin, listProductHelperClassArrayList, sqLiteDatabase);
-            listProductRecycle.setAdapter(listProductAdapter);
+            ListTypeProductAdapter listTypeProductAdapter = new ListTypeProductAdapter(this, R.layout.list_type_product_card_desgin, listTypeProductHelperClassArrayList, sqLiteDatabase);
+            listProductRecycle.setAdapter(listTypeProductAdapter);
 
         }
 
@@ -84,10 +88,10 @@ public class ListProduct extends AppCompatActivity {
 
     public void ShowDiaLog() {
 
-        dialog = new Dialog(ListProduct.this);
+        dialog = new Dialog(ListTypeProduct.this);
         dialog.setContentView(R.layout.custom_dialog);
         dialog.getWindow().setBackgroundDrawable(getDrawable(R.drawable.bg_dialog));
-        dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT,ViewGroup.LayoutParams.WRAP_CONTENT);
+        dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         dialog.setCancelable(false);
 
         ConfirmBtnDia = dialog.findViewById(R.id.Confirm_dialog_btn);
@@ -97,19 +101,11 @@ public class ListProduct extends AppCompatActivity {
         ConfirmBtnDia.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getApplicationContext(), AddProduct.class);
+                Intent intent = new Intent(getApplicationContext(), AddTypeProduct.class);
                 startActivity(intent);
                 dialog.dismiss();
             }
         });
-
-        CancelBtnDia.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                dialog.dismiss();
-            }
-        });
-
     }
 
     private void btnBack() {
@@ -117,8 +113,9 @@ public class ListProduct extends AppCompatActivity {
         btnBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ListProduct.super.onBackPressed();
+                ListTypeProduct.super.onBackPressed();
             }
         });
+
     }
 }

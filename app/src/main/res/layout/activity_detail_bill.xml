@@ -33,7 +33,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Chi Tiết Sản Phẩm"
+            android:text="Chi Tiết Hóa Đơn"
             android:textStyle="bold"
             android:textSize="25sp"
             android:padding="10dp"
@@ -45,7 +45,9 @@
         android:layout_width="wrap_content"
         android:layout_height="2dp"
         android:layout_marginTop="5dp"
-        android:background="#5E5D5D"/>
+        android:background="#5E5D5D"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"/>
 
     <ScrollView
         android:layout_width="match_parent"
@@ -61,26 +63,171 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="10dp">
+                android:layout_marginBottom="20dp">
 
                 <TextView
-                    android:id="@+id/lb_namebill"
+                    android:id="@+id/lb_typeproduct"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Tên Bill :"
+                    android:text="Loại Sản Phẩm :"
                     android:layout_centerHorizontal="true"
                     android:layout_marginBottom="10dp"/>
 
                 <TextView
-                    android:id="@+id/detail_bill_name"
+                    android:id="@+id/detail_bill_typeProduct"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Mã sản phẩm :"
+                    android:text="Loại sản phẩm"
                     android:textSize="20sp"
-                    android:layout_below="@id/lb_namebill"
+                    android:layout_below="@id/lb_typeproduct"
                     android:layout_centerHorizontal="true"/>
 
             </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="20dp">
+
+                <TextView
+                    android:id="@+id/lb_nameproduct"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Tên Sản Phẩm :"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginBottom="10dp"/>
+
+                <TextView
+                    android:id="@+id/detail_bill_nameProduct"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Tên sản phẩm"
+                    android:textSize="20sp"
+                    android:layout_below="@id/lb_nameproduct"
+                    android:layout_centerHorizontal="true"/>
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="20dp">
+
+                <TextView
+                    android:id="@+id/lb_priceproduct"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Giá Sản Phẩm (VNĐ) x 1000 :"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginBottom="10dp"/>
+
+                <TextView
+                    android:id="@+id/detail_bill_priceProduct"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Giá Sản Phẩm"
+                    android:textSize="20sp"
+                    android:layout_below="@id/lb_priceproduct"
+                    android:layout_centerHorizontal="true"/>
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="20dp">
+
+                <TextView
+                    android:id="@+id/lb_qualityproduct"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Số Lượng :"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginBottom="10dp"/>
+
+                <TextView
+                    android:id="@+id/detail_bill_qualityProduct"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Số Lượng"
+                    android:textSize="20sp"
+                    android:layout_below="@id/lb_qualityproduct"
+                    android:layout_centerHorizontal="true"/>
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="20dp">
+
+                <TextView
+                    android:id="@+id/lb_totalbill"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Thành Tiền (VNĐ) x 1000 :"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginBottom="10dp"/>
+
+                <TextView
+                    android:id="@+id/detail_bill_TotalPriceBill"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Thành Tiền"
+                    android:textSize="20sp"
+                    android:layout_below="@id/lb_totalbill"
+                    android:layout_centerHorizontal="true"/>
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="20dp">
+
+                <TextView
+                    android:id="@+id/lb_CreateDaybill"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Ngày Tạo Hóa Đơn :"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginBottom="10dp"/>
+
+                <TextView
+                    android:id="@+id/detail_bill_CreateDayBill"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Ngày tạo hóa đơn"
+                    android:textSize="20sp"
+                    android:layout_below="@id/lb_CreateDaybill"
+                    android:layout_centerHorizontal="true"/>
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="20dp">
+
+                <TextView
+                    android:id="@+id/lb_CreateTimebill"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Thời Gian Tạo Hóa Đơn :"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginBottom="10dp"/>
+
+                <TextView
+                    android:id="@+id/detail_bill_CreateTimeBill"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Thời gian tạo hóa đơn"
+                    android:textSize="20sp"
+                    android:layout_below="@id/lb_CreateTimebill"
+                    android:layout_centerHorizontal="true"/>
+
+            </RelativeLayout>
+
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -89,44 +236,19 @@
                 android:layout_marginBottom="10dp">
 
                 <TextView
-                    android:id="@+id/lb_createdayproduct"
+                    android:id="@+id/lb_imageproduct"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Ngày Lập :"
-                    android:layout_centerHorizontal="true"
-                    android:layout_marginBottom="10dp"/>
-
-                <TextView
-                    android:id="@+id/detail_bill_create_day"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Tên sản phẩm :"
-                    android:textSize="20sp"
-                    android:layout_below="@id/lb_createdayproduct"
-                    android:layout_centerHorizontal="true"/>
-
-            </RelativeLayout>
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:layout_marginBottom="10dp">
-
-                <TextView
-                    android:id="@+id/lb_imagebill"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Hình Ảnh :"
+                    android:text="Hình Ảnh Sản Phẩm :"
                     android:layout_centerHorizontal="true"
                     android:layout_marginBottom="10dp"/>
 
                 <ImageView
-                    android:id="@+id/detail_bill_image"
+                    android:id="@+id/detail_bill_imageProduct"
                     android:layout_width="match_parent"
                     android:layout_height="300dp"
                     android:src="@drawable/image_test"
-                    android:layout_below="@id/lb_imagebill"
+                    android:layout_below="@id/lb_imageproduct"
                     android:layout_centerHorizontal="true"/>
 
             </RelativeLayout>

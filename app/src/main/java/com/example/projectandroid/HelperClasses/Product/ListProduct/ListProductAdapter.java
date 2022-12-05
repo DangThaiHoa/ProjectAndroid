@@ -1,4 +1,4 @@
-package com.example.projectandroid.HelperClasses.Product;
+package com.example.projectandroid.HelperClasses.Product.ListProduct;
 
 import android.content.Context;
 import android.content.Intent;
@@ -6,7 +6,6 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,8 +25,8 @@ import java.util.ArrayList;
 public class ListProductAdapter extends RecyclerView.Adapter<ListProductAdapter.ListProductViewHolder> {
 
     private Context context;
-    ArrayList<ListProductHelperClass> listProductHelperClassArrayList;
     int singleData;
+    ArrayList<ListProductHelperClass> listProductHelperClassArrayList;
     SQLiteDatabase SQLdb;
     SqlDatabaseHelper db;
 

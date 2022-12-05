@@ -8,11 +8,10 @@
     android:orientation="vertical"
     android:layout_margin="10dp">
 
-    <RelativeLayout
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/detail_product_toolBar"
         android:layout_width="match_parent"
-        android:layout_height="?actionBarSize"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp">
+        android:layout_height="?actionBarSize">
 
         <ImageView
             android:id="@+id/back_btn"
@@ -22,7 +21,7 @@
             android:layout_centerVertical="true"
             android:padding="15dp"/>
 
-    </RelativeLayout>
+    </androidx.appcompat.widget.Toolbar>
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -169,7 +168,7 @@
                     android:id="@+id/lb_pricesp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Đơn Giá :"
+                    android:text="Đơn Giá (VNĐ) x 1000 :"
                     android:layout_centerHorizontal="true"
                     android:layout_marginBottom="10dp"/>
 

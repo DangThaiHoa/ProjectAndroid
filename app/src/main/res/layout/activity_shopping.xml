@@ -136,7 +136,7 @@
                     android:layout_height="wrap_content"
                     android:padding="10dp"
                     android:textAlignment="center"
-                    android:text="Khuyến Mãi"
+                    android:text="Tạo Khuyến Mãi"
                     android:layout_alignParentBottom="true"
                     android:textSize="20sp" />
 

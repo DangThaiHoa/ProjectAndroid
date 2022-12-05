@@ -31,7 +31,8 @@
             android:layout_height="wrap_content"
             android:text="Tạo Khuyến Mãi"
             android:textStyle="bold"
-            android:textSize="35sp"
+            android:textSize="25sp"
+            android:padding="10dp"
             android:textAllCaps="true"/>
 
     </RelativeLayout>
@@ -57,7 +58,7 @@
                 app:endIconMode="dropdown_menu"
                 android:layout_marginBottom="10dp">
                 <AutoCompleteTextView
-                    android:id="@+id/type_product_createPromation"
+                    android:id="@+id/type_product_createPromotion"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="none"
@@ -74,7 +75,7 @@
                 app:endIconMode="dropdown_menu"
                 android:layout_marginBottom="10dp">
                 <AutoCompleteTextView
-                    android:id="@+id/name_product_createPromation"
+                    android:id="@+id/name_product_createPromotion"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="none"
@@ -86,16 +87,17 @@
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Đơn Giá"
+                android:hint="Đơn Giá (VNĐ) x 1000"
                 app:boxStrokeWidthFocused="2dp"
                 app:endIconMode="clear_text">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/price_product_createPromation"
+                    android:id="@+id/price_product_createPromotion"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:fontFamily="@font/muli_black"
                     android:inputType="text"
+                    android:focusableInTouchMode="false"
                     android:layout_marginBottom="10dp"/>
 
             </com.google.android.material.textfield.TextInputLayout>
@@ -109,47 +111,48 @@
                 app:endIconMode="clear_text">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/percent_product_createPromotion"
+                    android:id="@+id/percent_createPromotion"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:fontFamily="@font/muli_black"
-                    android:inputType="text"
+                    android:inputType="number"
                     android:layout_marginBottom="10dp"/>
 
             </com.google.android.material.textfield.TextInputLayout>
 
-<!--        <LinearLayout-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:orientation="vertical"-->
-<!--            android:layout_marginTop="20dp">-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginTop="20dp">
 
-<!--            <TextView-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:text="Giá Sau Khi Giảm"-->
-<!--                android:fontFamily="@font/muli_black"-->
-<!--                android:textSize="18sp"-->
-<!--                android:gravity="center_horizontal"/>-->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Giá Sau Khi Giảm (VNĐ) x 1000"
+                android:fontFamily="@font/muli_black"
+                android:textSize="18sp"
+                android:gravity="center_horizontal"/>
 
-<!--            <com.google.android.material.textfield.TextInputLayout-->
-<!--                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                app:boxStrokeWidthFocused="2dp"-->
-<!--                app:endIconMode="clear_text">-->
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:boxStrokeWidthFocused="2dp"
+                app:endIconMode="clear_text">
 
-<!--                <com.google.android.material.textfield.TextInputEditText-->
-<!--                    android:id="@+id/priceAfter_product_createPromotion"-->
-<!--                    android:layout_width="match_parent"-->
-<!--                    android:layout_height="match_parent"-->
-<!--                    android:fontFamily="@font/muli_black"-->
-<!--                    android:inputType="text"-->
-<!--                    android:layout_marginBottom="10dp"/>-->
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/priceAfter_createPromotion"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginBottom="10dp"
+                    android:fontFamily="@font/muli_black"
+                    android:focusableInTouchMode="false"
+                    android:inputType="numberDecimal" />
 
-<!--            </com.google.android.material.textfield.TextInputLayout>-->
+            </com.google.android.material.textfield.TextInputLayout>
 
-<!--        </LinearLayout>-->
+        </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -167,7 +170,7 @@
                     android:gravity="center_horizontal"/>
 
                 <DatePicker
-                    android:id="@+id/startDay_product_createPromotion"
+                    android:id="@+id/startDay_createPromotion"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:calendarViewShown="false"
@@ -193,7 +196,7 @@
                 android:gravity="center_horizontal"/>
 
             <DatePicker
-                android:id="@+id/endDay_product_createPromotion"
+                android:id="@+id/endDay_createPromotion"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:calendarViewShown="false"

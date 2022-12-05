@@ -4,24 +4,37 @@ import java.io.Serializable;
 
 public class ListBillHelperClass implements Serializable {
 
-    int image;
-    String nameBill,createDay;
+    private byte[] imageBill;
+    String nameBill,createDayBill,qualityBill;
+    int idBill;
 
-    public ListBillHelperClass(int image, String nameBill, String createDay) {
-        this.image = image;
+
+    public ListBillHelperClass(String nameBill, String qualityBill, String createDayBill, byte[] imageBill, int idBill) {
+        this.imageBill = imageBill;
         this.nameBill = nameBill;
-        this.createDay = createDay;
+        this.qualityBill = qualityBill;
+        this.createDayBill = createDayBill;
+        this.idBill = idBill;
+
     }
 
-    public int getImage() {
-        return image;
+    public byte[] getImageBill() {
+        return imageBill;
     }
 
     public String getNameBill() {
         return nameBill;
     }
 
-    public String getCreateDay() {
-        return createDay;
+    public String getCreateDayBill() {
+        return createDayBill;
+    }
+
+    public String getQualityBill() {
+        return qualityBill;
+    }
+
+    public Integer getIdBill() {
+        return idBill;
     }
 }

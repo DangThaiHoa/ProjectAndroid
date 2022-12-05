@@ -46,7 +46,6 @@ public class SignUp extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getSupportActionBar().hide();
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
         setContentView(R.layout.activity_sign_up);
 
@@ -84,7 +83,7 @@ public class SignUp extends AppCompatActivity {
                 int Day = age.getDayOfMonth();
                 int Month = age.getMonth();
                 int Year = age.getYear();
-                String gAge = Year + "-" + Month + "-" + Day;
+                String gAge = Month + 1 + "/" + Day  + "/" + Year;
 
                 if (gName.isEmpty() || gUserName.isEmpty() || gPassword.isEmpty() || grePassword.isEmpty() || gEmail.isEmpty() || gPhone.isEmpty() || gGender.isEmpty() || gAge.isEmpty()) {
 

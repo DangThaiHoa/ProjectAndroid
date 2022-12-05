@@ -17,6 +17,7 @@ import android.widget.RelativeLayout;
 
 import com.example.projectandroid.R;
 import com.example.projectandroid.User.MProduct.AddProduct.AddProduct;
+import com.example.projectandroid.User.MProduct.ListTypeProduct.ListTypeProduct;
 import com.example.projectandroid.User.MProduct.TypeProduct.AddTypeProduct;
 import com.example.projectandroid.User.MProduct.ListProduct.ListProduct;
 import com.example.projectandroid.User.Profile.Profile;
@@ -29,12 +30,11 @@ public class Product extends AppCompatActivity implements NavigationView.OnNavig
     ImageView menuIcon;
 
     LinearLayout contentView;
-    RelativeLayout addProuct, listProduct, typeProduct ;
+    RelativeLayout addProduct, listProduct, typeProduct,listTypeProduct ;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getSupportActionBar().hide();
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
         setContentView(R.layout.activity_product);
 
@@ -44,16 +44,29 @@ public class Product extends AppCompatActivity implements NavigationView.OnNavig
         drawerLayout = findViewById(R.id.drawer_layout);
         navigationView = findViewById(R.id.navigation_view);
 
-        addProuct = findViewById(R.id.Add_Product_btn);
+        addProduct = findViewById(R.id.Add_Product_btn);
         listProduct = findViewById(R.id.List_Product_btn);
         typeProduct = findViewById(R.id.Type_Product_btn);
+        listTypeProduct = findViewById(R.id.List_Type_Product_btn);
 
         navigationDrawer();
 
-        addProuct();
+        addProduct();
         listProduct();
         typeProduct();
+        listTypeProduct();
 
+    }
+
+    private void listTypeProduct() {
+
+        listTypeProduct.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getApplicationContext(), ListTypeProduct.class);
+                startActivity(intent);
+            }
+        });
     }
 
     private void typeProduct() {
@@ -80,9 +93,9 @@ public class Product extends AppCompatActivity implements NavigationView.OnNavig
 
     }
 
-    private void addProuct() {
+    private void addProduct() {
 
-        addProuct.setOnClickListener(new View.OnClickListener() {
+        addProduct.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(getApplicationContext(), AddProduct.class);

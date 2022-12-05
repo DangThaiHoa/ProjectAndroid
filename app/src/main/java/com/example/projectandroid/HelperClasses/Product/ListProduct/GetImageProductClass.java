@@ -1,4 +1,4 @@
-package com.example.projectandroid.HelperClasses.Product;
+package com.example.projectandroid.HelperClasses.Product.ListProduct;
 
 import android.graphics.Bitmap;
 

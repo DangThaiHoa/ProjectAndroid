@@ -1,5 +1,10 @@
 package com.example.projectandroid.HelperClasses.Shopping.ListPromotion;
 
+import android.content.Context;
+import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,67 +14,79 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.example.projectandroid.HelperClasses.Shopping.ListBill.ListBillAdapter;
+import com.example.projectandroid.HelperClasses.Shopping.ListBill.ListBillHelperClass;
+import com.example.projectandroid.HelperClasses.SqlLite.SqlDatabaseHelper;
 import com.example.projectandroid.R;
+import com.example.projectandroid.User.MShopping.ListPromotion.DetailPromotion;
 
 import java.util.ArrayList;
 
 public class ListPromotionAdapter extends  RecyclerView.Adapter<ListPromotionAdapter.ListPromotionViewHolder>{
 
-    private ListPromotionInterface listProductInterface;
+    private Context context;
+    int singleData;
+    ArrayList<ListPromotionHelperClass> listPromotionHelperClassArrayList;
+    SQLiteDatabase SQLdb;
 
-    ArrayList<ListPromotionHelperClass> lPromotionLocation;
-
-    public ListPromotionAdapter(ArrayList<ListPromotionHelperClass> lPromotionLocation, ListPromotionInterface listProductInterface) {
-        this.lPromotionLocation = lPromotionLocation;
-        this.listProductInterface = listProductInterface;
+    public ListPromotionAdapter(Context context, int singleData, ArrayList<ListPromotionHelperClass> listPromotionHelperClassArrayList, SQLiteDatabase SQLdb) {
+        this.context = context;
+        this.singleData = singleData;
+        this.listPromotionHelperClassArrayList = listPromotionHelperClassArrayList;
+        this.SQLdb = SQLdb;
     }
 
     @NonNull
     @Override
     public ListPromotionViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_promotion_card_desgin,parent,false);
-        ListPromotionViewHolder listPromotionViewHolder = new ListPromotionViewHolder(view);
-        return listPromotionViewHolder;
+        LayoutInflater inflater = LayoutInflater.from(context);
+        View view = inflater.inflate(R.layout.list_promotion_card_desgin,null);
+        return new ListPromotionViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull ListPromotionViewHolder holder, int position) {
 
-        ListPromotionHelperClass listPromotionHelperClass = lPromotionLocation.get(position);
+        final ListPromotionHelperClass listPromotionHelperClass = listPromotionHelperClassArrayList.get(position);
+        byte[] image = listPromotionHelperClass.getImagePromotion();
+        Bitmap bitmap = BitmapFactory.decodeByteArray(image, 0, image.length);
+            holder.TextNPromotion.setText(listPromotionHelperClass.getNamePromotion());
+            holder.TextPPromotion.setText(listPromotionHelperClass.getPresentPromotion());
+            holder.TextSPromotion.setText(listPromotionHelperClass.getStartDayPromotion());
+            holder.TextEPromotion.setText(listPromotionHelperClass.getEndDayPromotion());
+            holder.ImagePromotion.setImageBitmap(bitmap);
 
-        holder.ImagePromotion.setImageResource(listPromotionHelperClass.getImage());
-        holder.TextPPromotion.setText(listPromotionHelperClass.getPresent());
-        holder.TextSPromotion.setText((CharSequence) listPromotionHelperClass.getStartDay());
-        holder.TextEPromotion.setText((CharSequence) listPromotionHelperClass.getEndDay());
+            holder.DetailPromotion_btn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Integer promotion_ID = listPromotionHelperClass.getIdPromotion();
+                    Intent intent = new Intent(context, DetailPromotion.class);
+                    intent.putExtra("Id_Promotion", promotion_ID);
+                    context.startActivity(intent);
+                }
+            });
 
-        holder.DetailPromotion_btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                listProductInterface.onClickItemPromotion(listPromotionHelperClass);
-            }
-        });
     }
 
     @Override
     public int getItemCount() {
-        if(lPromotionLocation != null){
-            return lPromotionLocation.size();
-        }
-        return 0;
+        return listPromotionHelperClassArrayList.size();
     }
 
     public class ListPromotionViewHolder extends RecyclerView.ViewHolder{
 
         RelativeLayout DetailPromotion_btn;
         ImageView ImagePromotion;
-        TextView TextPPromotion, TextSPromotion, TextEPromotion;
+        TextView TextPPromotion, TextSPromotion, TextEPromotion, TextNPromotion;
 
         public ListPromotionViewHolder(@NonNull View itemView) {
             super(itemView);
 
             DetailPromotion_btn = itemView.findViewById(R.id.Detail_promotion);
             ImagePromotion = itemView.findViewById(R.id.img_Promotion);
-            TextPPromotion = itemView.findViewById(R.id.Txv_PercentPromotion);
+            TextNPromotion = itemView.findViewById(R.id.Txv_nameProduct);
+            TextPPromotion = itemView.findViewById(R.id.Txv_percentPromotion);
             TextSPromotion = itemView.findViewById(R.id.Txv_startDayPromotion);
             TextEPromotion = itemView.findViewById(R.id.Txv_endDayPromotion);
 

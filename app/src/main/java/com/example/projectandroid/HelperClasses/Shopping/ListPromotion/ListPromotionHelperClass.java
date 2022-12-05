@@ -4,29 +4,40 @@ import java.io.Serializable;
 
 public class ListPromotionHelperClass implements Serializable {
 
-    int image;
-    String present,startDay,endDay;
+    byte[] imagePromotion;
+    String namePromotion,presentPromotion,startDayPromotion,endDayPromotion;
+    int idPromotion;
 
-    public ListPromotionHelperClass(int image, String present, String startDay, String endDay) {
-        this.image = image;
-        this.present = present;
-        this.startDay = startDay;
-        this.endDay = endDay;
+    public ListPromotionHelperClass(String namePromotion, String presentPromotion, String startDayPromotion, String endDayPromotion, byte[] imagePromotion, Integer idPromotion) {
+        this.imagePromotion = imagePromotion;
+        this.namePromotion = namePromotion;
+        this.presentPromotion = presentPromotion;
+        this.startDayPromotion = startDayPromotion;
+        this.endDayPromotion = endDayPromotion;
+        this.idPromotion = idPromotion;
     }
 
-    public int getImage() {
-        return image;
+    public byte[] getImagePromotion() {
+        return imagePromotion;
     }
 
-    public String getPresent() {
-        return present;
+    public String getNamePromotion() {
+        return namePromotion;
     }
 
-    public String getStartDay() {
-        return startDay;
+    public String getPresentPromotion() {
+        return presentPromotion;
     }
 
-    public String getEndDay() {
-        return endDay;
+    public String getStartDayPromotion() {
+        return startDayPromotion;
+    }
+
+    public String getEndDayPromotion() {
+        return endDayPromotion;
+    }
+
+    public Integer getIdPromotion() {
+        return idPromotion;
     }
 }

@@ -10,6 +10,7 @@ import android.widget.Button;
 
 import com.example.projectandroid.R;
 import com.example.projectandroid.User.DashBoard;
+import com.example.projectandroid.User.Product;
 
 public class CompleteAddProduct extends AppCompatActivity {
 
@@ -18,7 +19,6 @@ public class CompleteAddProduct extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getSupportActionBar().hide();
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
         setContentView(R.layout.activity_complete_add_product);
 
@@ -32,7 +32,7 @@ public class CompleteAddProduct extends AppCompatActivity {
         backtoDashboard.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getApplicationContext(), DashBoard.class);
+                Intent intent = new Intent(getApplicationContext(), Product.class);
                 startActivity(intent);
             }
         });

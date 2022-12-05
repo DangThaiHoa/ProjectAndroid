@@ -16,6 +16,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.provider.MediaStore;
+import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
@@ -25,11 +26,12 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.projectandroid.HelperClasses.Product.GetImageProductClass;
+import com.example.projectandroid.HelperClasses.Product.ListProduct.GetImageProductClass;
 import com.example.projectandroid.HelperClasses.SqlLite.SqlDatabaseHelper;
 import com.example.projectandroid.ProgessLoading;
 import com.example.projectandroid.R;
 import com.example.projectandroid.User.MProduct.TypeProduct.AddTypeProduct;
+import com.google.android.material.textfield.TextInputEditText;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -42,7 +44,7 @@ public class AddProduct extends AppCompatActivity {
 
     ImageView btnBack, ImageProduct;
     Button ConfirmBtn, choseImageBtn;
-    TextView NameProduct, QualityProduct, UnitProduct, PriceProduct;
+    TextInputEditText NameProduct, QualityProduct, UnitProduct, PriceProduct;
 
     SqlDatabaseHelper db;
 
@@ -63,7 +65,6 @@ public class AddProduct extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getSupportActionBar().hide();
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
         setContentView(R.layout.activity_add_product);
 
@@ -87,7 +88,7 @@ public class AddProduct extends AppCompatActivity {
 
         getCamera = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), new ActivityResultCallback<ActivityResult>() {
             @Override
-            public void onActivityResult(ActivityResult  result) {
+            public void onActivityResult(ActivityResult result) {
 
                 try {
                     imageToStore = MediaStore.Images.Media.getBitmap(getContentResolver(),camUri);
@@ -124,15 +125,15 @@ public class AddProduct extends AppCompatActivity {
 
                 } else {
 
-                    String gIDTypeProduct = null;
+                    Integer gIDTypeProduct = null;
                     String gProductName = NameProduct.getText().toString();
                     String gProductQuality = QualityProduct.getText().toString();
                     String gProductUnit = UnitProduct.getText().toString();
                     String gProductPrice = PriceProduct.getText().toString();
                     while (cursor.moveToNext()) {
-                        gIDTypeProduct = cursor.getString(0);
+                        gIDTypeProduct = cursor.getInt(0);
                     }
-                    if (gIDTypeProduct.isEmpty() || gProductName.isEmpty() || gProductQuality.isEmpty() || gProductUnit.isEmpty() || gProductPrice.isEmpty() || ImageProduct.getDrawable() == null || imageToStore == null || gIDTypeProduct.isEmpty()) {
+                    if (gIDTypeProduct == 0 || gProductName.isEmpty() || gProductQuality.isEmpty() || gProductUnit.isEmpty() || gProductPrice.isEmpty() || ImageProduct.getDrawable() == null || imageToStore == null) {
 
                         Toast.makeText(AddProduct.this, "Vui Lòng Nhập Đầy Đủ Thông Tin", Toast.LENGTH_SHORT).show();
 
@@ -179,9 +180,15 @@ public class AddProduct extends AppCompatActivity {
                             }, 2000);
 
                         }
-
                     }
                 }
+            }
+        });
+
+        TypeProduct.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                loadDataTypeProduct();
             }
         });
 

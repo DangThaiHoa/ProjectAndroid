@@ -17,77 +17,38 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginRight="20dp"
-            android:layout_marginLeft="60dp">
+            android:layout_marginLeft="20dp">
 
             <ImageView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:src="@drawable/bg_card_list_product"
+                android:src="@drawable/bg_card_list_type_product"
                 android:alpha="0.5"
                 app:tint="#77000000" />
 
             <ImageView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginBottom="2dp"
                 android:layout_marginRight="2dp"
-                android:src="@drawable/bg_card_list_product"/>
-
-        </RelativeLayout>
-
-        <ImageView
-            android:id="@+id/img_Product"
-            android:layout_width="120dp"
-            android:layout_height="match_parent"
-            android:src="@drawable/image_test"
-            android:paddingRight="15dp"/>
-
-        <RelativeLayout
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_centerVertical="true"
-            android:layout_alignParentRight="true">
-
-            <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:src="@drawable/bg_icon_list_detail"
-                android:alpha="0.1"
-                app:tint="#77000000" />
-
-            <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginBottom="1dp"
-                android:layout_marginRight="1dp"
-                android:layout_marginLeft="1dp"
-                android:src="@drawable/bg_icon_list_detail"/>
-
-            <ImageView
-                android:id="@+id/detail_Product"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:src="@drawable/ic_baseline_keyboard_arrow_right_24"
-                android:padding="5dp"
-                app:tint="@color/mainColor" />
+                android:layout_marginBottom="2dp"
+                android:src="@drawable/bg_card_list_type_product" />
 
         </RelativeLayout>
 
         <LinearLayout
             android:id="@+id/Rname"
             android:layout_width="match_parent"
-            android:layout_height="50dp"
+            android:layout_height="30dp"
             android:orientation="vertical"
-            android:layout_marginLeft="120dp">
+            android:layout_marginLeft="20dp">
 
             <TextView
-                android:id="@+id/Txv_NameProduct"
+                android:id="@+id/Txv_TypeNameProduct"
                 android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_weight="1"
-                android:text="Tên Sản Phẩm"
+                android:layout_height="30dp"
+                android:text="Tên Loại Sản Phẩm"
                 android:textSize="20sp"
-                android:gravity="bottom"
+                android:gravity="center"
                 android:fontFamily="@font/muli_black"
                 android:textAllCaps="true"
                 android:paddingBottom="1dp"
@@ -96,19 +57,21 @@
         </LinearLayout>
 
         <RelativeLayout
-            android:id="@+id/Rquality"
+            android:id="@+id/Rdesc"
             android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_marginLeft="120dp"
+            android:layout_height="70dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
             android:layout_below="@+id/Rname">
 
 
             <TextView
-                android:id="@+id/lb_quality"
+                android:id="@+id/lb_desc"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Số Lượng:"
-                android:layout_centerVertical="true"
+                android:text="Mô Tả:"
+                android:layout_marginLeft="5dp"
+                android:layout_marginTop="5dp"
                 android:textSize="13sp"
                 android:fontFamily="@font/muli_black"
                 android:textAllCaps="true"
@@ -116,13 +79,13 @@
                 android:textColor="#000"/>
 
             <TextView
-                android:id="@+id/Txv_QualityProduct"
+                android:id="@+id/Txv_DescTypeProduct"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_toRightOf="@+id/lb_quality"
-                android:text="Số Lượng"
+                android:layout_toRightOf="@+id/lb_desc"
+                android:text="Mô Tả"
                 android:layout_marginLeft="10dp"
-                android:layout_centerVertical="true"
+                android:layout_marginTop="5dp"
                 android:textSize="13sp"
                 android:fontFamily="@font/muli_black"
                 android:textAllCaps="true"
