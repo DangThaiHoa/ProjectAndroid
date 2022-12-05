@@ -637,6 +637,7 @@ public class SqlDatabaseHelper extends SQLiteOpenHelper {
             return true;
         }
     }
+
     public boolean updateData_Bill(Integer id_bill,String product_quality, String total_price, String bill_create_Day, String bill_create_Time, Integer type_product_id, Integer product_id) {
 
         SQLiteDatabase db = this.getWritableDatabase();
@@ -788,6 +789,39 @@ public class SqlDatabaseHelper extends SQLiteOpenHelper {
             return false;
         }
 
+    }
+
+    public boolean deleteData_Promotion(Integer promotion_id){
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        long result = db.delete(TABLE_PROMOTION,COLUMN_ID_PROMOTION + "= ?", new String[] {String.valueOf(promotion_id)});
+        if(result == -1){
+            return false;
+        }else{
+            return true;
+        }
+    }
+
+    public boolean updateData_Promotion(Integer promotion_id, String promotion_percent, String promotion_price_after, String promotion_start_day, String promotion_end_day, Integer type_product_id, Integer product_id ){
+
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        ContentValues contentValues = new ContentValues();
+
+        contentValues.put(COLUMN_PROMOTION_PERCENT,promotion_percent);
+        contentValues.put(COLUMN_PROMOTION_PRICE_AFTER,promotion_price_after);
+        contentValues.put(COLUMN_PROMOTION_START_DAY,promotion_start_day);
+        contentValues.put(COLUMN_PROMOTION_END_DAY,promotion_end_day);
+        contentValues.put(F_PROMOTION_COLUMN_ID_TYPE_PRODUCT,type_product_id);
+        contentValues.put(F_PROMOTION_COLUMN_ID_PRODUCT,product_id);
+
+        long result = db.update(TABLE_PROMOTION, contentValues, COLUMN_ID_PROMOTION + "= ?", new String[] {String.valueOf(promotion_id)});
+
+        if(result == -1){
+            return false;
+        }else{
+            return true;
+        }
     }
     //Promotion
 }

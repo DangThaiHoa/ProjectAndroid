@@ -14,7 +14,8 @@
         android:orientation="vertical"
         android:padding="10dp">
 
-        <RelativeLayout
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/detail_promotion_toolBar"
             android:layout_width="match_parent"
             android:layout_height="?actionBarSize">
 
@@ -26,7 +27,7 @@
                 android:layout_centerVertical="true"
                 android:padding="15dp"/>
 
-        </RelativeLayout>
+        </androidx.appcompat.widget.Toolbar>
 
         <RelativeLayout
             android:layout_width="match_parent"

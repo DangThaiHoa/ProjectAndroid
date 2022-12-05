@@ -1,4 +1,4 @@
-package com.example.projectandroid.User.MShopping.Promotion;
+package com.example.projectandroid.User.MShopping.CreatePromotion;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
@@ -9,7 +9,6 @@ import android.view.View;
 import android.widget.Button;
 
 import com.example.projectandroid.R;
-import com.example.projectandroid.User.DashBoard;
 import com.example.projectandroid.User.Shopping;
 
 public class CompleteCreatePromotion extends AppCompatActivity {

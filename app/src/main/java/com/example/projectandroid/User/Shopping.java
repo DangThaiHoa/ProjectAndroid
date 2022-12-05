@@ -19,7 +19,7 @@ import com.example.projectandroid.R;
 import com.example.projectandroid.User.MShopping.CreateBill.CreateBill;
 import com.example.projectandroid.User.MShopping.ListBill.ListBill;
 import com.example.projectandroid.User.MShopping.ListPromotion.ListPromotion;
-import com.example.projectandroid.User.MShopping.Promotion.CreatePromotion;
+import com.example.projectandroid.User.MShopping.CreatePromotion.CreatePromotion;
 import com.example.projectandroid.User.Profile.Profile;
 import com.google.android.material.navigation.NavigationView;
 

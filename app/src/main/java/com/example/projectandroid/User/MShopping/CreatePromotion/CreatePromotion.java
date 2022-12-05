@@ -1,4 +1,4 @@
-package com.example.projectandroid.User.MShopping.Promotion;
+package com.example.projectandroid.User.MShopping.CreatePromotion;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
@@ -9,6 +9,7 @@ import android.database.Cursor;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.Editable;
+import android.text.InputFilter;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.View;
@@ -23,6 +24,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.projectandroid.HelperClasses.SqlLite.SqlDatabaseHelper;
+import com.example.projectandroid.MinMaxValueFilter;
 import com.example.projectandroid.ProgessLoading;
 import com.example.projectandroid.R;
 import com.example.projectandroid.User.MProduct.TypeProduct.AddTypeProduct;
@@ -73,6 +75,8 @@ public class CreatePromotion extends AppCompatActivity {
         StartDay = findViewById(R.id.startDay_createPromotion);
         EndDay = findViewById(R.id.endDay_createPromotion);
 
+        PercentPromotion.setFilters( new InputFilter[] { new MinMaxValueFilter("0", "100")});
+
         TypeProduct.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
@@ -103,6 +107,8 @@ public class CreatePromotion extends AppCompatActivity {
             public void onClick(View view) {
                 if (TextUtils.isEmpty(TypeProduct.getText().toString())) {
                     Toast.makeText(CreatePromotion.this, "Vui Lòng Chọn Loại Sản Phẩm", Toast.LENGTH_SHORT).show();
+                }else{
+                    PercentPromotion.setFocusableInTouchMode(true);
                 }
             }
         });
@@ -111,6 +117,15 @@ public class CreatePromotion extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 loadDataPriceProduct(NameProduct.getText().toString());
+            }
+        });
+        
+        PercentPromotion.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(NameProduct.getText().toString().length() == 0){
+                    Toast.makeText(CreatePromotion.this, "Vui Lòng Chọn Sản Phẩm Trước Khi Nhập Phầm Trăm Giảm Giá", Toast.LENGTH_SHORT).show();
+                }
             }
         });
 
