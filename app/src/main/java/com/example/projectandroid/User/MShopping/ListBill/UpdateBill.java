@@ -22,6 +22,7 @@ import android.widget.Toast;
 import com.example.projectandroid.HelperClasses.SqlLite.SqlDatabaseHelper;
 import com.example.projectandroid.ProgessLoading;
 import com.example.projectandroid.R;
+import com.example.projectandroid.User.MShopping.CreateBill.CreateBill;
 import com.example.projectandroid.User.Shopping;
 import com.google.android.material.textfield.TextInputEditText;
 
@@ -169,6 +170,10 @@ public class UpdateBill extends AppCompatActivity {
 
                         Integer gIDTypeProduct = null;
                         Integer gIDProduct = null;
+                        String gCQuality = null;
+                        String gCQualityBill = null;
+                        Integer gNewUpdateQuality = null;
+                        Integer gNowQuality = null;
                         String gProductQuality = QualityProduct.getText().toString();
                         String gTotalPrice = Total.toString();
 
@@ -185,42 +190,83 @@ public class UpdateBill extends AppCompatActivity {
                             gIDProduct = cursorID_Product.getInt(0);
                         }
 
+                        Cursor cursorProduct_Quality = db.getQualityProduct_Bill(gIDProduct);
+                        while (cursorProduct_Quality.moveToNext()) {
+                            gCQuality = cursorProduct_Quality.getString(0);
+                        }
+
+                        Cursor cursorProductQuality_Bill = db.getQualityProductBill_Bill(id_Bill);
+                        while (cursorProductQuality_Bill.moveToNext()) {
+                            gCQualityBill = cursorProductQuality_Bill.getString(0);
+                        }
+
+                        if(Integer.parseInt(gProductQuality) < Integer.parseInt(gCQualityBill))
+                        {
+
+                            gNewUpdateQuality = Integer.parseInt(gCQuality) + (Integer.parseInt(gCQualityBill) - Integer.parseInt(gProductQuality));
+                            gNowQuality = Integer.parseInt(gCQuality) + (Integer.parseInt(gCQualityBill) - Integer.parseInt(gProductQuality));
+
+                        }else{
+
+                            if(Integer.parseInt(gProductQuality) > Integer.parseInt(gCQualityBill)){
+
+                                gNewUpdateQuality = Integer.parseInt(gCQuality) - (Integer.parseInt(gProductQuality) - Integer.parseInt(gCQualityBill));
+                                gNowQuality = Integer.parseInt(gCQuality) - (Integer.parseInt(gProductQuality) - Integer.parseInt(gCQualityBill));
+
+                            }
+
+                        }
+
+
+
                         if (gIDTypeProduct == 0 || gIDProduct == 0 || gProductQuality.isEmpty()) {
 
                             Toast.makeText(UpdateBill.this, "Vui Lòng Nhập Đầy Đủ Thông Tin", Toast.LENGTH_SHORT).show();
 
                         } else {
 
-                            Boolean resultUpdateData = db.updateData_Bill(id_Bill,gProductQuality, gTotalPrice, gCreateDay, gCreateTime, gIDTypeProduct, gIDProduct);
-                            if (resultUpdateData == true) {
+                            if (gNowQuality < 0) {
 
                                 progessLoading.show();
                                 new Handler().postDelayed(new Runnable() {
                                     @Override
                                     public void run() {
-                                        Intent intent = new Intent(UpdateBill.this, Shopping.class);
-                                        startActivity(intent);
-                                        Toast.makeText(UpdateBill.this, "Sửa Hóa Đơn Thành Công", Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(UpdateBill.this, "Số Lượng Hàng Trong Kho Không Đủ", Toast.LENGTH_SHORT).show();
                                         progessLoading.dismiss();
                                     }
                                 }, 2000);
 
                             } else {
 
-                                progessLoading.show();
-                                new Handler().postDelayed(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        Toast.makeText(UpdateBill.this, "Sửa Hóa Đơn Thất Bại", Toast.LENGTH_SHORT).show();
-                                        progessLoading.dismiss();
-                                    }
-                                }, 2000);
+                                Boolean resultUpdateData = db.updateData_Bill(id_Bill, gProductQuality, gTotalPrice, gCreateDay, gCreateTime, gIDTypeProduct, gIDProduct);
+                                if (resultUpdateData == true) {
 
+                                    db.updateNewQualityProduct_Bill(gNewUpdateQuality.toString(), gIDProduct);
+                                    progessLoading.show();
+                                    new Handler().postDelayed(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            Intent intent = new Intent(UpdateBill.this, Shopping.class);
+                                            startActivity(intent);
+                                            Toast.makeText(UpdateBill.this, "Sửa Hóa Đơn Thành Công", Toast.LENGTH_SHORT).show();
+                                            progessLoading.dismiss();
+                                        }
+                                    }, 2000);
+
+                                } else {
+
+                                    progessLoading.show();
+                                    new Handler().postDelayed(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            Toast.makeText(UpdateBill.this, "Sửa Hóa Đơn Thất Bại", Toast.LENGTH_SHORT).show();
+                                            progessLoading.dismiss();
+                                        }
+                                    }, 2000);
+                                }
                             }
-
                         }
                     }
-
                 }
             }
         });

@@ -6,6 +6,8 @@ import androidx.appcompat.app.AppCompatDelegate;
 import android.app.Dialog;
 import android.content.Intent;
 import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.Editable;
@@ -45,7 +47,7 @@ public class CreatePromotion extends AppCompatActivity {
     Double priceAfterPercent;
     DatePicker StartDay, EndDay;
     Button btnConfirm;
-    ImageView btnBack;
+    ImageView btnBack, ImageProduct;
 
     SqlDatabaseHelper db;
 
@@ -74,6 +76,7 @@ public class CreatePromotion extends AppCompatActivity {
         PriceAfterPromotion = findViewById(R.id.priceAfter_createPromotion);
         StartDay = findViewById(R.id.startDay_createPromotion);
         EndDay = findViewById(R.id.endDay_createPromotion);
+        ImageProduct = findViewById(R.id.image_product_createPromotion);
 
         PercentPromotion.setFilters( new InputFilter[] { new MinMaxValueFilter("0", "100")});
 
@@ -117,6 +120,7 @@ public class CreatePromotion extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 loadDataPriceProduct(NameProduct.getText().toString());
+                loadDataImageProduct(NameProduct.getText().toString());
             }
         });
         
@@ -317,6 +321,20 @@ public class CreatePromotion extends AppCompatActivity {
 
         }
 
+    }
+
+    private void loadDataImageProduct(String getNameProduct) {
+
+        Cursor cursor = db.readImageProduct_Bill(getNameProduct);
+        if(cursor.getCount() == 0){
+
+        }else{
+            while (cursor.moveToNext()){
+                byte[] image = cursor.getBlob(0);
+                Bitmap bitmap = BitmapFactory.decodeByteArray(image, 0, image.length);
+                ImageProduct.setImageBitmap(bitmap);
+            }
+        }
     }
 
     private void loadDataPriceProduct(String getNameProduct) {

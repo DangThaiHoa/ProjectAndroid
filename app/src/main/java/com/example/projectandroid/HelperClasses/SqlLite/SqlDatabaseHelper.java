@@ -702,6 +702,54 @@ public class SqlDatabaseHelper extends SQLiteOpenHelper {
             return true;
         }
     }
+
+    public Cursor getQualityProduct_Bill(Integer product_id){
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        Cursor cursor = null;
+        if(db != null){
+            cursor = db.rawQuery("Select "+ COLUMN_PRODUCT_QUALITY +" from "+ TABLE_PRODUCT +" Where " + COLUMN_ID_PRODUCT + "= ?",new String[] {String.valueOf(product_id)});
+        }
+        return cursor;
+    }
+
+    public Cursor getQualityProductBill_Bill(Integer bill_id){
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        Cursor cursor = null;
+        if(db != null){
+            cursor = db.rawQuery("Select "+ COLUMN_BILL_QUALITY +" from "+ TABLE_BILL +" Where " + COLUMN_ID_BILL + "= ?",new String[] {String.valueOf(bill_id)});
+        }
+        return cursor;
+    }
+
+    public Cursor readImageProduct_Bill(String product_name){
+
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        Cursor cursor = null;
+        if(db != null){
+            cursor = db.rawQuery("Select " + COLUMN_PRODUCT_IMAGE +" from "+ TABLE_PRODUCT +" Where " + COLUMN_PRODUCT_NAME + "= ?", new String[] {product_name});
+        }
+        return cursor;
+    }
+
+    public boolean updateNewQualityProduct_Bill(String product_quality, Integer id_product) {
+
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        ContentValues contentValues = new ContentValues();
+
+        contentValues.put(COLUMN_PRODUCT_QUALITY, product_quality);
+
+        long result = db.update(TABLE_PRODUCT, contentValues, COLUMN_ID_PRODUCT + "= ?", new String[]{String.valueOf(id_product)});
+
+        if (result == -1) {
+            return false;
+        } else {
+            return true;
+        }
+    }
     //Bill
 
 
@@ -865,6 +913,17 @@ public class SqlDatabaseHelper extends SQLiteOpenHelper {
         }else{
             return true;
         }
+    }
+
+    public Cursor readImageProduct_Promotion(String product_name){
+
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        Cursor cursor = null;
+        if(db != null){
+            cursor = db.rawQuery("Select " + COLUMN_PRODUCT_IMAGE +" from "+ TABLE_PRODUCT +" Where " + COLUMN_PRODUCT_NAME + "= ?", new String[] {product_name});
+        }
+        return cursor;
     }
     //Promotion
 

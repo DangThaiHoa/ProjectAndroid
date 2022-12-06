@@ -6,6 +6,8 @@ import androidx.appcompat.app.AppCompatDelegate;
 import android.app.Dialog;
 import android.content.Intent;
 import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.Editable;
@@ -39,7 +41,7 @@ public class CreateBill extends AppCompatActivity {
     AutoCompleteTextView TypeProduct,NameProduct;
     ArrayAdapter adapterItemTypeProduct, adapterItemProduct;
 
-    ImageView btnBack;
+    ImageView btnBack, ImageProduct;
     Button btnConfirm;
     TextInputEditText QualityProduct, PriceProduct, TotalPrice;
     Integer Total;
@@ -69,6 +71,7 @@ public class CreateBill extends AppCompatActivity {
         QualityProduct = findViewById(R.id.quality_product_createBill);
         PriceProduct = findViewById(R.id.price_product_createBill);
         TotalPrice = findViewById(R.id.total_price_createBill);
+        ImageProduct = findViewById(R.id.image_product_createBill);
 
         TypeProduct.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -108,6 +111,7 @@ public class CreateBill extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 loadDataPriceProduct(NameProduct.getText().toString());
+                loadDataImageProduct(NameProduct.getText().toString());
             }
         });
 
@@ -156,6 +160,7 @@ public class CreateBill extends AppCompatActivity {
 
                         Integer gIDTypeProduct = null;
                         Integer gIDProduct = null;
+                        String gCQuality = null;
                         String gProductQuality = QualityProduct.getText().toString();
                         String gTotalPrice = Total.toString();
 
@@ -172,41 +177,62 @@ public class CreateBill extends AppCompatActivity {
                             gIDProduct = cursorID_Product.getInt(0);
                         }
 
+                        Cursor cursor = db.getQualityProduct_Bill(gIDProduct);
+                        while (cursor.moveToNext()) {
+                            gCQuality = cursor.getString(0);
+                        }
+
+                        Integer gNowQuality = Integer.parseInt(gCQuality) - Integer.parseInt(gProductQuality);
+
                         if (gIDTypeProduct == 0 || gIDProduct == 0 || gProductQuality.isEmpty()) {
 
                             Toast.makeText(CreateBill.this, "Vui Lòng Nhập Đầy Đủ Thông Tin", Toast.LENGTH_SHORT).show();
 
                         } else {
 
-                            Boolean resultInsertData = db.insertData_Bill(gProductQuality, gTotalPrice, gCreateDay, gCreateTime, gIDTypeProduct, gIDProduct);
-                            if (resultInsertData == true) {
+                            if (gNowQuality < 0) {
 
                                 progessLoading.show();
                                 new Handler().postDelayed(new Runnable() {
                                     @Override
                                     public void run() {
-                                        Intent intent = new Intent(CreateBill.this, CompleteCreateBill.class);
-                                        startActivity(intent);
+                                        Toast.makeText(CreateBill.this, "Số Lượng Hàng Trong Kho Không Đủ", Toast.LENGTH_SHORT).show();
                                         progessLoading.dismiss();
                                     }
                                 }, 2000);
 
                             } else {
 
-                                progessLoading.show();
-                                new Handler().postDelayed(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        Toast.makeText(CreateBill.this, "Tạo Hóa Đơn Thất Bại", Toast.LENGTH_SHORT).show();
-                                        progessLoading.dismiss();
-                                    }
-                                }, 2000);
+                                Boolean resultInsertData = db.insertData_Bill(gProductQuality, gTotalPrice, gCreateDay, gCreateTime, gIDTypeProduct, gIDProduct);
+                                if (resultInsertData == true) {
+
+                                    db.updateNewQualityProduct_Bill(gNowQuality.toString(),gIDProduct);
+                                    progessLoading.show();
+                                    new Handler().postDelayed(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            Intent intent = new Intent(CreateBill.this, CompleteCreateBill.class);
+                                            startActivity(intent);
+                                            progessLoading.dismiss();
+                                        }
+                                    }, 2000);
+
+                                } else {
+
+                                    progessLoading.show();
+                                    new Handler().postDelayed(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            Toast.makeText(CreateBill.this, "Tạo Hóa Đơn Thất Bại", Toast.LENGTH_SHORT).show();
+                                            progessLoading.dismiss();
+                                        }
+                                    }, 2000);
+
+                                }
 
                             }
-
                         }
                     }
-
                 }
             }
         });
@@ -261,6 +287,20 @@ public class CreateBill extends AppCompatActivity {
 
         }
 
+    }
+
+    private void loadDataImageProduct(String getNameProduct) {
+
+        Cursor cursor = db.readImageProduct_Bill(getNameProduct);
+        if(cursor.getCount() == 0){
+
+        }else{
+            while (cursor.moveToNext()){
+                byte[] image = cursor.getBlob(0);
+                Bitmap bitmap = BitmapFactory.decodeByteArray(image, 0, image.length);
+                ImageProduct.setImageBitmap(bitmap);
+            }
+        }
     }
 
     private void loadDataPriceProduct(String getNameProduct) {
