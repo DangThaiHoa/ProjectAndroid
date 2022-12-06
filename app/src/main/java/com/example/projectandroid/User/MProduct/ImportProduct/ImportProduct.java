@@ -1,11 +1,12 @@
-package com.example.projectandroid.User.MShopping.CreateBill;
+package com.example.projectandroid.User.MProduct.ImportProduct;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.app.AppCompatDelegate;
 
 import android.app.Dialog;
 import android.content.Intent;
 import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.Editable;
@@ -33,13 +34,13 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
-public class CreateBill extends AppCompatActivity {
+public class ImportProduct extends AppCompatActivity {
 
     ArrayList<String> itemTypeProduct, itemProduct;
     AutoCompleteTextView TypeProduct,NameProduct;
     ArrayAdapter adapterItemTypeProduct, adapterItemProduct;
 
-    ImageView btnBack;
+    ImageView btnBack, ImageProduct;
     Button btnConfirm;
     TextInputEditText QualityProduct, PriceProduct, TotalPrice;
     Integer Total;
@@ -55,20 +56,19 @@ public class CreateBill extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
-        setContentView(R.layout.activity_create_bill);
-
+        setContentView(R.layout.activity_import_product);
         db = new SqlDatabaseHelper(this);
 
         final ProgessLoading progessLoading = new ProgessLoading(this);
 
         btnBack = findViewById(R.id.back_btn);
         btnConfirm = findViewById(R.id.confirm_btn);
-        TypeProduct = findViewById(R.id.type_product_createBill);
-        NameProduct = findViewById(R.id.name_product_createBill);
-        QualityProduct = findViewById(R.id.quality_product_createBill);
-        PriceProduct = findViewById(R.id.price_product_createBill);
-        TotalPrice = findViewById(R.id.total_price_createBill);
+        TypeProduct = findViewById(R.id.type_product_importProduct);
+        NameProduct = findViewById(R.id.name_product_importProduct);
+        QualityProduct = findViewById(R.id.quality_product_importProduct);
+        PriceProduct = findViewById(R.id.price_product_importProduct);
+        TotalPrice = findViewById(R.id.total_price_importProduct);
+        ImageProduct = findViewById(R.id.image_product_importProduct);
 
         TypeProduct.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -99,7 +99,7 @@ public class CreateBill extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if(TextUtils.isEmpty(TypeProduct.getText().toString())){
-                    Toast.makeText(CreateBill.this, "Vui Lòng Chọn Loại Sản Phẩm", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(ImportProduct.this, "Vui Lòng Chọn Loại Sản Phẩm", Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -108,6 +108,7 @@ public class CreateBill extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 loadDataPriceProduct(NameProduct.getText().toString());
+                loadDataImageProduct(NameProduct.getText().toString());
             }
         });
 
@@ -141,7 +142,7 @@ public class CreateBill extends AppCompatActivity {
                 Cursor cursorID_TypeProduct = db.getIDTypeProduct_Bill(gTypeProduct);
                 if (cursorID_TypeProduct.getCount() == 0) {
 
-                    Toast.makeText(CreateBill.this, "Vui Lòng Chọn Loại Sản Phẩm", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(ImportProduct.this, "Vui Lòng Chọn Loại Sản Phẩm", Toast.LENGTH_SHORT).show();
 
                 } else {
 
@@ -150,7 +151,7 @@ public class CreateBill extends AppCompatActivity {
                     Cursor cursorID_Product = db.getIDProduct_Bill(gNameProduct);
                     if (cursorID_Product.getCount() == 0) {
 
-                        Toast.makeText(CreateBill.this, "Vui Lòng Chọn Sản Phẩm", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(ImportProduct.this, "Vui Lòng Chọn Sản Phẩm", Toast.LENGTH_SHORT).show();
 
                     } else {
 
@@ -159,52 +160,60 @@ public class CreateBill extends AppCompatActivity {
                         String gProductQuality = QualityProduct.getText().toString();
                         String gTotalPrice = Total.toString();
 
-                        Date dateAndTime = Calendar.getInstance().getTime();
-                        SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy", Locale.getDefault());
-                        SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm:ss", Locale.UK);
-                        String gCreateDay = dateFormat.format(dateAndTime);
-                        String gCreateTime = timeFormat.format(dateAndTime);
+                            Date dateAndTime = Calendar.getInstance().getTime();
+                            SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy", Locale.getDefault());
+                            SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm:ss", Locale.UK);
+                            String gCreateDay = dateFormat.format(dateAndTime);
+                            String gCreateTime = timeFormat.format(dateAndTime);
 
-                        while (cursorID_TypeProduct.moveToNext()) {
-                            gIDTypeProduct = cursorID_TypeProduct.getInt(0);
-                        }
-                        while (cursorID_Product.moveToNext()) {
-                            gIDProduct = cursorID_Product.getInt(0);
-                        }
+                            while (cursorID_TypeProduct.moveToNext()) {
+                                gIDTypeProduct = cursorID_TypeProduct.getInt(0);
+                            }
+                            while (cursorID_Product.moveToNext()) {
+                                gIDProduct = cursorID_Product.getInt(0);
+                            }
 
-                        if (gIDTypeProduct == 0 || gIDProduct == 0 || gProductQuality.isEmpty()) {
+                            if (gIDTypeProduct == 0 || gIDProduct == 0 || gProductQuality.isEmpty()) {
 
-                            Toast.makeText(CreateBill.this, "Vui Lòng Nhập Đầy Đủ Thông Tin", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(ImportProduct.this, "Vui Lòng Nhập Đầy Đủ Thông Tin", Toast.LENGTH_SHORT).show();
 
                         } else {
 
-                            Boolean resultInsertData = db.insertData_Bill(gProductQuality, gTotalPrice, gCreateDay, gCreateTime, gIDTypeProduct, gIDProduct);
-                            if (resultInsertData == true) {
+                                String gOldQuality = null;
+                                Cursor cursor = db.getQualityProduct_ImportProduct(gNameProduct);
+                                while (cursor.moveToNext()) {
+                                    gOldQuality = cursor.getString(0);
+                                }
+                                Integer gNewProductQuality = Integer.parseInt(gOldQuality) + Integer.parseInt(gProductQuality);
 
-                                progessLoading.show();
-                                new Handler().postDelayed(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        Intent intent = new Intent(CreateBill.this, CompleteCreateBill.class);
-                                        startActivity(intent);
-                                        progessLoading.dismiss();
-                                    }
-                                }, 2000);
+                                Boolean resultInsertData = db.insertData_ImportProduct(gOldQuality, gNewProductQuality.toString(), gTotalPrice, gCreateDay, gCreateTime, gIDTypeProduct, gIDProduct);
+                                Boolean resultUpdateData = db.updateData_ImportProduct(gIDProduct, gNewProductQuality.toString());
+                                if (resultInsertData == true && resultUpdateData == true) {
 
-                            } else {
+                                    progessLoading.show();
+                                    new Handler().postDelayed(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            Intent intent = new Intent(ImportProduct.this, CompleteImportProduct.class);
+                                            startActivity(intent);
+                                            progessLoading.dismiss();
+                                        }
+                                    }, 2000);
 
-                                progessLoading.show();
-                                new Handler().postDelayed(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        Toast.makeText(CreateBill.this, "Tạo Hóa Đơn Thất Bại", Toast.LENGTH_SHORT).show();
-                                        progessLoading.dismiss();
-                                    }
-                                }, 2000);
+                                } else {
+
+                                    progessLoading.show();
+                                    new Handler().postDelayed(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            Toast.makeText(ImportProduct.this, "Nhập Hàng Thất Bại", Toast.LENGTH_SHORT).show();
+                                            progessLoading.dismiss();
+                                        }
+                                    }, 2000);
+
+                                }
 
                             }
-
-                        }
                     }
 
                 }
@@ -218,7 +227,7 @@ public class CreateBill extends AppCompatActivity {
 
     private void loadDataTypeProduct() {
 
-        Cursor cursor = db.readTypeProduct_Bill();
+        Cursor cursor = db.readTypeProduct_ImportProduct();
 
         itemTypeProduct = new ArrayList<>();
         if(cursor.getCount() == 0){
@@ -242,7 +251,7 @@ public class CreateBill extends AppCompatActivity {
 
     private void loadDataNameProduct() {
 
-        Cursor cursor = db.readNameProduct_Bill(getIDTypeProduct);
+        Cursor cursor = db.readNameProduct_ImportProduct(getIDTypeProduct);
 
         itemProduct = new ArrayList<>();
         if(cursor.getCount() == 0){
@@ -265,7 +274,7 @@ public class CreateBill extends AppCompatActivity {
 
     private void loadDataPriceProduct(String getNameProduct) {
 
-        Cursor cursor = db.readPriceProduct_Bill(getNameProduct);
+        Cursor cursor = db.readPriceProduct_ImportProduct(getNameProduct);
         if(cursor.getCount() == 0){
 
         }else{
@@ -275,9 +284,23 @@ public class CreateBill extends AppCompatActivity {
         }
     }
 
+    private void loadDataImageProduct(String getNameProduct) {
+
+        Cursor cursor = db.readImageProduct_ImportProduct(getNameProduct);
+        if(cursor.getCount() == 0){
+
+        }else{
+            while (cursor.moveToNext()){
+                byte[] image = cursor.getBlob(0);
+                Bitmap bitmap = BitmapFactory.decodeByteArray(image, 0, image.length);
+                ImageProduct.setImageBitmap(bitmap);
+            }
+        }
+    }
+
     public void ShowDiaLog() {
 
-        dialog = new Dialog(CreateBill.this);
+        dialog = new Dialog(ImportProduct.this);
         dialog.setContentView(R.layout.custom_dialog);
         dialog.getWindow().setBackgroundDrawable(getDrawable(R.drawable.bg_dialog));
         dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT,ViewGroup.LayoutParams.WRAP_CONTENT);
@@ -310,7 +333,7 @@ public class CreateBill extends AppCompatActivity {
         btnBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                CreateBill.super.onBackPressed();
+                ImportProduct.super.onBackPressed();
             }
         });
     }

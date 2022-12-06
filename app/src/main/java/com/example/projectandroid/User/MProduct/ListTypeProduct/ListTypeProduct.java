@@ -21,7 +21,7 @@ import com.example.projectandroid.HelperClasses.Product.ListTypeProduct.ListType
 import com.example.projectandroid.HelperClasses.Product.ListTypeProduct.ListTypeProductHelperClass;
 import com.example.projectandroid.HelperClasses.SqlLite.SqlDatabaseHelper;
 import com.example.projectandroid.R;
-import com.example.projectandroid.User.MProduct.TypeProduct.AddTypeProduct;
+import com.example.projectandroid.User.MProduct.AddTypeProduct.AddTypeProduct;
 
 import java.util.ArrayList;
 

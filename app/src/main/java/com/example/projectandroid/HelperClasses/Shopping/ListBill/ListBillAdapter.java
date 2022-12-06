@@ -21,7 +21,7 @@ import com.example.projectandroid.User.MShopping.ListBill.DetailBill;
 
 import java.util.ArrayList;
 
-public class ListBillAdapter extends  RecyclerView.Adapter<ListBillAdapter.ListBillViewHolder>{
+public class ListBillAdapter extends RecyclerView.Adapter<ListBillAdapter.ListBillViewHolder>{
 
     private Context context;
     int singleData;

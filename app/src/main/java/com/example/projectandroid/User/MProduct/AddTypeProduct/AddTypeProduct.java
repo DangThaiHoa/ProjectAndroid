@@ -1,4 +1,4 @@
-package com.example.projectandroid.User.MProduct.TypeProduct;
+package com.example.projectandroid.User.MProduct.AddTypeProduct;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;

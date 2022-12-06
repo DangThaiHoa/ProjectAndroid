@@ -79,6 +79,18 @@ public class SqlDatabaseHelper extends SQLiteOpenHelper {
     private static final String F_PROMOTION_COLUMN_ID_PRODUCT = "ID_Product_PROMOTION";
     //Promotion
 
+    //ImportProduct
+    private static final String TABLE_IMPORT_PRODUCT = "IMPORT_PRODUCT";
+    private static final String COLUMN_ID_IMPORT_PRODUCT = "ID_Import_Product";
+    private static final String COLUMN_IMPORT_PRODUCT_OLD_QUALITY = "Import_Product_Old_Quality";
+    private static final String COLUMN_IMPORT_PRODUCT_NEW_QUALITY = "Import_Product_New_Quality";
+    private static final String COLUMN_IMPORT_PRODUCT_TOTAL_PRICE = "Import_Product_Total_Price";
+    private static final String COLUMN_IMPORT_PRODUCT_CREATE_DAY = "Import_Product_Create_Day";
+    private static final String COLUMN_IMPORT_PRODUCT_CREATE_TIME = "Import_Product_Create_Time";
+    private static final String F_IMPORT_PRODUCT_COLUMN_ID_TYPE_PRODUCT = "ID_TypeProduct_Import_Product";
+    private static final String F_IMPORT_PRODUCT_COLUMN_ID_PRODUCT = "ID_Product_Import_Product";
+    //ImportProduct
+
 
 
     public SqlDatabaseHelper(@Nullable Context context) {
@@ -148,6 +160,21 @@ public class SqlDatabaseHelper extends SQLiteOpenHelper {
     //Promotion
 
 
+    //ImportProduct
+    private String Create_Table_Import_Product=  "CREATE TABLE " + TABLE_IMPORT_PRODUCT +
+            "(" + COLUMN_ID_IMPORT_PRODUCT + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+            COLUMN_IMPORT_PRODUCT_OLD_QUALITY + " TEXT, " +
+            COLUMN_IMPORT_PRODUCT_NEW_QUALITY + " TEXT, " +
+            COLUMN_IMPORT_PRODUCT_TOTAL_PRICE + " REAL, " +
+            COLUMN_IMPORT_PRODUCT_CREATE_DAY + " TEXT," +
+            COLUMN_IMPORT_PRODUCT_CREATE_TIME + " TEXT," +
+            F_IMPORT_PRODUCT_COLUMN_ID_TYPE_PRODUCT + " INTEGER, " +
+            F_IMPORT_PRODUCT_COLUMN_ID_PRODUCT + " INTEGER, " +
+            "FOREIGN KEY ("+F_IMPORT_PRODUCT_COLUMN_ID_TYPE_PRODUCT+") REFERENCES "+TABLE_TYPE_PRODUCT+"("+COLUMN_ID_TYPE_PRODUCT+") ," +
+            "FOREIGN KEY ("+F_IMPORT_PRODUCT_COLUMN_ID_PRODUCT+") REFERENCES "+TABLE_PRODUCT+"("+COLUMN_ID_PRODUCT+"));";
+    //ImportProduct
+
+
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
         //Login_Signup
@@ -173,6 +200,11 @@ public class SqlDatabaseHelper extends SQLiteOpenHelper {
         //Promotion
         sqLiteDatabase.execSQL(Create_Table_Promotion);
         //Promotion
+
+
+        //ImportProduct
+        sqLiteDatabase.execSQL(Create_Table_Import_Product);
+        //ImportProduct
     }
 
 
@@ -201,6 +233,11 @@ public class SqlDatabaseHelper extends SQLiteOpenHelper {
     //Promotion
 
 
+    //ImportProduct
+    private String Update_Table_Import_Product = "DROP TABLE IF EXISTS " + TABLE_IMPORT_PRODUCT;
+    //ImportProduct
+
+
     @Override
     public void onUpgrade(SQLiteDatabase sqLiteDatabase, int i, int i1) {
         //Users
@@ -226,6 +263,11 @@ public class SqlDatabaseHelper extends SQLiteOpenHelper {
         //Promotion
         sqLiteDatabase.execSQL(Update_Table_Promotion);
         //Promotion
+
+
+        //ImportProduct
+        sqLiteDatabase.execSQL(Update_Table_Import_Product);
+        //ImportProduct
 
 
         onCreate(sqLiteDatabase);
@@ -473,6 +515,7 @@ public class SqlDatabaseHelper extends SQLiteOpenHelper {
         }
         return cursor;
     }
+
     public boolean deleteData_Product(Integer product_id){
 
         SQLiteDatabase db = this.getWritableDatabase();
@@ -824,4 +867,154 @@ public class SqlDatabaseHelper extends SQLiteOpenHelper {
         }
     }
     //Promotion
+
+
+    //ImportProduct
+    public boolean insertData_ImportProduct(String product_old_quality, String product_new_quality,  String total_price, String bill_create_Day, String bill_create_Time, Integer type_product_id, Integer product_id){
+
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        ContentValues contentValues = new ContentValues();
+
+        contentValues.put(COLUMN_IMPORT_PRODUCT_OLD_QUALITY,product_old_quality);
+        contentValues.put(COLUMN_IMPORT_PRODUCT_NEW_QUALITY,product_new_quality);
+        contentValues.put(COLUMN_IMPORT_PRODUCT_TOTAL_PRICE,total_price);
+        contentValues.put(COLUMN_IMPORT_PRODUCT_CREATE_DAY,bill_create_Day);
+        contentValues.put(COLUMN_IMPORT_PRODUCT_CREATE_TIME,bill_create_Time);
+        contentValues.put(F_IMPORT_PRODUCT_COLUMN_ID_TYPE_PRODUCT,type_product_id);
+        contentValues.put(F_IMPORT_PRODUCT_COLUMN_ID_PRODUCT,product_id);
+
+        long result = db.insert(TABLE_IMPORT_PRODUCT,null, contentValues);
+
+        if(result == -1){
+            return false;
+        }else{
+            return true;
+        }
+    }
+
+    public boolean updateData_ImportProduct(Integer id_product,String product_quality) {
+
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        ContentValues contentValues = new ContentValues();
+
+        contentValues.put(COLUMN_PRODUCT_QUALITY, product_quality);
+
+        long result = db.update(TABLE_PRODUCT, contentValues, COLUMN_ID_PRODUCT + "= ?", new String[]{String.valueOf(id_product)});
+
+        if (result == -1) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    public Cursor readTypeProduct_ImportProduct(){
+        String query= "Select * from "+ TABLE_TYPE_PRODUCT;
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        Cursor cursor = null;
+        if(db != null){
+            cursor = db.rawQuery(query,null);
+        }
+        return cursor;
+    }
+
+    public Cursor readNameProduct_ImportProduct(Integer type_product_id){
+        String query= "Select "+ COLUMN_PRODUCT_NAME +"," + COLUMN_PRODUCT_PRICE +" from "+ TABLE_PRODUCT +" Where " + F_PRODUCT_COLUMN_ID_TYPE_PRODUCT + "="+ type_product_id;
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        Cursor cursor = null;
+        if(db != null){
+            cursor = db.rawQuery(query,null);
+        }
+        return cursor;
+    }
+
+    public Cursor readPriceProduct_ImportProduct(String product_name){
+
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        Cursor cursor = null;
+        if(db != null){
+            cursor = db.rawQuery("Select " + COLUMN_PRODUCT_PRICE +" from "+ TABLE_PRODUCT +" Where " + COLUMN_PRODUCT_NAME + "= ?", new String[] {product_name});
+        }
+        return cursor;
+    }
+
+    public Cursor readImageProduct_ImportProduct(String product_name){
+
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        Cursor cursor = null;
+        if(db != null){
+            cursor = db.rawQuery("Select " + COLUMN_PRODUCT_IMAGE +" from "+ TABLE_PRODUCT +" Where " + COLUMN_PRODUCT_NAME + "= ?", new String[] {product_name});
+        }
+        return cursor;
+    }
+
+    public Cursor getQualityProduct_ImportProduct(String product_name){
+
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        Cursor cursor = null;
+        if(db != null){
+            cursor = db.rawQuery("Select " + COLUMN_PRODUCT_QUALITY +" from "+ TABLE_PRODUCT +" Where " + COLUMN_PRODUCT_NAME + "= ?", new String[] {product_name});
+        }
+        return cursor;
+    }
+
+    public Cursor readData_ImportProduct(){
+        String query = "Select "+ COLUMN_ID_IMPORT_PRODUCT + "," +
+                COLUMN_PRODUCT_NAME +","+
+                COLUMN_IMPORT_PRODUCT_CREATE_DAY +","+
+                COLUMN_IMPORT_PRODUCT_OLD_QUALITY + "," +
+                COLUMN_IMPORT_PRODUCT_NEW_QUALITY + "," +
+                COLUMN_PRODUCT_IMAGE +
+                " From "+ TABLE_IMPORT_PRODUCT + ","+ TABLE_PRODUCT +
+                " Where "+ TABLE_IMPORT_PRODUCT +"."+ F_IMPORT_PRODUCT_COLUMN_ID_PRODUCT +"="+ TABLE_PRODUCT +"."+ COLUMN_ID_PRODUCT +
+                " ORDER BY " + COLUMN_ID_IMPORT_PRODUCT + " ASC ";
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = null;
+        if (db != null){
+            cursor = db.rawQuery(query,null);
+        }
+        return cursor;
+    }
+
+    public Cursor readAllData_ImportProduct(Integer import_product_id){
+        String query = "Select "+ COLUMN_ID_IMPORT_PRODUCT + "," +
+                COLUMN_TYPE_PRODUCT_NAME +","+
+                COLUMN_PRODUCT_NAME +","+
+                COLUMN_PRODUCT_PRICE + ","+
+                COLUMN_IMPORT_PRODUCT_TOTAL_PRICE + ","+
+                COLUMN_IMPORT_PRODUCT_OLD_QUALITY +","+
+                COLUMN_IMPORT_PRODUCT_NEW_QUALITY +","+
+                COLUMN_IMPORT_PRODUCT_CREATE_DAY +","+
+                COLUMN_IMPORT_PRODUCT_CREATE_TIME +","+
+                COLUMN_PRODUCT_IMAGE +
+                " From "+ TABLE_IMPORT_PRODUCT + ","+ TABLE_PRODUCT + "," + TABLE_TYPE_PRODUCT +
+                " Where "+ TABLE_IMPORT_PRODUCT +"."+ F_IMPORT_PRODUCT_COLUMN_ID_PRODUCT +"="+ TABLE_PRODUCT +"."+ COLUMN_ID_PRODUCT +
+                " And " + TABLE_IMPORT_PRODUCT +"."+ F_IMPORT_PRODUCT_COLUMN_ID_TYPE_PRODUCT +"="+ TABLE_TYPE_PRODUCT +"."+ COLUMN_ID_TYPE_PRODUCT +
+                " And " + COLUMN_ID_IMPORT_PRODUCT + " = " +import_product_id;
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = null;
+        if (db != null){
+            cursor = db.rawQuery(query,null);
+        }
+        return cursor;
+    }
+
+    public boolean deleteData_ImportProduct(Integer import_product_id){
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        long result = db.delete(TABLE_IMPORT_PRODUCT,COLUMN_ID_IMPORT_PRODUCT + "= ?", new String[] {String.valueOf(import_product_id)});
+        if(result == -1){
+            return false;
+        }else{
+            return true;
+        }
+    }
+    //ImportProduct
 }

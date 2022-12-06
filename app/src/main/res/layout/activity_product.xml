@@ -50,6 +50,71 @@
             android:layout_height="190dp">
 
             <RelativeLayout
+                android:id="@+id/Type_Product_btn"
+                android:layout_width="150dp"
+                android:layout_height="150dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginEnd="20dp"
+                android:layout_marginBottom="20dp"
+                android:background="@drawable/item_cate_bg"
+                android:elevation="8dp">
+
+                <ImageView
+                    android:layout_width="70dp"
+                    android:layout_height="70dp"
+                    android:src="@drawable/type_product"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="10dp"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="10dp"
+                    android:textAlignment="center"
+                    android:text="Loại Sản Phẩm"
+                    android:layout_alignParentBottom="true"
+                    android:textSize="20sp" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/List_Type_Product_btn"
+                android:layout_width="150dp"
+                android:layout_height="150dp"
+                android:layout_alignParentEnd="true"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginEnd="20dp"
+                android:layout_marginBottom="20dp"
+                android:background="@drawable/item_cate_bg"
+                android:elevation="8dp">
+
+                <ImageView
+                    android:layout_width="70dp"
+                    android:layout_height="70dp"
+                    android:src="@drawable/list_type_product"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="10dp"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="10dp"
+                    android:textAlignment="center"
+                    android:text="Danh Sách Loại Sản Phẩm"
+                    android:layout_alignParentBottom="true"
+                    android:textSize="19sp" />
+
+            </RelativeLayout>
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="190dp">
+
+            <RelativeLayout
                 android:id="@+id/Add_Product_btn"
                 android:layout_width="150dp"
                 android:layout_height="150dp"
@@ -115,7 +180,7 @@
             android:layout_height="190dp">
 
             <RelativeLayout
-                android:id="@+id/Type_Product_btn"
+                android:id="@+id/Import_Product_btn"
                 android:layout_width="150dp"
                 android:layout_height="150dp"
                 android:layout_marginStart="20dp"
@@ -128,23 +193,23 @@
                 <ImageView
                     android:layout_width="70dp"
                     android:layout_height="70dp"
-                    android:src="@drawable/type_product"
+                    android:src="@drawable/import_product"
                     android:layout_centerHorizontal="true"
                     android:layout_marginTop="10dp"/>
 
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:padding="10dp"
                     android:textAlignment="center"
-                    android:text="Loại Sản Phẩm"
+                    android:text="Nhập Hàng"
                     android:layout_alignParentBottom="true"
                     android:textSize="20sp" />
 
             </RelativeLayout>
 
             <RelativeLayout
-                android:id="@+id/List_Type_Product_btn"
+                android:id="@+id/HistoryImport_Product_btn"
                 android:layout_width="150dp"
                 android:layout_height="150dp"
                 android:layout_alignParentEnd="true"
@@ -158,7 +223,7 @@
                 <ImageView
                     android:layout_width="70dp"
                     android:layout_height="70dp"
-                    android:src="@drawable/list_type_product"
+                    android:src="@drawable/history_import_product"
                     android:layout_centerHorizontal="true"
                     android:layout_marginTop="10dp"/>
 
@@ -167,9 +232,9 @@
                     android:layout_height="wrap_content"
                     android:padding="10dp"
                     android:textAlignment="center"
-                    android:text="Danh Sách Loại Sản Phẩm"
+                    android:text="Lịch Sử Nhập Hàng"
                     android:layout_alignParentBottom="true"
-                    android:textSize="19sp" />
+                    android:textSize="20sp" />
 
             </RelativeLayout>
 

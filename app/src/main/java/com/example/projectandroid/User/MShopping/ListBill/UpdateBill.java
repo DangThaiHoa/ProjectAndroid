@@ -2,7 +2,6 @@ package com.example.projectandroid.User.MShopping.ListBill;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.app.Dialog;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
@@ -13,21 +12,16 @@ import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.projectandroid.HelperClasses.SqlLite.SqlDatabaseHelper;
 import com.example.projectandroid.ProgessLoading;
 import com.example.projectandroid.R;
-import com.example.projectandroid.User.MProduct.TypeProduct.AddTypeProduct;
-import com.example.projectandroid.User.MShopping.CreateBill.CompleteCreateBill;
-import com.example.projectandroid.User.MShopping.CreateBill.CreateBill;
 import com.example.projectandroid.User.Shopping;
 import com.google.android.material.textfield.TextInputEditText;
 

@@ -27,7 +27,7 @@ import com.example.projectandroid.HelperClasses.SqlLite.SqlDatabaseHelper;
 import com.example.projectandroid.MinMaxValueFilter;
 import com.example.projectandroid.ProgessLoading;
 import com.example.projectandroid.R;
-import com.example.projectandroid.User.MProduct.TypeProduct.AddTypeProduct;
+import com.example.projectandroid.User.MProduct.AddTypeProduct.AddTypeProduct;
 import com.google.android.material.textfield.TextInputEditText;
 
 import java.text.ParseException;

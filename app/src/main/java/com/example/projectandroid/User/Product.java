@@ -17,8 +17,10 @@ import android.widget.RelativeLayout;
 
 import com.example.projectandroid.R;
 import com.example.projectandroid.User.MProduct.AddProduct.AddProduct;
+import com.example.projectandroid.User.MProduct.ImportProduct.ImportProduct;
+import com.example.projectandroid.User.MProduct.ListHistoryImportProduct.ListHistoryImportProduct;
 import com.example.projectandroid.User.MProduct.ListTypeProduct.ListTypeProduct;
-import com.example.projectandroid.User.MProduct.TypeProduct.AddTypeProduct;
+import com.example.projectandroid.User.MProduct.AddTypeProduct.AddTypeProduct;
 import com.example.projectandroid.User.MProduct.ListProduct.ListProduct;
 import com.example.projectandroid.User.Profile.Profile;
 import com.google.android.material.navigation.NavigationView;
@@ -30,7 +32,7 @@ public class Product extends AppCompatActivity implements NavigationView.OnNavig
     ImageView menuIcon;
 
     LinearLayout contentView;
-    RelativeLayout addProduct, listProduct, typeProduct,listTypeProduct ;
+    RelativeLayout addProduct, listProduct, typeProduct,listTypeProduct, importProduct, historyImportProduct ;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,6 +50,8 @@ public class Product extends AppCompatActivity implements NavigationView.OnNavig
         listProduct = findViewById(R.id.List_Product_btn);
         typeProduct = findViewById(R.id.Type_Product_btn);
         listTypeProduct = findViewById(R.id.List_Type_Product_btn);
+        importProduct = findViewById(R.id.Import_Product_btn);
+        historyImportProduct = findViewById(R.id.HistoryImport_Product_btn);
 
         navigationDrawer();
 
@@ -55,6 +59,32 @@ public class Product extends AppCompatActivity implements NavigationView.OnNavig
         listProduct();
         typeProduct();
         listTypeProduct();
+        importProduct();
+        historyImportProduct();
+
+    }
+
+    private void historyImportProduct() {
+
+        historyImportProduct.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getApplicationContext(), ListHistoryImportProduct.class);
+                startActivity(intent);
+            }
+        });
+
+    }
+
+    private void importProduct() {
+
+        importProduct.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getApplicationContext(), ImportProduct.class);
+                startActivity(intent);
+            }
+        });
 
     }
 
