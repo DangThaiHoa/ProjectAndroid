@@ -138,6 +138,8 @@ public class DetailBill extends AppCompatActivity {
 
     private void readAllData() {
 
+        String a = null;
+        String b = null;
         Cursor cursor = db.readAllData_Bill(id_Bill);
         if (cursor.getCount() == 0){
             Toast.makeText(this, "Không Có Hóa Đơn", Toast.LENGTH_SHORT).show();
@@ -145,7 +147,7 @@ public class DetailBill extends AppCompatActivity {
             while (cursor.moveToNext()){
                 typeProduct.setText(cursor.getString(1));
                 nameProduct.setText(cursor.getString(2));
-                priceProduct.setText(cursor.getString(3));
+                priceProduct.setText(String.valueOf(Integer.parseInt(cursor.getString(5)) / Integer.parseInt(cursor.getString(4))));
                 qualityProduct.setText(cursor.getString(4));
                 totalPriceBill.setText(cursor.getString(5));
                 createDayBill.setText(cursor.getString(6));

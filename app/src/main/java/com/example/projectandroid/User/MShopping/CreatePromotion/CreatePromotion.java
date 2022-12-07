@@ -325,7 +325,7 @@ public class CreatePromotion extends AppCompatActivity {
 
     private void loadDataImageProduct(String getNameProduct) {
 
-        Cursor cursor = db.readImageProduct_Bill(getNameProduct);
+        Cursor cursor = db.readImageProduct_Promotion(getNameProduct);
         if(cursor.getCount() == 0){
 
         }else{

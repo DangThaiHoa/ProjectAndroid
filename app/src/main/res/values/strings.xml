@@ -1,14 +1,6 @@
 <resources>
     <string name="app_name">ProjectAndroid</string>
 
-
-    <string name="first_slide_title">Search Your Location</string>
-    <string name="second_slide_title">Make A Call</string>
-    <string name="third_slide_title">Add Missing Place</string>
-    <string name="four_slide_title">Sit Back And Relax</string>
-
-    <string name="first_slide_description">Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.</string>
-    <string name="second_slide_description">Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.</string>
-    <string name="third_slide_description">Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.</string>
-    <string name="four_slide_description">Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.</string>
+    <string name="channel_name">Notification Channel 1</string>
+    <string name="channel_description">Notification Channel 1</string>
 </resources>

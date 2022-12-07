@@ -652,7 +652,7 @@ public class SqlDatabaseHelper extends SQLiteOpenHelper {
         String query = "Select "+ COLUMN_ID_BILL + "," +
                 COLUMN_TYPE_PRODUCT_NAME +","+
                 COLUMN_PRODUCT_NAME +","+
-                COLUMN_PRODUCT_PRICE + ","+
+                COLUMN_PRODUCT_PRICE +","+
                 COLUMN_BILL_QUALITY +","+
                 COLUMN_BILL_TOTAL_PRICE +","+
                 COLUMN_BILL_CREATE_DAY +","+
@@ -749,6 +749,32 @@ public class SqlDatabaseHelper extends SQLiteOpenHelper {
         } else {
             return true;
         }
+    }
+
+    public boolean checkProductPromotion_Bill(Integer id_product){
+
+        String query= "Select * from "+ TABLE_PROMOTION +" Where " + F_PROMOTION_COLUMN_ID_PRODUCT + "="+ id_product;
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        Cursor cursor = null;
+        cursor = db.rawQuery(query,null);
+        if(cursor.getCount() > 0){
+            return true;
+        }else{
+            return false;
+        }
+    }
+
+    public Cursor getProductPromotion_Bill(Integer id_product){
+
+        String query= "Select "+ COLUMN_PROMOTION_PRICE_AFTER +" from "+ TABLE_PROMOTION +" Where " + F_PROMOTION_COLUMN_ID_PRODUCT + "="+ id_product;
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        Cursor cursor = null;
+        if(db != null){
+            cursor = db.rawQuery(query,null);
+        }
+        return cursor;
     }
     //Bill
 
@@ -922,6 +948,17 @@ public class SqlDatabaseHelper extends SQLiteOpenHelper {
         Cursor cursor = null;
         if(db != null){
             cursor = db.rawQuery("Select " + COLUMN_PRODUCT_IMAGE +" from "+ TABLE_PRODUCT +" Where " + COLUMN_PRODUCT_NAME + "= ?", new String[] {product_name});
+        }
+        return cursor;
+    }
+
+    public Cursor readEndDay_Promotion(){
+
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        Cursor cursor = null;
+        if(db != null){
+            cursor = db.rawQuery("Select " + COLUMN_ID_PROMOTION + "," + COLUMN_PROMOTION_END_DAY + " from "+ TABLE_PROMOTION,null);
         }
         return cursor;
     }

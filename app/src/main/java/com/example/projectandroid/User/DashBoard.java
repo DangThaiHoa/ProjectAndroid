@@ -4,13 +4,25 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.app.TaskStackBuilder;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteOpenHelper;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.MenuItem;
@@ -18,19 +30,28 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
 
+import com.example.projectandroid.ChannelNotification;
 import com.example.projectandroid.HelperClasses.HomeAdapter.CategoriesAdapter;
 import com.example.projectandroid.HelperClasses.HomeAdapter.CategoriesHelperClass;
 import com.example.projectandroid.HelperClasses.HomeAdapter.FeaturedAdapter;
 import com.example.projectandroid.HelperClasses.HomeAdapter.FeaturedHelperClass;
 import com.example.projectandroid.HelperClasses.HomeAdapter.MostViewAdapter;
 import com.example.projectandroid.HelperClasses.HomeAdapter.MostViewHelperClass;
+import com.example.projectandroid.HelperClasses.SqlLite.SqlDatabaseHelper;
 import com.example.projectandroid.MainActivity;
 import com.example.projectandroid.R;
+import com.example.projectandroid.User.MShopping.ListPromotion.ListPromotion;
 import com.example.projectandroid.User.Profile.Profile;
 import com.google.android.material.navigation.NavigationView;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Locale;
 
 public class DashBoard extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -47,11 +68,15 @@ public class DashBoard extends AppCompatActivity implements NavigationView.OnNav
 
     RelativeLayout btn_product, btn_shopping, btn_analysis;
 
+    SqlDatabaseHelper db;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
         setContentView(R.layout.activity_dash_board);
+
+        db = new SqlDatabaseHelper(this);
 
         featuredRecycle = findViewById(R.id.featured_recycler);
         mostviewRecycle = findViewById(R.id.most_view_recycler);
@@ -74,6 +99,77 @@ public class DashBoard extends AppCompatActivity implements NavigationView.OnNav
         featuredRecycle();
         mostviewRecycle();
         categoriesRecycle();
+
+        deletePromotion();
+    }
+
+    private void sendNotification(Integer promotion_id) {
+
+        Intent intent = new Intent(this, ListPromotion.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_IMMUTABLE);
+
+        String gName = null;
+        String gPercent = null;
+        String gSDate = null;
+        String gEDate = null;
+        byte[] image;
+        Bitmap bitmap = null;
+        Cursor cursor = db.readAllData_Promotion(promotion_id);
+        if(cursor.getCount() == 0){
+            Toast.makeText(this, "Không Có ID", Toast.LENGTH_SHORT).show();
+        }else{
+            while (cursor.moveToNext()){
+                gName = cursor.getString(2);
+                gPercent = cursor.getString(4) + "%";
+                gSDate = cursor.getString(6);
+                gEDate = cursor.getString(7);
+                image = cursor.getBlob(8);
+                bitmap = BitmapFactory.decodeByteArray(image, 0, image.length);;
+            }
+
+            Notification notification = new NotificationCompat.Builder(this, ChannelNotification.CHANNEL_ID)
+                    .setSmallIcon(R.drawable.promotion)
+                    .setLargeIcon(bitmap)
+                    .setContentTitle("Khuyến Mãi Sản Phẩm '"+ gName  +"' Đã Hết Hạn")
+                    .setContentText("Giảm: "+ gPercent +" / Ngày Bắt Đầu: "+ gSDate +" / Ngày Kết Thúc: " +gEDate)
+                    .setStyle(new NotificationCompat.BigPictureStyle().bigPicture(bitmap).bigLargeIcon(null))
+                    .setColor(getResources().getColor(R.color.mainColor))
+                    .setContentIntent(pendingIntent)
+                    .setAutoCancel(true)
+                    .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+                    .build();
+
+            NotificationManagerCompat notificationManagerCompat = NotificationManagerCompat.from(this);
+            notificationManagerCompat.notify(getNotificationId(), notification);
+        }
+    }
+
+    private int getNotificationId(){
+        return  (int) new Date().getTime();
+    }
+
+    private void deletePromotion() {
+
+        Date dateAndTime = Calendar.getInstance().getTime();
+        Cursor cursor = db.readEndDay_Promotion();
+        if (cursor.getCount() == 0){
+
+        }
+        while (cursor.moveToNext()){
+            Integer gID = cursor.getInt(0);
+            String gEDate = cursor.getString(1);
+            SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy", Locale.getDefault());
+            try {
+                Date gDate = dateFormat.parse(gEDate);
+                if(dateAndTime.after(gDate)){
+                    sendNotification(gID);
+                    db.deleteData_Promotion(gID);
+                }
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     private void btn_product() {
@@ -82,24 +178,24 @@ public class DashBoard extends AppCompatActivity implements NavigationView.OnNav
             public void onClick(View view) {
                 startActivity(new Intent(DashBoard.this, Product.class));
             }
-        });
-    }
+            });
+        }
 
-    private void btn_shopping() {
-        btn_shopping.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(DashBoard.this, Shopping.class);
-                startActivity(intent);
-            }
-        });
-    }
+        private void btn_shopping() {
+            btn_shopping.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent(DashBoard.this, Shopping.class);
+                    startActivity(intent);
+                }
+            });
+        }
 
-    private void btn_analysis() {
-        btn_analysis.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(DashBoard.this, Analysis.class);
+        private void btn_analysis() {
+            btn_analysis.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent(DashBoard.this, Analysis.class);
                 startActivity(intent);
             }
         });

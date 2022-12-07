@@ -8,11 +8,15 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Paint;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.Editable;
+import android.text.SpannableString;
+import android.text.Spanned;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.text.style.StrikethroughSpan;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -53,6 +57,7 @@ public class CreateBill extends AppCompatActivity {
     Dialog dialog;
 
     int getIDTypeProduct;
+    Integer gIDProduct;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -110,8 +115,20 @@ public class CreateBill extends AppCompatActivity {
         NameProduct.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                loadDataPriceProduct(NameProduct.getText().toString());
-                loadDataImageProduct(NameProduct.getText().toString());
+                String gNameProduct = NameProduct.getText().toString();
+                Cursor cursorID_Product = db.getIDProduct_Bill(gNameProduct);
+                while (cursorID_Product.moveToNext()) {
+                    gIDProduct = cursorID_Product.getInt(0);
+                }
+                Boolean resultCheckPromotion = db.checkProductPromotion_Bill(gIDProduct);
+                if (resultCheckPromotion == true) {
+                    Toast.makeText(CreateBill.this, "Sản Phẩm Này Đang Được Giảm Giá, Giá Được Giảm Sẽ Được Hiển Thị", Toast.LENGTH_LONG).show();
+                    loadDataImageProduct(NameProduct.getText().toString());
+                    getPricePromotion(gIDProduct,gNameProduct);
+                }else{
+                    loadDataPriceProduct(NameProduct.getText().toString());
+                    loadDataImageProduct(NameProduct.getText().toString());
+                }
             }
         });
 
@@ -122,12 +139,31 @@ public class CreateBill extends AppCompatActivity {
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                if(TextUtils.isEmpty(QualityProduct.getText().toString())){
+                if (TextUtils.isEmpty(QualityProduct.getText().toString())) {
                     Total = 0;
-                }else{
-                    Total = Integer.parseInt(PriceProduct.getText().toString()) * Integer.parseInt(QualityProduct.getText().toString());
+                } else {
+                    String pricePromotion = null;
+                    String gNameProduct = NameProduct.getText().toString();
+                    Cursor cursorID_Product = db.getIDProduct_Bill(gNameProduct);
+                    while (cursorID_Product.moveToNext()) {
+                        gIDProduct = cursorID_Product.getInt(0);
+                    }
+                    Boolean resultCheckPromotion = db.checkProductPromotion_Bill(gIDProduct);
+                    if (resultCheckPromotion == true) {
+                        Cursor cursorGetPricePromotion = db.getProductPromotion_Bill(gIDProduct);
+                        if(cursorGetPricePromotion.getCount() == 0){
+
+                        }else {
+                            while (cursorGetPricePromotion.moveToNext()) {
+                                pricePromotion = cursorGetPricePromotion.getString(0);
+                            }
+                        }
+                        Total = Integer.parseInt(pricePromotion) * Integer.parseInt(QualityProduct.getText().toString());
+                    }else{
+                        Total = Integer.parseInt(PriceProduct.getText().toString()) * Integer.parseInt(QualityProduct.getText().toString());
+                    }
+                    TotalPrice.setText(Total.toString());
                 }
-                TotalPrice.setText(Total.toString());
             }
 
             @Override
@@ -159,7 +195,7 @@ public class CreateBill extends AppCompatActivity {
                     } else {
 
                         Integer gIDTypeProduct = null;
-                        Integer gIDProduct = null;
+                        gIDProduct = null;
                         String gCQuality = null;
                         String gProductQuality = QualityProduct.getText().toString();
                         String gTotalPrice = Total.toString();
@@ -177,9 +213,9 @@ public class CreateBill extends AppCompatActivity {
                             gIDProduct = cursorID_Product.getInt(0);
                         }
 
-                        Cursor cursor = db.getQualityProduct_Bill(gIDProduct);
-                        while (cursor.moveToNext()) {
-                            gCQuality = cursor.getString(0);
+                        Cursor cursorGetCQuality = db.getQualityProduct_Bill(gIDProduct);
+                        while (cursorGetCQuality.moveToNext()) {
+                            gCQuality = cursorGetCQuality.getString(0);
                         }
 
                         Integer gNowQuality = Integer.parseInt(gCQuality) - Integer.parseInt(gProductQuality);
@@ -206,7 +242,7 @@ public class CreateBill extends AppCompatActivity {
                                 Boolean resultInsertData = db.insertData_Bill(gProductQuality, gTotalPrice, gCreateDay, gCreateTime, gIDTypeProduct, gIDProduct);
                                 if (resultInsertData == true) {
 
-                                    db.updateNewQualityProduct_Bill(gNowQuality.toString(),gIDProduct);
+                                    db.updateNewQualityProduct_Bill(gNowQuality.toString(), gIDProduct);
                                     progessLoading.show();
                                     new Handler().postDelayed(new Runnable() {
                                         @Override
@@ -229,7 +265,6 @@ public class CreateBill extends AppCompatActivity {
                                     }, 2000);
 
                                 }
-
                             }
                         }
                     }
@@ -240,6 +275,36 @@ public class CreateBill extends AppCompatActivity {
         btnBack();
         loadDataTypeProduct();
         ShowDiaLog();
+    }
+
+    private void getPricePromotion(Integer id_product, String product_name){
+
+
+        String price = null;
+        String pricePromotion = null;
+        Cursor cursor = db.readPriceProduct_Bill(product_name);
+        if(cursor.getCount() == 0){
+
+        }else{
+            while (cursor.moveToNext()){
+                price = cursor.getString(0);
+            }
+        }
+        Cursor cursorGetPricePromotion = db.getProductPromotion_Bill(id_product);
+        if(cursorGetPricePromotion.getCount() == 0){
+
+        }else {
+            while (cursorGetPricePromotion.moveToNext()) {
+                pricePromotion = cursorGetPricePromotion.getString(0);
+            }
+        }
+
+        Integer lText = price.length();
+        String str = price + " -> " + pricePromotion;
+        SpannableString ss = new SpannableString(str);
+        StrikethroughSpan strikethroughSpan = new StrikethroughSpan();
+        ss.setSpan(strikethroughSpan,0, lText, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        PriceProduct.setText(ss);
     }
 
     private void loadDataTypeProduct() {
