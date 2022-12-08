@@ -1,5 +1,6 @@
 package com.example.projectandroid.common.LoginSignUp;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 
@@ -17,10 +18,21 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.example.projectandroid.HelperClasses.SqlLite.SqlDatabaseHelper;
 import com.example.projectandroid.ProgessLoading;
 import com.example.projectandroid.R;
 import com.google.android.material.textfield.TextInputEditText;
+
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Random;
 
 public class SignUp extends AppCompatActivity {
 
@@ -112,44 +124,44 @@ public class SignUp extends AppCompatActivity {
 
                                 } else {
 
-                                    Boolean regResult = db.insertData_Users(gUserName, gPassword, gName, gEmail, gPhone, gGender, gAge);
-                                    if (regResult == true) {
+//                                    Boolean regResult = db.insertData_Users(gUserName, gPassword, gName, gEmail, gPhone, gGender, gAge);
+//                                    if (regResult == true) {
 
                                         progessLoading.show();
+
+                                        sendVerifyEmail(gEmail);
 
                                         new Handler().postDelayed(new Runnable() {
                                             @Override
                                             public void run() {
-                                                ContentDia.setText("Đăng Ký Thành Công, Bạn Có Muốn Chuyển Sang Đăng Nhập Không?");
-                                                dialog.show();
+                                                Intent intent = new Intent(SignUp.this, VerifySignUp.class);
+                                                startActivity(intent);
                                                 progessLoading.dismiss();
                                             }
                                         }, 2000);
 
-                                    } else {
-
-                                        progessLoading.show();
-
-                                        new Handler().postDelayed(new Runnable() {
-                                            @Override
-                                            public void run() {
-                                                Toast.makeText(SignUp.this, "Đăng Ký Thất Bại", Toast.LENGTH_SHORT).show();
-                                                progessLoading.dismiss();
-                                            }
-                                        }, 2000);
+//                                    } else {
+//
+//                                        progessLoading.show();
+//
+//                                        new Handler().postDelayed(new Runnable() {
+//                                            @Override
+//                                            public void run() {
+//                                                Toast.makeText(SignUp.this, "Đăng Ký Thất Bại", Toast.LENGTH_SHORT).show();
+//                                                progessLoading.dismiss();
+//                                            }
+//                                        }, 2000);
 
                                     }
 
                                 }
 
                             }
-                        }
                     } else {
 
                         Toast.makeText(SignUp.this, "Vui lòng nhập hai mật khẩu giống nhau", Toast.LENGTH_SHORT).show();
-
                     }
-                }
+                    }
             }
         });
 
@@ -207,5 +219,33 @@ public class SignUp extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+    }
+
+    private void sendVerifyEmail(String email){
+        Random random = new Random();
+        Integer verifyCode = random.nextInt(8999) + 1000;
+        String url = "";
+        RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                    Toast.makeText(SignUp.this, response, Toast.LENGTH_SHORT).show();
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                    Toast.makeText(SignUp.this, error.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        }){
+            @Nullable
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String,String> params = new HashMap<>();
+                params.put("email",email);
+                params.put("code", String.valueOf(verifyCode));
+                return params;
+            }
+        };
+        requestQueue.add(stringRequest);
     }
 }
