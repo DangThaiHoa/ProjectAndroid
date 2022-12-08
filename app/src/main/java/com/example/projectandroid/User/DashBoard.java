@@ -155,19 +155,20 @@ public class DashBoard extends AppCompatActivity implements NavigationView.OnNav
         Cursor cursor = db.readEndDay_Promotion();
         if (cursor.getCount() == 0){
 
-        }
-        while (cursor.moveToNext()){
-            Integer gID = cursor.getInt(0);
-            String gEDate = cursor.getString(1);
-            SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy", Locale.getDefault());
-            try {
-                Date gDate = dateFormat.parse(gEDate);
-                if(dateAndTime.after(gDate)){
-                    sendNotification(gID);
-                    db.deleteData_Promotion(gID);
+        }else {
+            while (cursor.moveToNext()) {
+                Integer gID = cursor.getInt(0);
+                String gEDate = cursor.getString(1);
+                SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy", Locale.getDefault());
+                try {
+                    Date gDate = dateFormat.parse(gEDate);
+                    if (dateAndTime.after(gDate)) {
+                        sendNotification(gID);
+                        db.deleteData_Promotion(gID);
+                    }
+                } catch (ParseException e) {
+                    e.printStackTrace();
                 }
-            } catch (ParseException e) {
-                e.printStackTrace();
             }
         }
     }
@@ -181,25 +182,25 @@ public class DashBoard extends AppCompatActivity implements NavigationView.OnNav
             });
         }
 
-        private void btn_shopping() {
-            btn_shopping.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Intent intent = new Intent(DashBoard.this, Shopping.class);
-                    startActivity(intent);
-                }
-            });
-        }
-
-        private void btn_analysis() {
-            btn_analysis.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Intent intent = new Intent(DashBoard.this, Analysis.class);
+    private void btn_shopping() {
+        btn_shopping.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(DashBoard.this, Shopping.class);
                 startActivity(intent);
             }
         });
     }
+
+    private void btn_analysis() {
+        btn_analysis.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(DashBoard.this, Analysis.class);
+            startActivity(intent);
+        }
+    });
+}
 
     private void navigationDrawer() {
         navigationView.bringToFront();

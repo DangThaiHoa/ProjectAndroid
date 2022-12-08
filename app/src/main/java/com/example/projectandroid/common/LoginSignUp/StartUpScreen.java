@@ -5,10 +5,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 
 import android.Manifest;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.View;
 import android.view.WindowManager;
@@ -17,6 +19,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.projectandroid.HelperClasses.SqlLite.SqlDatabaseHelper;
 import com.example.projectandroid.MainActivity;
 import com.example.projectandroid.R;
 import com.google.android.material.switchmaterial.SwitchMaterial;
@@ -25,7 +28,6 @@ public class StartUpScreen extends MainActivity {
 
     private static final int REQUEST_CODE = 1;
     ImageView imageStart;
-    Boolean isDarkModeOn = false;
     Button btnLogin, btnSignUp;
     TextView textViewWE, textViewDE, textViewWork;
 
@@ -57,7 +59,6 @@ public class StartUpScreen extends MainActivity {
         textViewWork.animate().translationY(0).alpha(1).setDuration(1000).setStartDelay(1600).start();
 
         checkPermission();
-
     }
 
     private void checkPermission() {

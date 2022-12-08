@@ -18,7 +18,7 @@ public class SqlDatabaseHelper extends SQLiteOpenHelper {
     //Database
     private Context context;
     private static final String DATABASE_NAME = "MyDatabase.db";
-    private static final int DATABASE_VERSION = 1;
+    private static final int DATABASE_VERSION = 3;
     //Database
 
 
@@ -99,7 +99,7 @@ public class SqlDatabaseHelper extends SQLiteOpenHelper {
     }
 
     //Login_Signup
-    private String Create_Table_Users =  "CREATE TABLE " + TABLE_USERS +
+    private String Create_Table_Users =  "CREATE TABLE IF NOT EXISTS " + TABLE_USERS +
                                         "(" + COLUMN_ID_USERS + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
                                         COLUMN_USERNAME_USERS + " TEXT UNIQUE, " +
                                         COLUMN_PASSWORD_USERS + " TEXT, " +
@@ -112,7 +112,7 @@ public class SqlDatabaseHelper extends SQLiteOpenHelper {
 
 
     //TypeProduct
-    private String Create_Table_Type_Product =  "CREATE TABLE " + TABLE_TYPE_PRODUCT +
+    private String Create_Table_Type_Product =  "CREATE TABLE IF NOT EXISTS " + TABLE_TYPE_PRODUCT +
             "(" + COLUMN_ID_TYPE_PRODUCT + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
             COLUMN_TYPE_PRODUCT_NAME + " TEXT UNIQUE, " +
             COLUMN_TYPE_PRODUCT_DESCRIPTION + " TEXT);";
@@ -120,7 +120,7 @@ public class SqlDatabaseHelper extends SQLiteOpenHelper {
 
 
     //Product
-    private String Create_Table_Product =  "CREATE TABLE " + TABLE_PRODUCT +
+    private String Create_Table_Product =  "CREATE TABLE IF NOT EXISTS " + TABLE_PRODUCT +
             "(" + COLUMN_ID_PRODUCT + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
             COLUMN_PRODUCT_NAME + " TEXT UNIQUE, " +
             COLUMN_PRODUCT_QUALITY + " TEXT, " +
@@ -133,7 +133,7 @@ public class SqlDatabaseHelper extends SQLiteOpenHelper {
 
 
     //Bill
-    private String Create_Table_Bill=  "CREATE TABLE " + TABLE_BILL +
+    private String Create_Table_Bill=  "CREATE TABLE IF NOT EXISTS " + TABLE_BILL +
             "(" + COLUMN_ID_BILL + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
             COLUMN_BILL_QUALITY + " TEXT, " +
             COLUMN_BILL_TOTAL_PRICE + " REAL, " +
@@ -147,7 +147,7 @@ public class SqlDatabaseHelper extends SQLiteOpenHelper {
 
 
     //Promotion
-    private String Create_Table_Promotion=  "CREATE TABLE " + TABLE_PROMOTION +
+    private String Create_Table_Promotion=  "CREATE TABLE IF NOT EXISTS " + TABLE_PROMOTION +
             "(" + COLUMN_ID_PROMOTION + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
             COLUMN_PROMOTION_PERCENT + " TEXT, " +
             COLUMN_PROMOTION_PRICE_AFTER + " REAL, " +
@@ -161,7 +161,7 @@ public class SqlDatabaseHelper extends SQLiteOpenHelper {
 
 
     //ImportProduct
-    private String Create_Table_Import_Product=  "CREATE TABLE " + TABLE_IMPORT_PRODUCT +
+    private String Create_Table_Import_Product=  "CREATE TABLE IF NOT EXISTS " + TABLE_IMPORT_PRODUCT +
             "(" + COLUMN_ID_IMPORT_PRODUCT + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
             COLUMN_IMPORT_PRODUCT_OLD_QUALITY + " TEXT, " +
             COLUMN_IMPORT_PRODUCT_NEW_QUALITY + " TEXT, " +
@@ -275,15 +275,15 @@ public class SqlDatabaseHelper extends SQLiteOpenHelper {
 
     //Login_Signup
     public boolean insertData_Users(String username, String password, String name, String email, String phone, String gender, String age){
-        SQLiteDatabase db = this.getWritableDatabase();
-        ContentValues contentValues = new ContentValues();
-        contentValues.put(COLUMN_USERNAME_USERS,username);
-        contentValues.put(COLUMN_PASSWORD_USERS,password);
-        contentValues.put(COLUMN_NAME_USERS,name);
-        contentValues.put(COLUMN_EMAIL_USERS,email);
-        contentValues.put(COLUMN_PHONE_USERS,phone);
-        contentValues.put(COLUMN_GENDER_USERS,gender);
-        contentValues.put(COLUMN_AGE_USERS,age);
+            SQLiteDatabase db = this.getWritableDatabase();
+            ContentValues contentValues = new ContentValues();
+            contentValues.put(COLUMN_USERNAME_USERS,username);
+            contentValues.put(COLUMN_PASSWORD_USERS,password);
+            contentValues.put(COLUMN_NAME_USERS,name);
+            contentValues.put(COLUMN_EMAIL_USERS,email);
+            contentValues.put(COLUMN_PHONE_USERS,phone);
+            contentValues.put(COLUMN_GENDER_USERS,gender);
+            contentValues.put(COLUMN_AGE_USERS,age);
 
         long result = db.insert(TABLE_USERS,null, contentValues);
 
@@ -391,6 +391,19 @@ public class SqlDatabaseHelper extends SQLiteOpenHelper {
             return true;
         }else{
             return false;
+        }
+    }
+
+    public boolean changeForgetPassword_Users(String login_signup_email, String login_signup_password){
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(COLUMN_PASSWORD_USERS,login_signup_password);
+        long result = db.update(TABLE_USERS,contentValues,COLUMN_EMAIL_USERS + " = ?", new String[] {login_signup_email});
+
+        if(result == -1){
+            return false;
+        }else{
+            return true;
         }
     }
     //Login_Signup

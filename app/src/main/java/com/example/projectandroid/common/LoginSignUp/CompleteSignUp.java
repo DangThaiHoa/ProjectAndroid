@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.Button;
 
 import com.example.projectandroid.R;
+import com.google.android.material.textfield.TextInputEditText;
 
 public class CompleteSignUp extends AppCompatActivity {
 

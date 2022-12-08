@@ -19,6 +19,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.projectandroid.HelperClasses.SqlLite.SqlDatabaseHelper;
@@ -36,6 +37,7 @@ public class Login extends AppCompatActivity {
 
     TextInputEditText username, password;
     Button loginBtn,signupBtn;
+    TextView forgetPassword;
 
     SqlDatabaseHelper db;
 
@@ -55,6 +57,7 @@ public class Login extends AppCompatActivity {
         username = findViewById(R.id.UserNameorEmail_login);
         password = findViewById(R.id.Password_login);
         loginBio = findViewById(R.id.bio_login);
+        forgetPassword = findViewById(R.id.forgetPassword_button);
 
 
         loginBtn.setOnClickListener(new View.OnClickListener() {
@@ -110,30 +113,29 @@ public class Login extends AppCompatActivity {
 
                 checkSPBiometric();
 
-                Executor executor = ContextCompat.getMainExecutor(Login.this);
-                androidx.biometric.BiometricPrompt biometricPrompt = new androidx.biometric.BiometricPrompt(Login.this, executor, new androidx.biometric.BiometricPrompt.AuthenticationCallback() {
-                    @Override
-                    public void onAuthenticationError(int errorCode, @NonNull CharSequence errString) {
-                        super.onAuthenticationError(errorCode, errString);
-                        Toast.makeText(Login.this, "Auth error " + errString, Toast.LENGTH_SHORT).show();
-                    }
+                String gUsername = username.getText().toString();
 
-                    @Override
-                    public void onAuthenticationSucceeded(@NonNull androidx.biometric.BiometricPrompt.AuthenticationResult result) {
-                        super.onAuthenticationSucceeded(result);
-                        String gUsername = username.getText().toString();
+                if (gUsername.isEmpty()) {
 
-                        if (gUsername.isEmpty()) {
+                    Toast.makeText(Login.this, "Vui Lòng Nhập Đầy Đủ Thông Tin", Toast.LENGTH_SHORT).show();
 
-                            Toast.makeText(Login.this, "Vui Lòng Nhập Đầy Đủ Thông Tin", Toast.LENGTH_SHORT).show();
+                } else {
 
-                        } else {
+                    Boolean resultUserName = db.checkUsernameExist_Users(gUsername);
+                    Boolean resultEmail = db.checkEmailExist_Users(gUsername);
+                    Boolean resultPhone = db.checkPhoneExist_Users(gUsername);
+                    if (resultUserName == true || resultEmail == true || resultPhone == true) {
 
-                            Boolean resultUserName = db.checkUsernameExist_Users(gUsername);
-                            Boolean resultEmail = db.checkEmailExist_Users(gUsername);
-                            Boolean resultPhone = db.checkPhoneExist_Users(gUsername);
-                            if (resultUserName == true || resultEmail == true || resultPhone == true) {
+                        Executor executor = ContextCompat.getMainExecutor(Login.this);
+                        androidx.biometric.BiometricPrompt biometricPrompt = new androidx.biometric.BiometricPrompt(Login.this, executor, new androidx.biometric.BiometricPrompt.AuthenticationCallback() {
+                            @Override
+                            public void onAuthenticationError(int errorCode, @NonNull CharSequence errString) {
+                                super.onAuthenticationError(errorCode, errString);
+                            }
 
+                            @Override
+                            public void onAuthenticationSucceeded(@NonNull androidx.biometric.BiometricPrompt.AuthenticationResult result) {
+                                super.onAuthenticationSucceeded(result);
                                 progessLoading.show();
 
                                 new Handler().postDelayed(new Runnable() {
@@ -145,29 +147,43 @@ public class Login extends AppCompatActivity {
                                         finish();
                                     }
                                 }, 2000);
-                            }else{
-
-                                Toast.makeText(Login.this, "Sai UserName", Toast.LENGTH_SHORT).show();
-                                
                             }
-                        }
-                    }
 
-                    @Override
-                    public void onAuthenticationFailed() {
-                        super.onAuthenticationFailed();
-                        Toast.makeText(Login.this, "Vân Tay Không Khớp", Toast.LENGTH_SHORT).show();
+                            @Override
+                            public void onAuthenticationFailed() {
+                                super.onAuthenticationFailed();
+                                Toast.makeText(Login.this, "Vân Tay Hoặc Khuông Mặt Không Khớp", Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                        androidx.biometric.BiometricPrompt.PromptInfo.Builder promptInfo = new androidx.biometric.BiometricPrompt.PromptInfo.Builder()
+                                .setTitle("Xác Thực Vân Tay Hoặc Khuông Mặt")
+                                .setNegativeButtonText("Hủy");
+                        biometricPrompt.authenticate(promptInfo.build());
+
+                    }else{
+
+                        Toast.makeText(Login.this, "Sai Tên Đăng Nhập", Toast.LENGTH_SHORT).show();
+
                     }
-                });
-                androidx.biometric.BiometricPrompt.PromptInfo.Builder promptInfo = new androidx.biometric.BiometricPrompt.PromptInfo.Builder()
-                        .setTitle("Đăng Nhập Với Vân Tay")
-                        .setNegativeButtonText("Hủy");
-                biometricPrompt.authenticate(promptInfo.build());
+                }
             }
         });
 
         backbtn();
         signupBtn();
+        forgetPassword();
+    }
+
+    private void forgetPassword() {
+
+        forgetPassword.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getApplicationContext(),ForgetPassword.class);
+                startActivity(intent);
+            }
+        });
+
     }
 
     private void checkSPBiometric() {

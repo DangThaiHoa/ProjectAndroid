@@ -14,7 +14,6 @@ import com.example.projectandroid.R;
 
 public class CompleteForgetPassword extends AppCompatActivity {
 
-    ImageView backbtn;
     Button login;
 
     @Override
@@ -23,22 +22,14 @@ public class CompleteForgetPassword extends AppCompatActivity {
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
         setContentView(R.layout.activity_complete_forget_password);
 
-        backbtn = findViewById(R.id.CforgetPassword_button_back);
         login = findViewById(R.id.CforgetPassword_button_login);
-
-        backbtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(getApplicationContext(), ForgetPassword.class);
-                startActivity(intent);
-            }
-        });
 
         login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(getApplicationContext(), Login.class);
                 startActivity(intent);
+                finish();
             }
         });
     }
