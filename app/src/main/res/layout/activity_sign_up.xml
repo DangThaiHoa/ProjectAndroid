@@ -62,6 +62,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="Tên Đăng Nhập"
+                    app:endIconMode="clear_text"
                     app:boxStrokeWidthFocused="2dp"
                     app:startIconDrawable="@drawable/ic_baseline_user_signup_24">
 
@@ -79,6 +80,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="Email"
+                    app:endIconMode="clear_text"
                     app:boxStrokeWidthFocused="2dp"
                     app:startIconDrawable="@drawable/ic_baseline_email_signup_24">
 
@@ -96,6 +98,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="Số Điện Thoại"
+                    app:endIconMode="clear_text"
                     app:boxStrokeWidthFocused="2dp"
                     app:startIconDrawable="@drawable/ic_baseline_phone_signup_24">
 

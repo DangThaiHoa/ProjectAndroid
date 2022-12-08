@@ -360,6 +360,39 @@ public class SqlDatabaseHelper extends SQLiteOpenHelper {
             return false;
         }
     }
+
+    public boolean checkUsernameExist_Users(String username){
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery("select * from "+ TABLE_USERS +" where "+ COLUMN_USERNAME_USERS +" = ?", new String[] {username});
+
+        if (cursor.getCount()>0){
+            return true;
+        }else{
+            return false;
+        }
+    }
+
+    public boolean checkEmailExist_Users(String email){
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery("select * from "+ TABLE_USERS +" where "+ COLUMN_EMAIL_USERS +" = ?", new String[] {email});
+
+        if (cursor.getCount()>0){
+            return true;
+        }else{
+            return false;
+        }
+    }
+
+    public boolean checkPhoneExist_Users(String phone){
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery("select * from "+ TABLE_USERS +" where "+ COLUMN_PHONE_USERS +" = ?", new String[] {phone});
+
+        if (cursor.getCount()>0){
+            return true;
+        }else{
+            return false;
+        }
+    }
     //Login_Signup
 
 

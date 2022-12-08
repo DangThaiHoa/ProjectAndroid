@@ -62,6 +62,7 @@
                     android:id="@+id/Code_1"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:gravity="center"
                     android:inputType="number" />
 
             </com.google.android.material.textfield.TextInputLayout>
@@ -77,6 +78,7 @@
                     android:id="@+id/Code_2"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:gravity="center"
                     android:inputType="number" />
 
             </com.google.android.material.textfield.TextInputLayout>
@@ -92,6 +94,7 @@
                     android:id="@+id/Code_3"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:gravity="center"
                     android:inputType="number" />
 
             </com.google.android.material.textfield.TextInputLayout>
@@ -107,6 +110,7 @@
                     android:id="@+id/Code_4"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:gravity="center"
                     android:inputType="number" />
 
             </com.google.android.material.textfield.TextInputLayout>
@@ -120,6 +124,17 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
             android:text="Xác Nhận"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="50dp"
+            android:gravity="center"
+            android:layout_gravity="center"
+            android:textSize="15sp"
+            android:fontFamily="@font/muli_black"
+            android:text="Nếu Không Thấy Mã Xác Thực Trong Email\nHãy Thử Tìm Trong Thư Mục Spam"/>
+
 
     </LinearLayout>
 

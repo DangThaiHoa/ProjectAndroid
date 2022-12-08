@@ -1,11 +1,21 @@
 package com.example.projectandroid.common.LoginSignUp;
 
+import static androidx.biometric.BiometricManager.Authenticators.BIOMETRIC_STRONG;
+import static androidx.biometric.BiometricManager.Authenticators.DEVICE_CREDENTIAL;
+
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
+import androidx.biometric.BiometricManager;
+import androidx.core.content.ContextCompat;
 
 import android.content.Intent;
+import android.hardware.biometrics.BiometricPrompt;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.provider.Settings;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -17,9 +27,12 @@ import com.example.projectandroid.R;
 import com.example.projectandroid.User.DashBoard;
 import com.google.android.material.textfield.TextInputEditText;
 
+import java.util.concurrent.Executor;
+
 public class Login extends AppCompatActivity {
 
-    ImageView backbtn;
+    private static final int REQUEST_CODE = 1;
+    ImageView backbtn, loginBio;
 
     TextInputEditText username, password;
     Button loginBtn,signupBtn;
@@ -41,6 +54,7 @@ public class Login extends AppCompatActivity {
         signupBtn = findViewById(R.id.button_signup_login);
         username = findViewById(R.id.UserNameorEmail_login);
         password = findViewById(R.id.Password_login);
+        loginBio = findViewById(R.id.bio_login);
 
 
         loginBtn.setOnClickListener(new View.OnClickListener() {
@@ -90,8 +104,92 @@ public class Login extends AppCompatActivity {
             }
         });
 
+        loginBio.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                checkSPBiometric();
+
+                Executor executor = ContextCompat.getMainExecutor(Login.this);
+                androidx.biometric.BiometricPrompt biometricPrompt = new androidx.biometric.BiometricPrompt(Login.this, executor, new androidx.biometric.BiometricPrompt.AuthenticationCallback() {
+                    @Override
+                    public void onAuthenticationError(int errorCode, @NonNull CharSequence errString) {
+                        super.onAuthenticationError(errorCode, errString);
+                        Toast.makeText(Login.this, "Auth error " + errString, Toast.LENGTH_SHORT).show();
+                    }
+
+                    @Override
+                    public void onAuthenticationSucceeded(@NonNull androidx.biometric.BiometricPrompt.AuthenticationResult result) {
+                        super.onAuthenticationSucceeded(result);
+                        String gUsername = username.getText().toString();
+
+                        if (gUsername.isEmpty()) {
+
+                            Toast.makeText(Login.this, "Vui Lòng Nhập Đầy Đủ Thông Tin", Toast.LENGTH_SHORT).show();
+
+                        } else {
+
+                            Boolean resultUserName = db.checkUsernameExist_Users(gUsername);
+                            Boolean resultEmail = db.checkEmailExist_Users(gUsername);
+                            Boolean resultPhone = db.checkPhoneExist_Users(gUsername);
+                            if (resultUserName == true || resultEmail == true || resultPhone == true) {
+
+                                progessLoading.show();
+
+                                new Handler().postDelayed(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        Intent intent = new Intent(Login.this, DashBoard.class);
+                                        startActivity(intent);
+                                        progessLoading.dismiss();
+                                        finish();
+                                    }
+                                }, 2000);
+                            }else{
+
+                                Toast.makeText(Login.this, "Sai UserName", Toast.LENGTH_SHORT).show();
+                                
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onAuthenticationFailed() {
+                        super.onAuthenticationFailed();
+                        Toast.makeText(Login.this, "Vân Tay Không Khớp", Toast.LENGTH_SHORT).show();
+                    }
+                });
+                androidx.biometric.BiometricPrompt.PromptInfo.Builder promptInfo = new androidx.biometric.BiometricPrompt.PromptInfo.Builder()
+                        .setTitle("Đăng Nhập Với Vân Tay")
+                        .setNegativeButtonText("Hủy");
+                biometricPrompt.authenticate(promptInfo.build());
+            }
+        });
+
         backbtn();
         signupBtn();
+    }
+
+    private void checkSPBiometric() {
+        BiometricManager biometricManager = BiometricManager.from(Login.this);
+        switch (biometricManager.canAuthenticate(BIOMETRIC_STRONG | DEVICE_CREDENTIAL)) {
+            case BiometricManager.BIOMETRIC_SUCCESS:
+                Log.d("MY_APP_TAG", "App can authenticate using biometrics.");
+                break;
+            case BiometricManager.BIOMETRIC_ERROR_NO_HARDWARE:
+                Toast.makeText(Login.this, "Thiết Bị của Bạn Không Hỗ Trợ Cảm Biến Vân Tay", Toast.LENGTH_SHORT).show();
+                break;
+            case BiometricManager.BIOMETRIC_ERROR_HW_UNAVAILABLE:
+                Toast.makeText(Login.this, "Thiết Bị của Bạn Không Hỗ Trợ Cảm Biến Vân Tay Hoặc Đang Lỗi", Toast.LENGTH_SHORT).show();
+                break;
+            case BiometricManager.BIOMETRIC_ERROR_NONE_ENROLLED:
+                // Prompts the user to create credentials that your app accepts.
+                final Intent enrollIntent = new Intent(Settings.ACTION_BIOMETRIC_ENROLL);
+                enrollIntent.putExtra(Settings.EXTRA_BIOMETRIC_AUTHENTICATORS_ALLOWED,
+                        BIOMETRIC_STRONG | DEVICE_CREDENTIAL);
+                startActivityForResult(enrollIntent, REQUEST_CODE);
+                break;
+        }
     }
 
     private void signupBtn() {
