@@ -134,6 +134,7 @@ public class Analysis extends AppCompatActivity implements NavigationView.OnNavi
                 break;
             case R.id.nav_profile:
                 startActivity(new Intent(getApplicationContext(), Profile.class));
+                finish();
                 break;
             case R.id.nav_logout:
                 startActivity(new Intent(getApplicationContext(), StartUpScreen.class));

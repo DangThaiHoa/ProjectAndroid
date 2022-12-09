@@ -32,6 +32,7 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+import androidx.appcompat.widget.Toolbar;
 
 import com.example.projectandroid.ChannelNotification;
 import com.example.projectandroid.HelperClasses.HomeAdapter.CategoriesAdapter;
@@ -44,6 +45,11 @@ import com.example.projectandroid.HelperClasses.SqlLite.SqlDatabaseHelper;
 import com.example.projectandroid.MainActivity;
 import com.example.projectandroid.R;
 import com.example.projectandroid.SessionManager;
+import com.example.projectandroid.User.MProduct.AddProduct.AddProduct;
+import com.example.projectandroid.User.MProduct.AddTypeProduct.AddTypeProduct;
+import com.example.projectandroid.User.MProduct.ImportProduct.ImportProduct;
+import com.example.projectandroid.User.MShopping.CreateBill.CreateBill;
+import com.example.projectandroid.User.MShopping.CreatePromotion.CreatePromotion;
 import com.example.projectandroid.User.MShopping.ListPromotion.ListPromotion;
 import com.example.projectandroid.User.Profile.Profile;
 import com.example.projectandroid.common.LoginSignUp.StartUpScreen;
@@ -66,7 +72,8 @@ public class DashBoard extends AppCompatActivity implements NavigationView.OnNav
     DrawerLayout drawerLayout;
     NavigationView navigationView;
     ImageView menuIcon;
-    TextView menu_UserName;
+    Toolbar toolbar;
+    TextView loginUserName;
 
     LinearLayout contentView;
 
@@ -75,6 +82,8 @@ public class DashBoard extends AppCompatActivity implements NavigationView.OnNav
     SqlDatabaseHelper db;
 
     SessionManager sessionManager;
+
+    String IdUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -90,28 +99,64 @@ public class DashBoard extends AppCompatActivity implements NavigationView.OnNav
         mostviewRecycle = findViewById(R.id.most_view_recycler);
         categoriesRecycle = findViewById(R.id.categories_recycler);
         menuIcon = findViewById(R.id.menu_icon);
-        menu_UserName = findViewById(R.id.app_name);
+        loginUserName = findViewById(R.id.username_login);
         contentView = findViewById(R.id.content);
         btn_product = findViewById(R.id.dashboard_product);
         btn_shopping = findViewById(R.id.dashboard_shopping);
         btn_analysis = findViewById(R.id.dashboard_analysis);
+        toolbar = findViewById(R.id.dashboard_toolBar);
 
         drawerLayout = findViewById(R.id.drawer_layout);
         navigationView = findViewById(R.id.navigation_view);
 
-        String a = sessionManager.setID();
-        menu_UserName.setText(a);
+        IdUser = sessionManager.setID();
 
-        navigationDrawer();
+        Cursor cursor = db.readDataForMenu_User(Integer.parseInt(IdUser));
+        while (cursor.moveToNext()){
+
+            loginUserName.setText("Chào Mừng\n " + cursor.getString(0));
+
+        }
+
+        toolbar.inflateMenu(R.menu.option_menu_dashboard);
+
+        toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                switch (item.getItemId()){
+
+                    case R.id.add_type_product:
+                        Intent addTypeProduct = new Intent(getApplicationContext(), AddTypeProduct.class);
+                        startActivity(addTypeProduct);
+                        break;
+                    case R.id.add_product:
+                        Intent addProduct = new Intent(getApplicationContext(), AddProduct.class);
+                        startActivity(addProduct);
+                        break;
+                    case R.id.import_product:
+                        Intent importProduct = new Intent(getApplicationContext(), ImportProduct.class);
+                        startActivity(importProduct);
+                        break;
+                    case R.id.create_bill:
+                        Intent createBill = new Intent(getApplicationContext(), CreateBill.class);
+                        startActivity(createBill);
+                        break;
+                    case R.id.create_promotion:
+                        Intent createPromotion = new Intent(getApplicationContext(), CreatePromotion.class);
+                        startActivity(createPromotion);
+                        break;
+                }
+                return false;
+            }
+        });
 
         btn_product();
         btn_shopping();
         btn_analysis();
-
+        navigationDrawer();
         featuredRecycle();
         mostviewRecycle();
         categoriesRecycle();
-
         deletePromotion();
     }
 

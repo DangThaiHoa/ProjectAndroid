@@ -6,6 +6,7 @@ import androidx.cardview.widget.CardView;
 
 import android.app.Dialog;
 import android.content.Intent;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.View;
@@ -16,7 +17,10 @@ import android.widget.PopupMenu;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.example.projectandroid.HelperClasses.SqlLite.SqlDatabaseHelper;
 import com.example.projectandroid.R;
+import com.example.projectandroid.SessionManager;
+import com.example.projectandroid.User.DashBoard;
 import com.example.projectandroid.common.LoginSignUp.StartUpScreen;
 
 public class Profile extends AppCompatActivity {
@@ -24,11 +28,16 @@ public class Profile extends AppCompatActivity {
     ImageView btnBack;
     CardView Setting, changePassword, Information, ChangeImage;
     Button editProfile, ConfirmBtnDia, CancelBtnDia;
-    TextView ContentDia;
+    TextView ContentDia, nameUser,emailUser;
     
     RelativeLayout btnLogout;
 
     Dialog dialog;
+
+    String idUser;
+
+    SqlDatabaseHelper db;
+    SessionManager sessionManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,13 +45,21 @@ public class Profile extends AppCompatActivity {
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
         setContentView(R.layout.activity_profile);
 
+        db = new SqlDatabaseHelper(this);
+        sessionManager = new SessionManager(this);
+
         btnBack = findViewById(R.id.back_btn);
         Setting = findViewById(R.id.card_icon_Setting_profile);
         changePassword = findViewById(R.id.card_icon_Password_profile);
         Information = findViewById(R.id.card_icon_Info_profile);
         btnLogout = findViewById(R.id.logout_btn);
         editProfile = findViewById(R.id.btn_Edit_profile);
+        nameUser = findViewById(R.id.text_name_Profile);
+        emailUser = findViewById(R.id.text_email_Profile);
         ChangeImage = findViewById(R.id.card_Image_profile);
+
+
+        idUser = sessionManager.setID();
 
         ChangeImage();
         btnBack();
@@ -52,6 +69,19 @@ public class Profile extends AppCompatActivity {
         btnLogout();
         editProfile();
         ShowDiaLog();
+        readAllData();
+    }
+
+    private void readAllData() {
+
+        Cursor cursor = db.readAllData_User(Integer.parseInt(idUser));
+        while (cursor.moveToNext()){
+
+            nameUser.setText(cursor.getString(3));
+            emailUser.setText(cursor.getString(4));
+
+        }
+
     }
 
     public void ShowDiaLog() {
@@ -71,6 +101,7 @@ public class Profile extends AppCompatActivity {
             public void onClick(View view) {
                 Intent intent = new Intent(getApplicationContext(), StartUpScreen.class);
                 startActivity(intent);
+                sessionManager.setLogin(false);
                 dialog.dismiss();
             }
         });
@@ -149,7 +180,9 @@ public class Profile extends AppCompatActivity {
         btnBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Profile.super.onBackPressed();
+                Intent intent = new Intent(getApplicationContext(), DashBoard.class);
+                startActivity(intent);
+                finish();
             }
         });
     }

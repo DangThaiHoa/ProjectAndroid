@@ -416,6 +416,51 @@ public class SqlDatabaseHelper extends SQLiteOpenHelper {
         }
         return cursor;
     }
+
+    public Cursor readDataForMenu_User(Integer id_user){
+
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = null;
+        if(db != null){
+            cursor = db.rawQuery("Select " + COLUMN_NAME_USERS + " From " + TABLE_USERS + " Where " + COLUMN_ID_USERS + "= ?",new String[] {String.valueOf(id_user)});
+        }
+        return cursor;
+    }
+
+    public Cursor readAllData_User(Integer id_user){
+
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = null;
+        if(db != null){
+            cursor = db.rawQuery("Select * From " + TABLE_USERS + " Where " + COLUMN_ID_USERS + "= ?",new String[] {String.valueOf(id_user)});
+        }
+        return cursor;
+
+    }
+    public boolean checkOldPassword_Users(Integer id_user, String password_user){
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = null;
+        cursor = db.rawQuery("Select " + COLUMN_PASSWORD_USERS + " From " + TABLE_USERS + " Where " + COLUMN_ID_USERS + "= ? AND "+ COLUMN_PASSWORD_USERS + "= ?",new String[] {String.valueOf(id_user),password_user});
+
+        if(cursor.getCount() > 0){
+            return true;
+        }else{
+            return false;
+        }
+    }
+
+    public boolean updatePassword_Users(Integer id_user, String password_user){
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(COLUMN_PASSWORD_USERS,password_user);
+        long resultUpdate = db.update(TABLE_USERS, contentValues, COLUMN_ID_USERS + "= ?", new String[] {String.valueOf(id_user)});
+
+        if(resultUpdate == -1){
+            return false;
+        }else{
+            return true;
+        }
+    }
     //Login_Signup
 
 

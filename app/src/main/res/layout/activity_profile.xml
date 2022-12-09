@@ -80,19 +80,19 @@
                 android:layout_width="34dp"
                 android:layout_height="30dp"
                 android:layout_gravity="center"
-                android:src="@drawable/ic_baseline_edit_24" />
+                android:src="@drawable/ic_baseline_camera_alt_24" />
 
         </com.google.android.material.card.MaterialCardView>
 
     </RelativeLayout>
 
     </RelativeLayout>
-    
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp">
-        
+
         <TextView
             android:id="@+id/text_name_Profile"
             android:layout_width="wrap_content"
