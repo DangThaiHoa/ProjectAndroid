@@ -30,6 +30,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.projectandroid.ChannelNotification;
@@ -42,8 +43,10 @@ import com.example.projectandroid.HelperClasses.HomeAdapter.MostViewHelperClass;
 import com.example.projectandroid.HelperClasses.SqlLite.SqlDatabaseHelper;
 import com.example.projectandroid.MainActivity;
 import com.example.projectandroid.R;
+import com.example.projectandroid.SessionManager;
 import com.example.projectandroid.User.MShopping.ListPromotion.ListPromotion;
 import com.example.projectandroid.User.Profile.Profile;
+import com.example.projectandroid.common.LoginSignUp.StartUpScreen;
 import com.google.android.material.navigation.NavigationView;
 
 import java.text.ParseException;
@@ -63,12 +66,15 @@ public class DashBoard extends AppCompatActivity implements NavigationView.OnNav
     DrawerLayout drawerLayout;
     NavigationView navigationView;
     ImageView menuIcon;
+    TextView menu_UserName;
 
     LinearLayout contentView;
 
     RelativeLayout btn_product, btn_shopping, btn_analysis;
 
     SqlDatabaseHelper db;
+
+    SessionManager sessionManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,10 +84,13 @@ public class DashBoard extends AppCompatActivity implements NavigationView.OnNav
 
         db = new SqlDatabaseHelper(this);
 
+        sessionManager = new SessionManager(this);
+
         featuredRecycle = findViewById(R.id.featured_recycler);
         mostviewRecycle = findViewById(R.id.most_view_recycler);
         categoriesRecycle = findViewById(R.id.categories_recycler);
         menuIcon = findViewById(R.id.menu_icon);
+        menu_UserName = findViewById(R.id.app_name);
         contentView = findViewById(R.id.content);
         btn_product = findViewById(R.id.dashboard_product);
         btn_shopping = findViewById(R.id.dashboard_shopping);
@@ -89,6 +98,9 @@ public class DashBoard extends AppCompatActivity implements NavigationView.OnNav
 
         drawerLayout = findViewById(R.id.drawer_layout);
         navigationView = findViewById(R.id.navigation_view);
+
+        String a = sessionManager.setID();
+        menu_UserName.setText(a);
 
         navigationDrawer();
 
@@ -277,6 +289,10 @@ public class DashBoard extends AppCompatActivity implements NavigationView.OnNav
             case R.id.nav_profile:
                 startActivity(new Intent(getApplicationContext(), Profile.class));
                 break;
+            case R.id.nav_logout:
+                startActivity(new Intent(getApplicationContext(), StartUpScreen.class));
+                sessionManager.setLogin(false);
+                finish();
 
         }
         return true;

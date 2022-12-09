@@ -21,6 +21,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.projectandroid.HelperClasses.SqlLite.SqlDatabaseHelper;
 import com.example.projectandroid.ProgessLoading;
 import com.example.projectandroid.R;
 import com.google.android.material.textfield.TextInputEditText;
@@ -35,12 +36,15 @@ public class ForgetPassword extends AppCompatActivity {
     Button confirmBtn;
     TextInputEditText Email;
     Integer verifyCode;
+    SqlDatabaseHelper db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
         setContentView(R.layout.activity_forget_password);
+
+        db = new SqlDatabaseHelper(this);
 
         final ProgessLoading progessLoading = new ProgessLoading(this);
 
@@ -60,27 +64,35 @@ public class ForgetPassword extends AppCompatActivity {
 
                     if (Patterns.EMAIL_ADDRESS.matcher(gEmail).matches()) {
 
-                        progessLoading.show();
 
-                        sendVerifyEmail(gEmail);
+                        Boolean resultEmail = db.checkEmailExist_Users(gEmail);
+                        if (resultEmail == true) {
 
-                        new Handler().postDelayed(new Runnable() {
-                            @Override
-                            public void run() {
-                                Intent intent = new Intent(ForgetPassword.this, VerifyForgetPassword.class);
-                                intent.putExtra("email", gEmail);
-                                intent.putExtra("code",verifyCode);
-                                startActivity(intent);
-                                progessLoading.dismiss();
-                            }
-                        }, 2000);
 
+                            progessLoading.show();
+
+                            sendVerifyEmail(gEmail);
+
+                            new Handler().postDelayed(new Runnable() {
+                                @Override
+                                public void run() {
+                                    Intent intent = new Intent(ForgetPassword.this, VerifyForgetPassword.class);
+                                    intent.putExtra("email", gEmail);
+                                    intent.putExtra("code", verifyCode);
+                                    startActivity(intent);
+                                    progessLoading.dismiss();
+                                }
+                            }, 2000);
+                        }else{
+
+                            Toast.makeText(ForgetPassword.this, "Email Chưa Được Đăng Ký", Toast.LENGTH_SHORT).show();
+
+                        }
                     }else{
 
                         Toast.makeText(ForgetPassword.this, "Vui Lòng Nhập Đúng Định Dạng Email", Toast.LENGTH_SHORT).show();
 
                     }
-
                 }
             }
         });

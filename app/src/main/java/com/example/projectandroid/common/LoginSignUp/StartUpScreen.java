@@ -22,6 +22,8 @@ import android.widget.Toast;
 import com.example.projectandroid.HelperClasses.SqlLite.SqlDatabaseHelper;
 import com.example.projectandroid.MainActivity;
 import com.example.projectandroid.R;
+import com.example.projectandroid.SessionManager;
+import com.example.projectandroid.User.DashBoard;
 import com.google.android.material.switchmaterial.SwitchMaterial;
 
 public class StartUpScreen extends MainActivity {
@@ -31,11 +33,21 @@ public class StartUpScreen extends MainActivity {
     Button btnLogin, btnSignUp;
     TextView textViewWE, textViewDE, textViewWork;
 
+    SessionManager sessionManager;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
         setContentView(R.layout.activity_start_up_screen);
+
+        sessionManager = new SessionManager(this);
+        if (sessionManager.isLoggedIn()){
+            Intent intent = new Intent(StartUpScreen.this, DashBoard.class);
+            startActivity(intent);
+            finish();
+        }
+
 
         imageStart = findViewById(R.id.imageStart);
         btnLogin = findViewById(R.id.login_btn);

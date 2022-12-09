@@ -16,6 +16,7 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
 import com.example.projectandroid.R;
+import com.example.projectandroid.SessionManager;
 import com.example.projectandroid.User.MProduct.AddProduct.AddProduct;
 import com.example.projectandroid.User.MProduct.ImportProduct.ImportProduct;
 import com.example.projectandroid.User.MProduct.ListHistoryImportProduct.ListHistoryImportProduct;
@@ -23,6 +24,7 @@ import com.example.projectandroid.User.MProduct.ListTypeProduct.ListTypeProduct;
 import com.example.projectandroid.User.MProduct.AddTypeProduct.AddTypeProduct;
 import com.example.projectandroid.User.MProduct.ListProduct.ListProduct;
 import com.example.projectandroid.User.Profile.Profile;
+import com.example.projectandroid.common.LoginSignUp.StartUpScreen;
 import com.google.android.material.navigation.NavigationView;
 
 public class Product extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
@@ -32,13 +34,17 @@ public class Product extends AppCompatActivity implements NavigationView.OnNavig
     ImageView menuIcon;
 
     LinearLayout contentView;
-    RelativeLayout addProduct, listProduct, typeProduct,listTypeProduct, importProduct, historyImportProduct ;
+    RelativeLayout addProduct, listProduct, typeProduct,listTypeProduct, importProduct, historyImportProduct;
+
+    SessionManager sessionManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
         setContentView(R.layout.activity_product);
+
+        sessionManager = new SessionManager(this);
 
         menuIcon = findViewById(R.id.menu_icon);
         contentView = findViewById(R.id.content);
@@ -210,6 +216,10 @@ public class Product extends AppCompatActivity implements NavigationView.OnNavig
             case R.id.nav_profile:
                 startActivity(new Intent(getApplicationContext(), Profile.class));
                 break;
+            case R.id.nav_logout:
+                startActivity(new Intent(getApplicationContext(), StartUpScreen.class));
+                sessionManager.setLogin(false);
+                finish();
 
         }
         return true;

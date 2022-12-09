@@ -25,7 +25,9 @@ import com.example.projectandroid.HelperClasses.HomeAdapter.FeaturedHelperClass;
 import com.example.projectandroid.HelperClasses.HomeAdapter.MostViewAdapter;
 import com.example.projectandroid.HelperClasses.HomeAdapter.MostViewHelperClass;
 import com.example.projectandroid.R;
+import com.example.projectandroid.SessionManager;
 import com.example.projectandroid.User.Profile.Profile;
+import com.example.projectandroid.common.LoginSignUp.StartUpScreen;
 import com.google.android.material.navigation.NavigationView;
 
 import java.util.ArrayList;
@@ -39,11 +41,15 @@ public class Analysis extends AppCompatActivity implements NavigationView.OnNavi
 
     LinearLayout contentView;
 
+    SessionManager sessionManager;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
         setContentView(R.layout.activity_analysis);
+
+        sessionManager = new SessionManager(this);
 
         menuIcon = findViewById(R.id.menu_icon);
         contentView = findViewById(R.id.content);
@@ -129,6 +135,10 @@ public class Analysis extends AppCompatActivity implements NavigationView.OnNavi
             case R.id.nav_profile:
                 startActivity(new Intent(getApplicationContext(), Profile.class));
                 break;
+            case R.id.nav_logout:
+                startActivity(new Intent(getApplicationContext(), StartUpScreen.class));
+                sessionManager.setLogin(false);
+                finish();
 
         }
         return true;

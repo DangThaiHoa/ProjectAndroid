@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.animation.Animation;
@@ -24,11 +25,17 @@ public class SplashScreen extends AppCompatActivity {
 
     Animation sideAnim, bottomAnim;
 
+    SharedPreferences firstTimeRun;
+    SharedPreferences.Editor editorFirstTimeRun;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
         setContentView(R.layout.activity_splash_screen);
+
+        firstTimeRun = getSharedPreferences("FirstTime",0);
+        boolean firstRun = firstTimeRun.getBoolean("FirstRun",false);
 
         backgroundImage = findViewById(R.id.background_image);
         poweredBy = findViewById(R.id.powered_By);
@@ -43,9 +50,21 @@ public class SplashScreen extends AppCompatActivity {
             @Override
             public void run() {
 
-                Intent intent = new Intent(getApplicationContext(), OnBoarding.class);
-                startActivity(intent);
-                finish();
+                if(firstRun == false){
+
+                    editorFirstTimeRun = firstTimeRun.edit();
+                    editorFirstTimeRun.putBoolean("FirstRun",true);
+                    editorFirstTimeRun.commit();
+                    Intent i=new Intent(SplashScreen.this,OnBoarding.class);
+                    startActivity(i);
+                    finish();
+                }else{
+
+                    Intent a=new Intent(SplashScreen.this,StartUpScreen.class);
+                    startActivity(a);  // Launch next activity
+                    finish();
+
+                }
 
             }
         },Splash_Timer);

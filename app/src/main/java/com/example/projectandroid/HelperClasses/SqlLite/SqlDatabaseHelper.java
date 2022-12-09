@@ -406,6 +406,16 @@ public class SqlDatabaseHelper extends SQLiteOpenHelper {
             return true;
         }
     }
+
+    public Cursor getId_User(String user_name, String email, String phone){
+
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = null;
+        if(db != null){
+            cursor = db.rawQuery("Select " + COLUMN_ID_USERS + " From " + TABLE_USERS + " Where " + COLUMN_USERNAME_USERS + "= ? OR " + COLUMN_EMAIL_USERS + "= ? OR " + COLUMN_PHONE_USERS + "= ?",new String[] {user_name,email,phone});
+        }
+        return cursor;
+    }
     //Login_Signup
 
 

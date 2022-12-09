@@ -10,6 +10,7 @@ import androidx.biometric.BiometricManager;
 import androidx.core.content.ContextCompat;
 
 import android.content.Intent;
+import android.database.Cursor;
 import android.hardware.biometrics.BiometricPrompt;
 import android.os.Build;
 import android.os.Bundle;
@@ -25,6 +26,7 @@ import android.widget.Toast;
 import com.example.projectandroid.HelperClasses.SqlLite.SqlDatabaseHelper;
 import com.example.projectandroid.ProgessLoading;
 import com.example.projectandroid.R;
+import com.example.projectandroid.SessionManager;
 import com.example.projectandroid.User.DashBoard;
 import com.google.android.material.textfield.TextInputEditText;
 
@@ -39,7 +41,11 @@ public class Login extends AppCompatActivity {
     Button loginBtn,signupBtn;
     TextView forgetPassword;
 
+    String gID;
+
     SqlDatabaseHelper db;
+
+    SessionManager sessionManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,6 +56,8 @@ public class Login extends AppCompatActivity {
         db = new SqlDatabaseHelper(this);
 
         final ProgessLoading progessLoading = new ProgessLoading(Login.this);
+
+        sessionManager = new SessionManager(this);
 
         backbtn = findViewById(R.id.login_back_button);
         loginBtn = findViewById(R.id.button_login);
@@ -77,6 +85,10 @@ public class Login extends AppCompatActivity {
                     Boolean resultPhone = db.checkPhonePassword_Users(gUsername,gPassword);
                     if (resultUserName == true || resultEmail == true || resultPhone == true){
 
+                        Cursor cursor = db.getId_User(gUsername,gUsername,gUsername);
+                        while (cursor.moveToNext()){
+                            gID = cursor.getString(0);
+                        }
                         progessLoading.show();
 
                         new Handler().postDelayed(new Runnable() {
@@ -84,6 +96,8 @@ public class Login extends AppCompatActivity {
                             public void run() {
                                 Intent intent = new Intent(Login.this, DashBoard.class);
                                 startActivity(intent);
+                                sessionManager.getId(gID);
+                                sessionManager.setLogin(true);
                                 progessLoading.dismiss();
                                 finish();
                             }
@@ -136,6 +150,10 @@ public class Login extends AppCompatActivity {
                             @Override
                             public void onAuthenticationSucceeded(@NonNull androidx.biometric.BiometricPrompt.AuthenticationResult result) {
                                 super.onAuthenticationSucceeded(result);
+                                Cursor cursor = db.getId_User(gUsername,gUsername,gUsername);
+                                while (cursor.moveToNext()){
+                                    gID = cursor.getString(0);
+                                }
                                 progessLoading.show();
 
                                 new Handler().postDelayed(new Runnable() {
@@ -143,6 +161,8 @@ public class Login extends AppCompatActivity {
                                     public void run() {
                                         Intent intent = new Intent(Login.this, DashBoard.class);
                                         startActivity(intent);
+                                        sessionManager.getId(gID);
+                                        sessionManager.setLogin(true);
                                         progessLoading.dismiss();
                                         finish();
                                     }
