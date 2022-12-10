@@ -7,6 +7,8 @@ import androidx.cardview.widget.CardView;
 import android.app.Dialog;
 import android.content.Intent;
 import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.View;
@@ -25,8 +27,8 @@ import com.example.projectandroid.common.LoginSignUp.StartUpScreen;
 
 public class Profile extends AppCompatActivity {
 
-    ImageView btnBack;
-    CardView Setting, changePassword, Information, ChangeImage;
+    ImageView btnBack, imageUser;
+    CardView Setting, changePassword, Information;
     Button editProfile, ConfirmBtnDia, CancelBtnDia;
     TextView ContentDia, nameUser,emailUser;
     
@@ -56,20 +58,31 @@ public class Profile extends AppCompatActivity {
         editProfile = findViewById(R.id.btn_Edit_profile);
         nameUser = findViewById(R.id.text_name_Profile);
         emailUser = findViewById(R.id.text_email_Profile);
-        ChangeImage = findViewById(R.id.card_Image_profile);
+        imageUser = findViewById(R.id.Image_profile);
 
 
         idUser = sessionManager.setID();
 
-        ChangeImage();
+        editProfile();
         btnBack();
         Setting();
         changePassword();
         Information();
         btnLogout();
-        editProfile();
         ShowDiaLog();
         readAllData();
+    }
+
+    private void editProfile() {
+
+        editProfile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(Profile.this, EditProfile.class);
+                startActivity(intent);
+            }
+        });
+
     }
 
     private void readAllData() {
@@ -79,7 +92,13 @@ public class Profile extends AppCompatActivity {
 
             nameUser.setText(cursor.getString(3));
             emailUser.setText(cursor.getString(4));
-
+            if (cursor.getBlob(8) == null){
+                imageUser.setImageResource(R.drawable.ic_baseline_account_circle_24);
+            }else{
+                byte[] image = cursor.getBlob(8);
+                Bitmap bitmap = BitmapFactory.decodeByteArray(image, 0, image.length);
+                imageUser.setImageBitmap(bitmap);
+            }
         }
 
     }
@@ -110,35 +129,6 @@ public class Profile extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 dialog.dismiss();
-            }
-        });
-
-    }
-
-    private void ChangeImage() {
-
-        ChangeImage.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                PopupMenu popupMenu = new PopupMenu(Profile.this, view);
-                popupMenu.inflate(R.menu.edit_image_menu);
-                popupMenu.show();
-            }
-        });
-
-    }
-
-    private void editProfile() {
-
-        editProfile.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(getApplicationContext(), EditProfile.class);
-                intent.putExtra("NameProfile","QuafBanhMi");
-                intent.putExtra("EmailProfile","quafbanhmi@gmail.com");
-                intent.putExtra("PhoneProfile","0903209212");
-                intent.putExtra("ImageProfile",R.drawable.image_test);
-                startActivity(intent);
             }
         });
 

@@ -27,7 +27,7 @@ public class VerifySignUp extends AppCompatActivity {
     TextInputEditText pCode1, pCode2, pCode3, pCode4;
     Button confirmBtn;
 
-    String gName, gUserName, gPassword, gEmail, gPhone, gGender, gAge;
+    String gName, gUserName, gPassword, gEmail, gPhone, gGender, gAge, gCreateDay;
     Integer verifyCode;
 
     SqlDatabaseHelper db;
@@ -58,6 +58,7 @@ public class VerifySignUp extends AppCompatActivity {
         gPhone = i.getStringExtra("phone");
         gGender = i.getStringExtra("gender");
         gAge = i.getStringExtra("age");
+        gCreateDay = i.getStringExtra("createDay");
         verifyCode = i.getIntExtra("code",0);
 
         confirmBtn.setOnClickListener(new View.OnClickListener() {
@@ -67,7 +68,7 @@ public class VerifySignUp extends AppCompatActivity {
                 Boolean resultCheckCode = checkCode(verifyCode);
                 if (resultCheckCode == true) {
 
-                    Boolean regResult = db.insertData_Users(gUserName, gPassword, gName, gEmail, gPhone, gGender, gAge);
+                    Boolean regResult = db.insertData_Users(gUserName, gPassword, gName, gEmail, gPhone, gGender, gAge, gCreateDay);
                     if (regResult == true) {
 
                         progessLoading.show();

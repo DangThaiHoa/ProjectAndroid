@@ -34,6 +34,7 @@ public class SqlDatabaseHelper extends SQLiteOpenHelper {
     private static final String COLUMN_AGE_USERS = "Age";
     private static final String COLUMN_PHONE_USERS = "Phone";
     private static final String COLUMN_IMAGE_USERS = "Image";
+    private static final String COLUMN_CREATE_DAY_USERS = "Create_Day";
 
     private ByteArrayOutputStream byteArrayOutputStreamUser;
     private byte[] imageUserByte;
@@ -113,7 +114,8 @@ public class SqlDatabaseHelper extends SQLiteOpenHelper {
                                         COLUMN_PHONE_USERS + " TEXT UNIQUE, " +
                                         COLUMN_GENDER_USERS + " TEXT, " +
                                         COLUMN_AGE_USERS + " TEXT, " +
-                                        COLUMN_IMAGE_USERS + " BLOB);";
+                                        COLUMN_IMAGE_USERS + " BLOB, " +
+                                        COLUMN_CREATE_DAY_USERS + " TEXT);";
     //Login_Signup
 
 
@@ -280,7 +282,7 @@ public class SqlDatabaseHelper extends SQLiteOpenHelper {
     }
 
     //Login_Signup
-    public boolean insertData_Users(String username, String password, String name, String email, String phone, String gender, String age){
+    public boolean insertData_Users(String username, String password, String name, String email, String phone, String gender, String age, String createDay){
             SQLiteDatabase db = this.getWritableDatabase();
             ContentValues contentValues = new ContentValues();
             contentValues.put(COLUMN_USERNAME_USERS,username);
@@ -290,6 +292,7 @@ public class SqlDatabaseHelper extends SQLiteOpenHelper {
             contentValues.put(COLUMN_PHONE_USERS,phone);
             contentValues.put(COLUMN_GENDER_USERS,gender);
             contentValues.put(COLUMN_AGE_USERS,age);
+            contentValues.put(COLUMN_CREATE_DAY_USERS,createDay);
 
         long result = db.insert(TABLE_USERS,null, contentValues);
 
@@ -495,6 +498,29 @@ public class SqlDatabaseHelper extends SQLiteOpenHelper {
         }else{
             return true;
         }
+    }
+
+    public Cursor readImageExists_User(Integer id_user){
+
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = null;
+        if(db != null){
+            cursor = db.rawQuery("Select " + COLUMN_IMAGE_USERS +" From " + TABLE_USERS + " Where " + COLUMN_ID_USERS + "= ?",new String[] {String.valueOf(id_user)});
+        }
+        return cursor;
+
+    }
+
+    public Boolean deleteAccount_User(Integer id_user){
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        long result = db.delete(TABLE_USERS,COLUMN_ID_USERS + "= ?", new String[] {String.valueOf(id_user)});
+        if(result == -1){
+            return false;
+        }else{
+            return true;
+        }
+
     }
     //Login_Signup
 

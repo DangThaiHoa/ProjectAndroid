@@ -161,6 +161,7 @@ public class SignUp extends AppCompatActivity {
                                                     intent.putExtra("phone", gPhone);
                                                     intent.putExtra("gender", gGender);
                                                     intent.putExtra("age", gAge);
+                                                    intent.putExtra("createDay", gCDate);
                                                     intent.putExtra("code", verifyCode);
                                                     startActivity(intent);
                                                     progessLoading.dismiss();
@@ -255,7 +256,6 @@ public class SignUp extends AppCompatActivity {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                    Toast.makeText(SignUp.this, error.getMessage(), Toast.LENGTH_SHORT).show();
             }
         }){
             @Nullable

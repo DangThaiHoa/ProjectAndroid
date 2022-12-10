@@ -243,6 +243,7 @@
             android:fontFamily="@font/muli_black"/>
 
         <TextView
+            android:id="@+id/createDay_User"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="12/03/2022"
