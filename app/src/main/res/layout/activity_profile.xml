@@ -42,47 +42,21 @@
             android:elevation="9dp"
             android:layout_centerHorizontal="true">
 
-            <androidx.cardview.widget.CardView
-                android:id="@+id/card_Image_profile"
-                android:layout_width="150dp"
-                android:layout_height="150dp"
-                app:cardCornerRadius="100dp">
-
-                <ImageView
-                    android:id="@+id/Image_profile"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:src="@drawable/image_test"
-                    android:background="@color/white"
-                    android:scaleType="centerCrop"/>
-
-            </androidx.cardview.widget.CardView>
-
-        </RelativeLayout>
-
-    <RelativeLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:elevation="10dp"
-        android:layout_marginLeft="110dp"
-        android:layout_alignLeft="@+id/Layout_image_profile">
-
-        <com.google.android.material.card.MaterialCardView
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            app:cardCornerRadius="100dp"
-            android:elevation="10dp"
-            app:cardBackgroundColor="@color/mainColor"
-            android:layout_alignParentBottom="true">
+        <androidx.cardview.widget.CardView
+            android:id="@+id/card_Image_profile"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            app:cardCornerRadius="100dp">
 
             <ImageView
-                android:id="@+id/Edit_profile"
-                android:layout_width="34dp"
-                android:layout_height="30dp"
-                android:layout_gravity="center"
-                android:src="@drawable/ic_baseline_camera_alt_24" />
+                android:id="@+id/Image_profile"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:src="@drawable/image_test"
+                android:background="@color/white"
+                android:scaleType="centerCrop"/>
 
-        </com.google.android.material.card.MaterialCardView>
+        </androidx.cardview.widget.CardView>
 
     </RelativeLayout>
 

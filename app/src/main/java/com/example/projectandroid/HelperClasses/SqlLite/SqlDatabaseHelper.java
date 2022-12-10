@@ -32,6 +32,10 @@ public class SqlDatabaseHelper extends SQLiteOpenHelper {
     private static final String COLUMN_GENDER_USERS = "Gender";
     private static final String COLUMN_AGE_USERS = "Age";
     private static final String COLUMN_PHONE_USERS = "Phone";
+    private static final String COLUMN_IMAGE_USERS = "Image";
+
+    private ByteArrayOutputStream byteArrayOutputStreamUser;
+    private byte[] imageUserByte;
     //Login_Signup
 
 
@@ -107,7 +111,8 @@ public class SqlDatabaseHelper extends SQLiteOpenHelper {
                                         COLUMN_EMAIL_USERS + " TEXT UNIQUE," +
                                         COLUMN_PHONE_USERS + " TEXT UNIQUE, " +
                                         COLUMN_GENDER_USERS + " TEXT, " +
-                                        COLUMN_AGE_USERS + " TEXT);";
+                                        COLUMN_AGE_USERS + " TEXT, " +
+                                        COLUMN_IMAGE_USERS + " BLOB);";
     //Login_Signup
 
 

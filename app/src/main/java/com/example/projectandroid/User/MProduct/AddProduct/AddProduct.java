@@ -235,7 +235,6 @@ public class AddProduct extends AppCompatActivity {
         });
     }
 
-
     public void ShowDiaLog() {
 
         dialog = new Dialog(AddProduct.this);
