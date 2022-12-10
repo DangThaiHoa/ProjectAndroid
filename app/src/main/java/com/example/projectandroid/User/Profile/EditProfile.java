@@ -5,6 +5,7 @@ import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.cardview.widget.CardView;
@@ -17,7 +18,9 @@ import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.provider.MediaStore;
+import android.util.Patterns;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -31,14 +34,32 @@ import android.widget.PopupMenu;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
+import com.example.projectandroid.HelperClasses.Product.ListProduct.GetImageProductClass;
+import com.example.projectandroid.HelperClasses.Profile.GetImageUserClass;
 import com.example.projectandroid.HelperClasses.SqlLite.SqlDatabaseHelper;
 import com.example.projectandroid.ProgessLoading;
 import com.example.projectandroid.R;
 import com.example.projectandroid.SessionManager;
+import com.example.projectandroid.common.LoginSignUp.SignUp;
 import com.example.projectandroid.common.LoginSignUp.StartUpScreen;
+import com.example.projectandroid.common.LoginSignUp.VerifySignUp;
 import com.google.android.material.textfield.TextInputEditText;
 
 import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Random;
 
 public class EditProfile extends AppCompatActivity {
 
@@ -63,6 +84,8 @@ public class EditProfile extends AppCompatActivity {
     SqlDatabaseHelper db;
     SessionManager sessionManager;
     ProgessLoading progessLoading;
+    
+    Integer verifyCode;
 
     String idUser;
 
@@ -122,7 +145,101 @@ public class EditProfile extends AppCompatActivity {
 
         idUser = sessionManager.setID();
 
-        submitBtn();
+        submitBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                Date gCurrentDay = null;
+                Date gDATE = null;
+                SimpleDateFormat dateFormat = new SimpleDateFormat("MM/d/yyyy");
+                Calendar c = Calendar.getInstance();
+                String Day = eDate.getText().toString();
+                String gCDate = dateFormat.format(c.getTime());
+                try {
+                    gCurrentDay = dateFormat.parse(gCDate);
+                    gDATE = dateFormat.parse(Day);
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+
+                String gName = eName.getText().toString();
+                String gUserName = eUserName.getText().toString();
+                String gEmail = eEmail.getText().toString();
+                String gPhone = ePhone.getText().toString();
+                String gDate = eDate.getText().toString();
+                String gGender = eGender.getText().toString();
+
+                if (gName.isEmpty() || gUserName.isEmpty() || gEmail.isEmpty() || gPhone.isEmpty() || gDate.isEmpty() || gGender.isEmpty()) {
+
+                    if (Patterns.EMAIL_ADDRESS.matcher(gEmail).matches()) {
+
+                        if (gDATE.before(gCurrentDay)) {
+
+                            Boolean userCheckResult = db.checkUsername_Users(gUserName);
+                            if (userCheckResult == true) {
+
+                                Toast.makeText(EditProfile.this, "Tên đăng nhập đã tồn tại. \nVui lòng Nhập Tên Khác", Toast.LENGTH_LONG).show();
+                                eName.forceLayout();
+
+                            } else {
+
+                                Boolean emailCheckResult = db.checkEmail_Users(gEmail);
+                                if (emailCheckResult == true) {
+
+                                    Toast.makeText(EditProfile.this, "Email đã tồn tại. \nVui lòng Nhập Tên Khác", Toast.LENGTH_LONG).show();
+                                    eEmail.forceLayout();
+
+                                } else {
+
+                                    Boolean phoneCheckResult = db.checkPhone_Users(gPhone);
+                                    if (phoneCheckResult == true) {
+
+                                        Toast.makeText(EditProfile.this, "Số Điện Thoại đã tồn tại. \nVui lòng Nhập Tên Khác", Toast.LENGTH_LONG).show();
+                                        ePhone.forceLayout();
+
+                                    } else {
+
+                                        Boolean resultUpdateData = db.updateData_Users(Integer.parseInt(idUser), gName, gUserName, gEmail, gPhone, gGender, gDate, new GetImageUserClass(imageToStore));
+                                        if (resultUpdateData == true){
+
+                                            progessLoading.show();
+
+                                            sendVerifyEmail(gEmail);
+
+                                            new Handler().postDelayed(new Runnable() {
+                                                @Override
+                                                public void run() {
+                                                    Intent intent = new Intent(EditProfile.this, Profile.class);
+                                                    startActivity(intent);
+                                                    Toast.makeText(EditProfile.this, "Sửa Hồ Sơ Thành Công", Toast.LENGTH_SHORT).show();
+                                                    progessLoading.dismiss();
+                                                }
+                                            }, 2000);
+                                            
+                                        }
+
+                                    }
+                                }
+                            }
+                        } else {
+
+                            Toast.makeText(EditProfile.this, "Vui Lòng Nhập Tuổi Hợp Lệ", Toast.LENGTH_SHORT).show();
+
+                        }
+                    } else {
+
+                        Toast.makeText(EditProfile.this, "Vui Lòng Nhập Đúng Định Dạng Email", Toast.LENGTH_SHORT).show();
+
+                    }
+
+                } else {
+
+                    Toast.makeText(EditProfile.this, "Vui Lòng Nhập Đầy Đủ Thông Tin", Toast.LENGTH_SHORT).show();
+
+                }
+            }
+        });
+
         ShowDiaLog();
         btnBack();
         deleteBtn();
@@ -257,17 +374,31 @@ public class EditProfile extends AppCompatActivity {
 
     }
 
-    private void submitBtn() {
-
-        submitBtn.setOnClickListener(new View.OnClickListener() {
+    private void sendVerifyEmail(String email){
+        Random random = new Random();
+        verifyCode = random.nextInt(8999) + 1000;
+        String url = "https://sendemailprojectandroid.000webhostapp.com/sendVerifyCodeSignUp.php";
+        RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
             @Override
-            public void onClick(View view) {
-                Toast.makeText(EditProfile.this, "Thay Đổi Thông Tin Thành Công", Toast.LENGTH_LONG).show();
-                Intent intent = new Intent(getApplicationContext(), Profile.class);
-                startActivity(intent);
+            public void onResponse(String response) {
             }
-        });
-
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(EditProfile.this, error.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        }){
+            @Nullable
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String,String> params = new HashMap<>();
+                params.put("email",email);
+                params.put("code", String.valueOf(verifyCode));
+                return params;
+            }
+        };
+        requestQueue.add(stringRequest);
     }
 
     private void btnBack() {
@@ -279,4 +410,5 @@ public class EditProfile extends AppCompatActivity {
             }
         });
     }
+    
 }

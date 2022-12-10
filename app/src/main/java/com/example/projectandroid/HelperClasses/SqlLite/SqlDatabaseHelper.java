@@ -10,6 +10,7 @@ import android.graphics.Bitmap;
 import androidx.annotation.Nullable;
 
 import com.example.projectandroid.HelperClasses.Product.ListProduct.GetImageProductClass;
+import com.example.projectandroid.HelperClasses.Profile.GetImageUserClass;
 
 import java.io.ByteArrayOutputStream;
 
@@ -442,6 +443,7 @@ public class SqlDatabaseHelper extends SQLiteOpenHelper {
         return cursor;
 
     }
+
     public boolean checkOldPassword_Users(Integer id_user, String password_user){
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = null;
@@ -461,6 +463,34 @@ public class SqlDatabaseHelper extends SQLiteOpenHelper {
         long resultUpdate = db.update(TABLE_USERS, contentValues, COLUMN_ID_USERS + "= ?", new String[] {String.valueOf(id_user)});
 
         if(resultUpdate == -1){
+            return false;
+        }else{
+            return true;
+        }
+    }
+
+    public boolean updateData_Users(Integer id_user, String username, String name, String email, String phone, String gender,  String age, GetImageUserClass imageUser){
+
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        byteArrayOutputStreamUser = new ByteArrayOutputStream();
+        Bitmap imageStoreBitMap = imageUser.getImageUser();
+        imageStoreBitMap.compress(Bitmap.CompressFormat.JPEG, 100, byteArrayOutputStreamUser);
+
+        imageUserByte = byteArrayOutputStreamUser.toByteArray();
+
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(COLUMN_USERNAME_USERS,username);
+        contentValues.put(COLUMN_NAME_USERS,name);
+        contentValues.put(COLUMN_EMAIL_USERS,email);
+        contentValues.put(COLUMN_PHONE_USERS,phone);
+        contentValues.put(COLUMN_GENDER_USERS,gender);
+        contentValues.put(COLUMN_AGE_USERS,age);
+        contentValues.put(COLUMN_IMAGE_USERS,imageUserByte);
+
+        long result = db.update(TABLE_USERS, contentValues, COLUMN_ID_USERS + "= ?", new String[] {String.valueOf(id_user)});
+
+        if(result == -1){
             return false;
         }else{
             return true;
