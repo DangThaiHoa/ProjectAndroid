@@ -21,8 +21,27 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.ProjectAndroid"
         tools:targetApi="31">
-
-
+        <activity
+            android:name=".User.Profile.AppInformation"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
+            android:name=".User.Profile.UserInformation"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
+            android:name=".User.Profile.Setting"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
         <activity
             android:name=".common.SplashScreen"
             android:exported="true">
@@ -36,9 +55,6 @@
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
-
-
-
         <activity
             android:name=".common.LoginSignUp.ChangeForgetPassword"
             android:exported="false">
@@ -263,13 +279,13 @@
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
-         <activity
-         android:name=".common.LoginSignUp.StartUpScreen"
-         android:exported="false">
-         <meta-data
-         android:name="android.app.lib_name"
-         android:value="" />
-         </activity>
+        <activity
+            android:name=".common.LoginSignUp.StartUpScreen"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
         <activity
             android:name=".common.LoginSignUp.CompleteForgetPassword"
             android:exported="false">

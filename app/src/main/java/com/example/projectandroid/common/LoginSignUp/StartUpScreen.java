@@ -35,6 +35,8 @@ public class StartUpScreen extends MainActivity {
 
     SessionManager sessionManager;
 
+    String idUser;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,10 +44,26 @@ public class StartUpScreen extends MainActivity {
         setContentView(R.layout.activity_start_up_screen);
 
         sessionManager = new SessionManager(this);
+
+        idUser = sessionManager.getID();
+
         if (sessionManager.isLoggedIn()){
             Intent intent = new Intent(StartUpScreen.this, DashBoard.class);
             startActivity(intent);
             finish();
+        }else{
+
+            if (idUser.equals("0") || idUser.equals("")) {
+
+
+            }else{
+
+                Intent intent = new Intent(StartUpScreen.this, Login.class);
+                startActivity(intent);
+                finish();
+
+            }
+
         }
 
 

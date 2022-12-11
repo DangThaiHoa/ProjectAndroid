@@ -3,6 +3,7 @@ package com.example.projectandroid.common.LoginSignUp;
 import static androidx.biometric.BiometricManager.Authenticators.BIOMETRIC_STRONG;
 import static androidx.biometric.BiometricManager.Authenticators.DEVICE_CREDENTIAL;
 
+import androidx.annotation.ColorInt;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
@@ -11,6 +12,7 @@ import androidx.core.content.ContextCompat;
 
 import android.content.Intent;
 import android.database.Cursor;
+import android.graphics.Color;
 import android.hardware.biometrics.BiometricPrompt;
 import android.os.Build;
 import android.os.Bundle;
@@ -18,6 +20,7 @@ import android.os.Handler;
 import android.provider.Settings;
 import android.util.Log;
 import android.view.View;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -34,12 +37,12 @@ import java.util.concurrent.Executor;
 
 public class Login extends AppCompatActivity {
 
-    private static final int REQUEST_CODE = 1;
+    private static final int REQUEST_CODE = 2;
     ImageView backbtn, loginBio;
 
     TextInputEditText username, password;
     Button loginBtn,signupBtn;
-    TextView forgetPassword, swAccount;
+    TextView forgetPassword, swAccount, textBio;
 
     String gID;
 
@@ -69,6 +72,7 @@ public class Login extends AppCompatActivity {
         loginBio = findViewById(R.id.bio_login);
         forgetPassword = findViewById(R.id.forgetPassword_button);
         swAccount = findViewById(R.id.sw_account);
+        textBio = findViewById(R.id.text_bio);
 
         idUser = sessionManager.getID();
 
@@ -130,72 +134,91 @@ public class Login extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                if (Integer.parseInt(idUser) == 0) {
+                if (idUser.equals("0") || idUser.equals("")) {
 
                     Toast.makeText(Login.this, "Vui Lòng Đăng Nhập Lần Đầu Trước Khi Sử Dụng Vân Tay", Toast.LENGTH_LONG).show();
 
                 } else {
 
-                    checkSPBiometric();
+                    if(sessionManager.isTurnOnBio()){
 
-                    String gUsername = username.getText().toString();
+                        checkSPBiometric();
 
-                    if (gUsername.isEmpty()) {
+                        String gUsername = username.getText().toString();
 
-                        Toast.makeText(Login.this, "Vui Lòng Nhập Đầy Đủ Thông Tin", Toast.LENGTH_SHORT).show();
+                        if (gUsername.isEmpty()) {
 
-                    } else {
-
-                        Boolean resultUserName = db.checkUsernameExist_Users(gUsername);
-                        Boolean resultEmail = db.checkEmailExist_Users(gUsername);
-                        Boolean resultPhone = db.checkPhoneExist_Users(gUsername);
-                        if (resultUserName == true || resultEmail == true || resultPhone == true) {
-
-                            Executor executor = ContextCompat.getMainExecutor(Login.this);
-                            androidx.biometric.BiometricPrompt biometricPrompt = new androidx.biometric.BiometricPrompt(Login.this, executor, new androidx.biometric.BiometricPrompt.AuthenticationCallback() {
-                                @Override
-                                public void onAuthenticationError(int errorCode, @NonNull CharSequence errString) {
-                                    super.onAuthenticationError(errorCode, errString);
-                                }
-
-                                @Override
-                                public void onAuthenticationSucceeded(@NonNull androidx.biometric.BiometricPrompt.AuthenticationResult result) {
-                                    super.onAuthenticationSucceeded(result);
-                                    Cursor cursor = db.getId_User(gUsername, gUsername, gUsername);
-                                    while (cursor.moveToNext()) {
-                                        gID = cursor.getString(0);
-                                    }
-                                    progessLoading.show();
-
-                                    new Handler().postDelayed(new Runnable() {
-                                        @Override
-                                        public void run() {
-                                            Intent intent = new Intent(Login.this, DashBoard.class);
-                                            startActivity(intent);
-                                            sessionManager.setId(gID);
-                                            sessionManager.setLogin(true);
-                                            progessLoading.dismiss();
-                                            finish();
-                                        }
-                                    }, 2000);
-                                }
-
-                                @Override
-                                public void onAuthenticationFailed() {
-                                    super.onAuthenticationFailed();
-                                    Toast.makeText(Login.this, "Vân Tay Hoặc Khuông Mặt Không Khớp", Toast.LENGTH_SHORT).show();
-                                }
-                            });
-                            androidx.biometric.BiometricPrompt.PromptInfo.Builder promptInfo = new androidx.biometric.BiometricPrompt.PromptInfo.Builder()
-                                    .setTitle("Xác Thực Vân Tay Hoặc Khuông Mặt")
-                                    .setNegativeButtonText("Hủy");
-                            biometricPrompt.authenticate(promptInfo.build());
+                            Toast.makeText(Login.this, "Vui Lòng Nhập Đầy Đủ Thông Tin", Toast.LENGTH_SHORT).show();
 
                         } else {
 
-                            Toast.makeText(Login.this, "Sai Tên Đăng Nhập", Toast.LENGTH_SHORT).show();
+                            Boolean resultUserName = db.checkUsernameExist_Users(gUsername);
+                            Boolean resultEmail = db.checkEmailExist_Users(gUsername);
+                            Boolean resultPhone = db.checkPhoneExist_Users(gUsername);
+                            if (resultUserName == true || resultEmail == true || resultPhone == true) {
 
+                                Executor executor = ContextCompat.getMainExecutor(Login.this);
+                                androidx.biometric.BiometricPrompt biometricPrompt = new androidx.biometric.BiometricPrompt(Login.this, executor, new androidx.biometric.BiometricPrompt.AuthenticationCallback() {
+                                    @Override
+                                    public void onAuthenticationError(int errorCode, @NonNull CharSequence errString) {
+                                        super.onAuthenticationError(errorCode, errString);
+                                    }
+
+                                    @Override
+                                    public void onAuthenticationSucceeded(@NonNull androidx.biometric.BiometricPrompt.AuthenticationResult result) {
+                                        super.onAuthenticationSucceeded(result);
+                                        Cursor cursor = db.getId_User(gUsername, gUsername, gUsername);
+                                        while (cursor.moveToNext()) {
+                                            gID = cursor.getString(0);
+                                        }
+                                        progessLoading.show();
+
+                                        new Handler().postDelayed(new Runnable() {
+                                            @Override
+                                            public void run() {
+                                                Intent intent = new Intent(Login.this, DashBoard.class);
+                                                startActivity(intent);
+                                                sessionManager.setId(gID);
+                                                sessionManager.setLogin(true);
+                                                progessLoading.dismiss();
+                                                finish();
+                                            }
+                                        }, 2000);
+                                    }
+
+                                    @Override
+                                    public void onAuthenticationFailed() {
+                                        super.onAuthenticationFailed();
+                                        Toast.makeText(Login.this, "Vân Tay Hoặc Khuông Mặt Không Khớp", Toast.LENGTH_SHORT).show();
+                                    }
+                                });
+                                androidx.biometric.BiometricPrompt.PromptInfo.Builder promptInfo = new androidx.biometric.BiometricPrompt.PromptInfo.Builder()
+                                        .setTitle("Xác Thực Vân Tay Hoặc Khuông Mặt")
+                                        .setNegativeButtonText("Hủy");
+                                biometricPrompt.authenticate(promptInfo.build());
+
+                            } else {
+
+                                Toast.makeText(Login.this, "Sai Tên Đăng Nhập", Toast.LENGTH_SHORT).show();
+
+                            }
                         }
+                    }else{
+
+                        password.requestFocus();
+                        loginBio.setVisibility(View.INVISIBLE);
+                        loginBio.setAnimation(AnimationUtils.loadAnimation(Login.this, R.anim.fade_out));
+                        textBio.setText("");
+                        textBio.setAnimation(AnimationUtils.loadAnimation(Login.this, R.anim.fade_out));
+                        new Handler().postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                textBio.setText("Vui Lòng Đăng Nhập Bằng Mật Khẩu\n Và Bật Chế Độ Xác Thực Sinh Trắc Học");
+                                textBio.setTextColor(Color.rgb(255, 0, 0));
+                                textBio.setTextSize(15);
+                                textBio.setAnimation(AnimationUtils.loadAnimation(Login.this, R.anim.fade_in));
+                            }
+                        },500);
                     }
                 }
             }
@@ -215,6 +238,7 @@ public class Login extends AppCompatActivity {
             public void onClick(View view) {
                 sessionManager.setId("0");
                 sessionManager.setLogin(false);
+                sessionManager.setBio(false);
                 Intent intent = new Intent(getApplicationContext(), StartUpScreen.class);
                 startActivity(intent);
             }
@@ -224,7 +248,7 @@ public class Login extends AppCompatActivity {
 
     private void setOldAccount() {
 
-        if(idUser.equals("0")){
+        if(idUser.equals("0") || idUser.equals("")){
 
             swAccount.setVisibility(View.INVISIBLE);
             username.setText("");

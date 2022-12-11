@@ -15,7 +15,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.PopupMenu;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -28,7 +27,7 @@ import com.example.projectandroid.common.LoginSignUp.StartUpScreen;
 public class Profile extends AppCompatActivity {
 
     ImageView btnBack, imageUser;
-    CardView Setting, changePassword, Information;
+    CardView Setting, changePassword, Information, InformationUser;
     Button editProfile, ConfirmBtnDia, CancelBtnDia;
     TextView ContentDia, nameUser,emailUser;
     
@@ -54,6 +53,7 @@ public class Profile extends AppCompatActivity {
         Setting = findViewById(R.id.card_icon_Setting_profile);
         changePassword = findViewById(R.id.card_icon_Password_profile);
         Information = findViewById(R.id.card_icon_Info_profile);
+        InformationUser = findViewById(R.id.card_icon_info_user_profile);
         btnLogout = findViewById(R.id.logout_btn);
         editProfile = findViewById(R.id.btn_Edit_profile);
         nameUser = findViewById(R.id.text_name_Profile);
@@ -68,9 +68,22 @@ public class Profile extends AppCompatActivity {
         Setting();
         changePassword();
         Information();
+        InformationUser();
         btnLogout();
         ShowDiaLog();
         readAllData();
+    }
+
+    private void InformationUser() {
+
+        InformationUser.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getApplicationContext(), UserInformation.class);
+                startActivity(intent);
+            }
+        });
+
     }
 
     private void editProfile() {
@@ -93,7 +106,7 @@ public class Profile extends AppCompatActivity {
             nameUser.setText(cursor.getString(3));
             emailUser.setText(cursor.getString(4));
             if (cursor.getBlob(8) == null){
-                imageUser.setImageResource(R.drawable.ic_baseline_account_circle_24);
+                imageUser.setImageResource(R.drawable.account);
             }else{
                 byte[] image = cursor.getBlob(8);
                 Bitmap bitmap = BitmapFactory.decodeByteArray(image, 0, image.length);
@@ -148,6 +161,15 @@ public class Profile extends AppCompatActivity {
     }
 
     private void Information() {
+
+        Information.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getApplicationContext(), AppInformation.class);
+                startActivity(intent);
+            }
+        });
+
     }
 
     private void changePassword() {
@@ -163,6 +185,15 @@ public class Profile extends AppCompatActivity {
     }
 
     private void Setting() {
+
+        Setting.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent =new Intent(getApplicationContext(), Setting.class);
+                startActivity(intent);
+            }
+        });
+
     }
 
     private void btnBack() {

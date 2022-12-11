@@ -11,6 +11,7 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.Dialog;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -27,6 +28,8 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -82,6 +85,10 @@ public class DashBoard extends AppCompatActivity implements NavigationView.OnNav
     SqlDatabaseHelper db;
 
     SessionManager sessionManager;
+
+    Button ConfirmBtnDia, CancelBtnDia;
+    TextView ContentDia;
+    Dialog dialog;
 
     String IdUser;
 
@@ -153,6 +160,7 @@ public class DashBoard extends AppCompatActivity implements NavigationView.OnNav
         btn_product();
         btn_shopping();
         btn_analysis();
+        ShowDiaLog();
         navigationDrawer();
         featuredRecycle();
         mostviewRecycle();
@@ -335,12 +343,43 @@ public class DashBoard extends AppCompatActivity implements NavigationView.OnNav
                 startActivity(new Intent(getApplicationContext(), Profile.class));
                 break;
             case R.id.nav_logout:
-                startActivity(new Intent(getApplicationContext(), StartUpScreen.class));
-                sessionManager.setLogin(false);
-                finish();
+                ContentDia.setText("Bạn Có Chắc Chắn Muốn Đăng Xuất!?");
+                dialog.show();
 
         }
         return true;
+    }
+
+    public void ShowDiaLog() {
+
+        dialog = new Dialog(DashBoard.this);
+        dialog.setContentView(R.layout.custom_dialog);
+        dialog.getWindow().setBackgroundDrawable(getDrawable(R.drawable.bg_dialog));
+        dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT,ViewGroup.LayoutParams.WRAP_CONTENT);
+        dialog.setCancelable(false);
+
+        ConfirmBtnDia = dialog.findViewById(R.id.Confirm_dialog_btn);
+        CancelBtnDia = dialog.findViewById(R.id.Cancel_dialog_btn);
+        ContentDia = dialog.findViewById(R.id.tv_Content_dialog);
+
+        ConfirmBtnDia.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getApplicationContext(), StartUpScreen.class);
+                startActivity(intent);
+                finish();
+                sessionManager.setLogin(false);
+                dialog.dismiss();
+            }
+        });
+
+        CancelBtnDia.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
+            }
+        });
+
     }
 
     private void featuredRecycle() {

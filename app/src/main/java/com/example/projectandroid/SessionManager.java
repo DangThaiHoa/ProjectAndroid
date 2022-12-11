@@ -11,12 +11,11 @@ public class SessionManager {
     SharedPreferences.Editor editor;
     Context context;
 
-    String idLogin;
-
     int PRIVATE_MODE = 0;
 
     private static final String PREF_NAME = "AndroidCheckLogin";
     private static final String KEY_IS_LOGGED_IN = "IsLoggedIn";
+    private static final String KEY_IS_TURN_ON_BIO = "IsTurnOn";
 
     public SessionManager (Context context){
         this.context = context;
@@ -30,11 +29,6 @@ public class SessionManager {
         Log.d(TAG,"User login session modified");
     }
 
-    public String getID (){
-        String ID = pref.getString("saveID","");
-        return ID;
-    }
-
     public boolean isLoggedIn(){
         return pref.getBoolean(KEY_IS_LOGGED_IN,false);
     }
@@ -43,4 +37,20 @@ public class SessionManager {
         editor.putString("saveID",myID);
         editor.commit();
     }
+
+    public String getID (){
+        String ID = pref.getString("saveID","");
+        return ID;
+    }
+
+    public void setBio (boolean isTurnOnBio){
+        editor.putBoolean(KEY_IS_TURN_ON_BIO,isTurnOnBio);
+        editor.commit();
+    }
+
+    public boolean isTurnOnBio(){
+        return pref.getBoolean(KEY_IS_TURN_ON_BIO,false);
+    }
+
+
 }

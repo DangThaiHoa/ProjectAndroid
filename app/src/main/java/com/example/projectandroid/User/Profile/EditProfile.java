@@ -208,40 +208,180 @@ public class EditProfile extends AppCompatActivity {
 
                             } else {
 
-                                Boolean userCheckResult = db.checkUsernameExist_Users(gUserName);
-                                if (userCheckResult == true) {
+                                if (gUserName.compareTo(gExistsUserName) != 1 && gEmail.equals(gExistsEmail) && gPhone.equals(gExistsPhone)) {
 
-                                    Toast.makeText(EditProfile.this, "Tên Đăng Nhập đã tồn tại. \nVui lòng Nhập Tên Đăng Nhập Khác", Toast.LENGTH_LONG).show();
-                                    eName.forceLayout();
+                                    Boolean resultCheckExistUserName = db.checkUsernameExist_Users(gUserName);
+                                    if (resultCheckExistUserName == true) {
 
-                                } else {
-
-                                    Boolean emailCheckResult = db.checkEmailExist_Users(gEmail);
-                                    if (emailCheckResult == true) {
-
-                                        Toast.makeText(EditProfile.this, "Email đã tồn tại. \nVui lòng Nhập Email Khác", Toast.LENGTH_LONG).show();
-                                        eEmail.forceLayout();
+                                        Toast.makeText(EditProfile.this, "Tên Đăng Nhập Đã Tồn Tại \n Vui Lòng Nhập Tên Đăng Nhập Khác", Toast.LENGTH_SHORT).show();
 
                                     } else {
 
-                                        Boolean phoneCheckResult = db.checkPhoneExist_Users(gPhone);
-                                        if (phoneCheckResult == true) {
+                                        insertIfImageNull();
 
-                                            Toast.makeText(EditProfile.this, "Số Điện Thoại đã tồn tại. \nVui lòng Nhập Số Điện Thoại Khác", Toast.LENGTH_LONG).show();
-                                            ePhone.forceLayout();
+                                    }
+                                } else {
+
+                                    if (gUserName.equals(gExistsUserName) && gEmail.compareTo(gExistsEmail) != 1 && gPhone.equals(gExistsPhone)) {
+
+                                        Boolean resultCheckExistEmail = db.checkEmailExist_Users(gEmail);
+                                        if (resultCheckExistEmail == true) {
+
+                                            Toast.makeText(EditProfile.this, "Email Đã Tồn Tại \n Vui Lòng Nhập Email Khác", Toast.LENGTH_SHORT).show();
+
                                         } else {
 
                                             progessLoading.show();
-
-                                            String finalGExistsEmail = gExistsEmail;
+                                            String finalGExistsEmail3 = gExistsEmail;
                                             new Handler().postDelayed(new Runnable() {
                                                 @Override
                                                 public void run() {
-                                                    sendVerifyEmail(finalGExistsEmail);
+                                                    sendVerifyEmail(finalGExistsEmail3);
                                                     dialogVerifyCode.show();
                                                     progessLoading.dismiss();
                                                 }
                                             }, 2000);
+                                        }
+                                    } else {
+
+                                        if (gUserName.equals(gExistsUserName) && gEmail.equals(gExistsEmail) && gPhone.compareTo(gExistsPhone) != 1) {
+
+                                            Boolean resultCheckExistPhone = db.checkPhoneExist_Users(gPhone);
+                                            if (resultCheckExistPhone == true) {
+
+                                                Toast.makeText(EditProfile.this, "Số Điện Thoại Đã Tồn Tại \n Vui Lòng Nhập Số Điện Thoại Khác", Toast.LENGTH_SHORT).show();
+
+                                            } else {
+
+                                                insertIfImageNull();
+
+                                            }
+                                        } else {
+
+                                            if (gUserName.compareTo(gExistsUserName) != 1 && gEmail.compareTo(gExistsEmail) != 1 && gPhone.equals(gExistsPhone)) {
+
+                                                Boolean resultCheckExistUserName = db.checkUsernameExist_Users(gUserName);
+                                                if (resultCheckExistUserName == true) {
+
+                                                    Toast.makeText(EditProfile.this, "Tên Đăng Nhập Đã Tồn Tại \n Vui Lòng Nhập Tên Đăng Nhập Khác", Toast.LENGTH_SHORT).show();
+
+                                                } else {
+
+                                                    Boolean resultCheckExistEmail = db.checkEmailExist_Users(gEmail);
+                                                    if (resultCheckExistEmail == true) {
+
+                                                        Toast.makeText(EditProfile.this, "Email Đã Tồn Tại \n Vui Lòng Nhập Email Khác", Toast.LENGTH_SHORT).show();
+
+                                                    } else {
+
+                                                        progessLoading.show();
+                                                        String finalGExistsEmail = gExistsEmail;
+                                                        new Handler().postDelayed(new Runnable() {
+                                                            @Override
+                                                            public void run() {
+                                                                sendVerifyEmail(finalGExistsEmail);
+                                                                dialogVerifyCode.show();
+                                                                progessLoading.dismiss();
+                                                            }
+                                                        }, 2000);
+                                                    }
+                                                }
+                                            } else {
+
+                                                if (gUserName.compareTo(gExistsUserName) != 1 && gEmail.equals(gExistsEmail) && gPhone.compareTo(gExistsPhone) != 1) {
+
+                                                    Boolean resultCheckExistUserName = db.checkUsernameExist_Users(gUserName);
+                                                    if (resultCheckExistUserName == true) {
+
+                                                        Toast.makeText(EditProfile.this, "Tên Đăng Nhập Đã Tồn Tại \n Vui Lòng Nhập Tên Đăng Nhập Khác", Toast.LENGTH_SHORT).show();
+
+                                                    } else {
+
+                                                        Boolean resultCheckExistPhone = db.checkPhoneExist_Users(gPhone);
+                                                        if (resultCheckExistPhone == true) {
+
+                                                            Toast.makeText(EditProfile.this, "Số Điện Thoại Đã Tồn Tại \n Vui Lòng Nhập Số Điện Thoại Khác", Toast.LENGTH_SHORT).show();
+
+                                                        } else {
+
+                                                            insertIfImageNull();
+
+                                                        }
+                                                    }
+                                                } else {
+
+                                                    if (gUserName.equals(gExistsUserName) && gEmail.compareTo(gExistsEmail) != 1 && gPhone.compareTo(gExistsPhone) != 1) {
+
+                                                        Boolean resultCheckExistEmail = db.checkEmailExist_Users(gEmail);
+                                                        if (resultCheckExistEmail == true) {
+
+                                                            Toast.makeText(EditProfile.this, "Email Đã Tồn Tại \n Vui Lòng Nhập Email Khác", Toast.LENGTH_SHORT).show();
+
+                                                        } else {
+
+                                                            Boolean resultCheckExistPhone = db.checkPhoneExist_Users(gPhone);
+                                                            if (resultCheckExistPhone == true) {
+
+                                                                Toast.makeText(EditProfile.this, "Số Điện Thoại Đã Tồn Tại \n Vui Lòng Nhập Số Điện Thoại Khác", Toast.LENGTH_SHORT).show();
+
+                                                            } else {
+
+                                                                progessLoading.show();
+                                                                String finalGExistsEmail1 = gExistsEmail;
+                                                                new Handler().postDelayed(new Runnable() {
+                                                                    @Override
+                                                                    public void run() {
+                                                                        sendVerifyEmail(finalGExistsEmail1);
+                                                                        dialogVerifyCode.show();
+                                                                        progessLoading.dismiss();
+                                                                    }
+                                                                }, 2000);
+
+                                                            }
+                                                        }
+                                                    } else {
+
+                                                        if (gUserName.compareTo(gExistsUserName) != 1 && gEmail.compareTo(gExistsEmail) != 1 && gPhone.compareTo(gExistsPhone) != 1) {
+
+                                                            Boolean resultCheckExistUserName = db.checkUsernameExist_Users(gUserName);
+                                                            if (resultCheckExistUserName == true) {
+
+                                                                Toast.makeText(EditProfile.this, "Tên Đăng Nhập Đã Tồn Tại \n Vui Lòng Nhập Tên Đăng Nhập Khác", Toast.LENGTH_SHORT).show();
+
+                                                            } else {
+
+                                                                Boolean resultCheckExistEmail = db.checkEmailExist_Users(gEmail);
+                                                                if (resultCheckExistEmail == true) {
+
+                                                                    Toast.makeText(EditProfile.this, "Email Đã Tồn Tại \n Vui Lòng Nhập Email Khác", Toast.LENGTH_SHORT).show();
+
+                                                                } else {
+
+                                                                    Boolean resultCheckExistPhone = db.checkPhoneExist_Users(gPhone);
+                                                                    if (resultCheckExistPhone == true) {
+
+                                                                        Toast.makeText(EditProfile.this, "Số Điện Thoại Đã Tồn Tại \n Vui Lòng Nhập Số Điện Thoại Khác", Toast.LENGTH_SHORT).show();
+
+                                                                    } else {
+
+                                                                        progessLoading.show();
+                                                                        String finalGExistsEmail2 = gExistsEmail;
+                                                                        new Handler().postDelayed(new Runnable() {
+                                                                            @Override
+                                                                            public void run() {
+                                                                                sendVerifyEmail(finalGExistsEmail2);
+                                                                                dialogVerifyCode.show();
+                                                                                progessLoading.dismiss();
+                                                                            }
+                                                                        }, 2000);
+
+                                                                    }
+                                                                }
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            }
                                         }
                                     }
                                 }
@@ -257,7 +397,6 @@ public class EditProfile extends AppCompatActivity {
                         Toast.makeText(EditProfile.this, "Vui Lòng Nhập Đúng Định Dạng Email", Toast.LENGTH_SHORT).show();
 
                     }
-
                 }
             }
         });
@@ -482,14 +621,20 @@ public class EditProfile extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 String gVerifyCode = DiaVerifyCode.getText().toString();
-                if(gVerifyCode.equals(verifyCode.toString())){
+                if (gVerifyCode.equals(verifyCode.toString())) {
+                    dialogVerifyCode.dismiss();
                     insertIfImageNull();
+                } else {
                     dialogVerifyCode.dismiss();
-                }else{
-                    Toast.makeText(EditProfile.this, "Sai Mã", Toast.LENGTH_SHORT).show();
-                    dialogVerifyCode.dismiss();
+                    progessLoading.show();
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            Toast.makeText(EditProfile.this, "Sai Mã", Toast.LENGTH_SHORT).show();
+                            progessLoading.dismiss();
+                        }
+                    }, 2000);
                 }
-
             }
         });
 
@@ -535,10 +680,26 @@ public class EditProfile extends AppCompatActivity {
                         },2000);
 
                     } else {
-                        Toast.makeText(EditProfile.this, "Xóa Tài Khoản Thất Bại", Toast.LENGTH_SHORT).show();
+                        dialogDelete.dismiss();
+                        progessLoading.show();
+                        new Handler().postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                Toast.makeText(EditProfile.this, "Xóa Tài Khoản Thất Bại", Toast.LENGTH_SHORT).show();
+                                progessLoading.dismiss();
+                            }
+                        },2000);
                     }
                 }else{
-                    Toast.makeText(EditProfile.this, "Sai Mã", Toast.LENGTH_SHORT).show();
+                    dialogDelete.dismiss();
+                    progessLoading.show();
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            Toast.makeText(EditProfile.this, "Sai Mã", Toast.LENGTH_SHORT).show();
+                            progessLoading.dismiss();
+                        }
+                    },2000);
                 }
             }
         });
