@@ -109,7 +109,7 @@ public class DashBoard extends AppCompatActivity implements NavigationView.OnNav
         drawerLayout = findViewById(R.id.drawer_layout);
         navigationView = findViewById(R.id.navigation_view);
 
-        IdUser = sessionManager.setID();
+        IdUser = sessionManager.getID();
 
         Cursor cursor = db.readDataForMenu_User(Integer.parseInt(IdUser));
         while (cursor.moveToNext()){

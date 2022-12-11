@@ -61,7 +61,7 @@ public class Profile extends AppCompatActivity {
         imageUser = findViewById(R.id.Image_profile);
 
 
-        idUser = sessionManager.setID();
+        idUser = sessionManager.getID();
 
         editProfile();
         btnBack();

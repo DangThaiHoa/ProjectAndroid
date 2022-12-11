@@ -26,12 +26,11 @@ public class SessionManager {
 
     public void setLogin (boolean isLoggedIn){
         editor.putBoolean(KEY_IS_LOGGED_IN,isLoggedIn);
-        editor.putString("saveID",idLogin);
         editor.commit();
         Log.d(TAG,"User login session modified");
     }
 
-    public String setID (){
+    public String getID (){
         String ID = pref.getString("saveID","");
         return ID;
     }
@@ -40,7 +39,8 @@ public class SessionManager {
         return pref.getBoolean(KEY_IS_LOGGED_IN,false);
     }
 
-    public String getId(String myID){
-        return idLogin = myID;
+    public void setId(String myID){
+        editor.putString("saveID",myID);
+        editor.commit();
     }
 }

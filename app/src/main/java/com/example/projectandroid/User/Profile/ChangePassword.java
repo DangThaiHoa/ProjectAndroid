@@ -48,7 +48,7 @@ public class ChangePassword extends AppCompatActivity {
         EConfirmPassword = findViewById(R.id.Txt_confirm_Password_Profile);
         submitBtn = findViewById(R.id.btn_Submit_Change_Password_profile);
 
-        idUser = sessionManager.setID();
+        idUser = sessionManager.getID();
 
         submitBtn();
         btnBack();

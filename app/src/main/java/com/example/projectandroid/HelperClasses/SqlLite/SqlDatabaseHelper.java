@@ -522,6 +522,16 @@ public class SqlDatabaseHelper extends SQLiteOpenHelper {
         }
 
     }
+
+    public Cursor setRememberUserName_User(Integer id_user){
+
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = null;
+        if(db != null){
+            cursor = db.rawQuery("Select " + COLUMN_USERNAME_USERS + " From " + TABLE_USERS + " Where " + COLUMN_ID_USERS + "= ?", new String[] {String.valueOf(id_user)});
+        }
+        return cursor;
+    }
     //Login_Signup
 
 

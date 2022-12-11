@@ -76,12 +76,13 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp">
 
-                <CheckBox
-                    style="@style/Widget.AppCompat.CompoundButton.CheckBox"
+                <TextView
+                    android:id="@+id/sw_account"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:text="Ghi Nhớ" />
+                    android:text="Đổi Tài Khoản"
+                    android:fontFamily="@font/muli_black"
+                    android:textSize="15dp"/>
 
                 <TextView
                     android:id="@+id/forgetPassword_button"

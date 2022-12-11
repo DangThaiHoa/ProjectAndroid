@@ -69,12 +69,12 @@ public class EditProfile extends AppCompatActivity {
     ArrayAdapter<String> adapterItemGender;
 
     ImageView btnBack, eImageUser;
-    TextInputEditText eName, eUserName, eEmail, ePhone, eDate;
-    Button submitBtn, deleteBtn, ConfirmBtnDia, CancelBtnDia;
-    TextView ContentDia, createDayUser;
+    TextInputEditText eName, eUserName, eEmail, ePhone, eDate, DiaVerifyCode, DiaVerifyCodeDelete;
+    Button submitBtn, deleteBtn, ConfirmBtnDiaDelete, CancelBtnDiaDelete, ConfirmBtnVerifyCode, CancelBtnVerifyCode;
+    TextView createDayUser;
     CardView ChangeImage;
 
-    Dialog dialog;
+    Dialog dialogDelete, dialogVerifyCode;
 
     ActivityResultLauncher<String> getImage;
     ActivityResultLauncher<Intent> getCamera;
@@ -87,6 +87,8 @@ public class EditProfile extends AppCompatActivity {
     ProgessLoading progessLoading;
 
     String idUser, gName, gUserName, gEmail, gPhone, gDate, gGender;
+
+    Integer verifyCode, verifyCodeDeleteAccount;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -143,7 +145,7 @@ public class EditProfile extends AppCompatActivity {
         adapterItemGender = new ArrayAdapter<String>(this, R.layout.list_item_dropmenu, itemGender);
         eGender.setAdapter(adapterItemGender);
 
-        idUser = sessionManager.setID();
+        idUser = sessionManager.getID();
 
         eGender.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -194,53 +196,17 @@ public class EditProfile extends AppCompatActivity {
 
                     Toast.makeText(EditProfile.this, "Vui Lòng Nhập Đầy Đủ Thông Tin", Toast.LENGTH_SHORT).show();
 
-                }else{
+                } else {
 
                     if (Patterns.EMAIL_ADDRESS.matcher(gEmail).matches()) {
 
                         if (gDATE.before(gCurrentDay)) {
 
-                            if (gUserName.equals(gExistsUserName)) {
+                            if (gUserName.equals(gExistsUserName) && gEmail.equals(gExistsEmail) && gPhone.equals(gExistsPhone)) {
 
-                                if (gEmail.equals(gExistsEmail)) {
+                                insertIfImageNull();
 
-                                    if (gPhone.equals(gExistsPhone)) {
-
-                                        insertIfImageNull();
-
-                                    }else{
-
-                                        Boolean phoneCheckResult = db.checkPhoneExist_Users(gPhone);
-                                        if (phoneCheckResult == true) {
-
-                                            Toast.makeText(EditProfile.this, "Số Điện Thoại đã tồn tại. \nVui lòng Nhập Số Điện Thoại Khác", Toast.LENGTH_LONG).show();
-                                            eName.forceLayout();
-
-                                        }else{
-
-                                            insertIfImageNull();
-
-                                        }
-
-                                    }
-
-                                }else{
-
-                                    Boolean emailCheckResult = db.checkEmailExist_Users(gEmail);
-                                    if (emailCheckResult == true) {
-
-                                        Toast.makeText(EditProfile.this, "Email đã tồn tại. \nVui lòng Nhập Email Khác", Toast.LENGTH_LONG).show();
-                                        eName.forceLayout();
-
-                                    }else{
-
-                                        insertIfImageNull();
-
-                                    }
-
-                                }
-
-                            }else{
+                            } else {
 
                                 Boolean userCheckResult = db.checkUsernameExist_Users(gUserName);
                                 if (userCheckResult == true) {
@@ -248,21 +214,45 @@ public class EditProfile extends AppCompatActivity {
                                     Toast.makeText(EditProfile.this, "Tên Đăng Nhập đã tồn tại. \nVui lòng Nhập Tên Đăng Nhập Khác", Toast.LENGTH_LONG).show();
                                     eName.forceLayout();
 
-                                }else{
+                                } else {
 
-                                    insertIfImageNull();
+                                    Boolean emailCheckResult = db.checkEmailExist_Users(gEmail);
+                                    if (emailCheckResult == true) {
 
+                                        Toast.makeText(EditProfile.this, "Email đã tồn tại. \nVui lòng Nhập Email Khác", Toast.LENGTH_LONG).show();
+                                        eEmail.forceLayout();
+
+                                    } else {
+
+                                        Boolean phoneCheckResult = db.checkPhoneExist_Users(gPhone);
+                                        if (phoneCheckResult == true) {
+
+                                            Toast.makeText(EditProfile.this, "Số Điện Thoại đã tồn tại. \nVui lòng Nhập Số Điện Thoại Khác", Toast.LENGTH_LONG).show();
+                                            ePhone.forceLayout();
+                                        } else {
+
+                                            progessLoading.show();
+
+                                            String finalGExistsEmail = gExistsEmail;
+                                            new Handler().postDelayed(new Runnable() {
+                                                @Override
+                                                public void run() {
+                                                    sendVerifyEmail(finalGExistsEmail);
+                                                    dialogVerifyCode.show();
+                                                    progessLoading.dismiss();
+                                                }
+                                            }, 2000);
+                                        }
+                                    }
                                 }
-
                             }
-
-                        }else{
+                        } else {
 
                             Toast.makeText(EditProfile.this, "Vui Lòng Nhập Tuổi Hợp Lệ", Toast.LENGTH_SHORT).show();
 
                         }
 
-                    }else{
+                    } else {
 
                         Toast.makeText(EditProfile.this, "Vui Lòng Nhập Đúng Định Dạng Email", Toast.LENGTH_SHORT).show();
 
@@ -272,13 +262,14 @@ public class EditProfile extends AppCompatActivity {
             }
         });
 
-        ShowDiaLog();
+        VerifyDeleteCodeDiaLog();
         btnBack();
         deleteBtn();
         ChangeImage();
         eDate();
         readAllData();
         deleteBtn();
+        VerifyCodeDiaLog();
 
     }
 
@@ -286,106 +277,82 @@ public class EditProfile extends AppCompatActivity {
 
         if (imageToStore == null) {
 
-            Cursor cursor = db.readImageExists_User(Integer.valueOf(idUser));
-            if (cursor.getCount() == 0) {
+            Cursor cursorCheck = db.readImageExists_User(Integer.valueOf(idUser));
+            while (cursorCheck.moveToNext()) {
+                byte[] CheckImage = cursorCheck.getBlob(0);
+                if (CheckImage == null) {
 
-                imageToStore = BitmapFactory.decodeResource(getResources(), R.drawable.ic_baseline_account_circle_24);
-                Boolean resultUpdateData = db.updateData_Users(Integer.parseInt(idUser), gUserName, gName, gEmail, gPhone, gGender, gDate, new GetImageUserClass(imageToStore));
-                if (resultUpdateData == true) {
+                    imageToStore = BitmapFactory.decodeResource(getResources(), R.drawable.account);
+                    Boolean resultUpdateData = db.updateData_Users(Integer.parseInt(idUser), gUserName, gName, gEmail, gPhone, gGender, gDate, new GetImageUserClass(imageToStore));
+                    if (resultUpdateData == true) {
 
-                    progessLoading.show();
+                        progessLoading.show();
 
-                    new Handler().postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            Intent intent = new Intent(EditProfile.this, Profile.class);
-                            startActivity(intent);
-                            Toast.makeText(EditProfile.this, "Sửa Hồ Sơ Thành Công", Toast.LENGTH_SHORT).show();
-                            progessLoading.dismiss();
-                        }
-                    }, 2000);
+                        new Handler().postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                Intent intent = new Intent(EditProfile.this, Profile.class);
+                                startActivity(intent);
+                                Toast.makeText(EditProfile.this, "Sửa Hồ Sơ Thành Công", Toast.LENGTH_SHORT).show();
+                                progessLoading.dismiss();
+                            }
+                        }, 2000);
+                    } else {
+
+                        Toast.makeText(EditProfile.this, "Sửa Hồ Sơ Thất Bại", Toast.LENGTH_SHORT).show();
+
+                    }
                 } else {
 
-                    Toast.makeText(EditProfile.this, "Sửa Hồ Sơ Thất Bại", Toast.LENGTH_SHORT).show();
+                    Cursor cursor = db.readImageExists_User(Integer.valueOf(idUser));
+                    while (cursor.moveToNext()) {
+                        byte[] image = cursor.getBlob(0);
+                        Bitmap bitmap = BitmapFactory.decodeByteArray(image, 0, image.length);
+                        imageToStore = bitmap;
+                    }
+                    Boolean resultUpdateData = db.updateData_Users(Integer.parseInt(idUser), gUserName, gName, gEmail, gPhone, gGender, gDate, new GetImageUserClass(imageToStore));
+                    if (resultUpdateData == true) {
 
-                }
-            } else {
+                        progessLoading.show();
 
-                while (cursor.moveToNext()){
-                    byte[] image = cursor.getBlob(0);
-                    Bitmap bitmap = BitmapFactory.decodeByteArray(image, 0, image.length);
-                    imageToStore = bitmap;
-                }
-                Boolean resultUpdateData = db.updateData_Users(Integer.parseInt(idUser), gUserName, gName, gEmail, gPhone, gGender, gDate, new GetImageUserClass(imageToStore));
-                if (resultUpdateData == true) {
+                        new Handler().postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                Intent intent = new Intent(EditProfile.this, Profile.class);
+                                startActivity(intent);
+                                Toast.makeText(EditProfile.this, "Sửa Hồ Sơ Thành Công", Toast.LENGTH_SHORT).show();
+                                progessLoading.dismiss();
+                            }
+                        }, 2000);
+                    } else {
 
-                    progessLoading.show();
+                        Toast.makeText(EditProfile.this, "Sửa Hồ Sơ Thất Bại", Toast.LENGTH_SHORT).show();
 
-                    new Handler().postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            Intent intent = new Intent(EditProfile.this, Profile.class);
-                            startActivity(intent);
-                            Toast.makeText(EditProfile.this, "Sửa Hồ Sơ Thành Công", Toast.LENGTH_SHORT).show();
-                            progessLoading.dismiss();
-                        }
-                    }, 2000);
-                } else {
-
-                    Toast.makeText(EditProfile.this, "Sửa Hồ Sơ Thất Bại", Toast.LENGTH_SHORT).show();
-
+                    }
                 }
             }
-
         } else {
 
-            Cursor cursor = db.readImageExists_User(Integer.valueOf(idUser));
-            if (cursor.getCount() == 0) {
+            Boolean resultUpdateData = db.updateData_Users(Integer.parseInt(idUser), gUserName, gName, gEmail, gPhone, gGender, gDate, new GetImageUserClass(imageToStore));
+            if (resultUpdateData == true) {
 
-                imageToStore = BitmapFactory.decodeResource(getResources(), R.drawable.ic_baseline_account_circle_24);
-                Boolean resultUpdateData = db.updateData_Users(Integer.parseInt(idUser), gUserName, gName, gEmail, gPhone, gGender, gDate, new GetImageUserClass(imageToStore));
-                if (resultUpdateData == true) {
+                progessLoading.show();
 
-                    progessLoading.show();
-
-                    new Handler().postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            Intent intent = new Intent(EditProfile.this, Profile.class);
-                            startActivity(intent);
-                            Toast.makeText(EditProfile.this, "Sửa Hồ Sơ Thành Công", Toast.LENGTH_SHORT).show();
-                            progessLoading.dismiss();
-                        }
-                    }, 2000);
-                } else {
-
-                    Toast.makeText(EditProfile.this, "Sửa Hồ Sơ Thất Bại", Toast.LENGTH_SHORT).show();
-
-                }
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        Intent intent = new Intent(EditProfile.this, Profile.class);
+                        startActivity(intent);
+                        Toast.makeText(EditProfile.this, "Sửa Hồ Sơ Thành Công", Toast.LENGTH_SHORT).show();
+                        progessLoading.dismiss();
+                    }
+                }, 2000);
             } else {
 
-                Boolean resultUpdateData = db.updateData_Users(Integer.parseInt(idUser), gUserName, gName, gEmail, gPhone, gGender, gDate, new GetImageUserClass(imageToStore));
-                if (resultUpdateData == true) {
+                Toast.makeText(EditProfile.this, "Sửa Hồ Sơ Thất Bại", Toast.LENGTH_SHORT).show();
 
-                    progessLoading.show();
-
-                    new Handler().postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            Intent intent = new Intent(EditProfile.this, Profile.class);
-                            startActivity(intent);
-                            Toast.makeText(EditProfile.this, "Sửa Hồ Sơ Thành Công", Toast.LENGTH_SHORT).show();
-                            progessLoading.dismiss();
-                        }
-                    }, 2000);
-                } else {
-
-                    Toast.makeText(EditProfile.this, "Sửa Hồ Sơ Thất Bại", Toast.LENGTH_SHORT).show();
-
-                }
             }
         }
-
     }
 
     private void readAllData() {
@@ -400,7 +367,7 @@ public class EditProfile extends AppCompatActivity {
             eGender.setText(cursor.getString(6));
             eDate.setText(cursor.getString(7));
             if(cursor.getBlob(8) == null){
-                eImageUser.setImageResource(R.drawable.ic_baseline_account_circle_24);
+                eImageUser.setImageResource(R.drawable.account);
             }else{
                 byte[] image = cursor.getBlob(8);
                 Bitmap bitmap = BitmapFactory.decodeByteArray(image, 0, image.length);
@@ -445,8 +412,21 @@ public class EditProfile extends AppCompatActivity {
         deleteBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ContentDia.setText("Bạn Có Chắc Chắn Muốn Xóa Tài Khoản ?");
-                dialog.show();
+                progessLoading.show();
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        Cursor cursor = db.readAllData_User(Integer.valueOf(idUser));
+                        String gE = null;
+                        while (cursor.moveToNext()) {
+                            gE = cursor.getString(4);
+                        }
+                        sendVerifyEmailDelete(gE);
+                        dialogDelete.show();
+                        progessLoading.dismiss();
+                    }
+                },2000);
+
             }
         });
 
@@ -486,41 +466,142 @@ public class EditProfile extends AppCompatActivity {
         });
     }
 
-    public void ShowDiaLog() {
+    public void VerifyCodeDiaLog() {
 
-        dialog = new Dialog(EditProfile.this);
-        dialog.setContentView(R.layout.custom_dialog);
-        dialog.getWindow().setBackgroundDrawable(getDrawable(R.drawable.bg_dialog));
-        dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT,ViewGroup.LayoutParams.WRAP_CONTENT);
-        dialog.setCancelable(false);
+        dialogVerifyCode = new Dialog(EditProfile.this);
+        dialogVerifyCode.setContentView(R.layout.custom_dialog_verifycode);
+        dialogVerifyCode.getWindow().setBackgroundDrawable(getDrawable(R.drawable.bg_dialog));
+        dialogVerifyCode.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT,ViewGroup.LayoutParams.WRAP_CONTENT);
+        dialogVerifyCode.setCancelable(false);
 
-        ConfirmBtnDia = dialog.findViewById(R.id.Confirm_dialog_btn);
-        CancelBtnDia = dialog.findViewById(R.id.Cancel_dialog_btn);
-        ContentDia = dialog.findViewById(R.id.tv_Content_dialog);
+        ConfirmBtnVerifyCode = dialogVerifyCode.findViewById(R.id.Confirm_dialogVerify_btn);
+        CancelBtnVerifyCode = dialogVerifyCode.findViewById(R.id.Cancel_dialogVerify_btn);
+        DiaVerifyCode = dialogVerifyCode.findViewById(R.id.verify_code);
 
-        ConfirmBtnDia.setOnClickListener(new View.OnClickListener() {
+        ConfirmBtnVerifyCode.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Boolean resultDeleteData = db.deleteAccount_User(Integer.valueOf(idUser));
-                if(resultDeleteData == true){
-                    Intent intent = new Intent(getApplicationContext(), StartUpScreen.class);
-                    startActivity(intent);
-                    sessionManager.setLogin(false);
-                    dialog.dismiss();
+                String gVerifyCode = DiaVerifyCode.getText().toString();
+                if(gVerifyCode.equals(verifyCode.toString())){
+                    insertIfImageNull();
+                    dialogVerifyCode.dismiss();
                 }else{
-                    Toast.makeText(EditProfile.this, "Xóa Tài Khoản Thất Bại", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(EditProfile.this, "Sai Mã", Toast.LENGTH_SHORT).show();
+                    dialogVerifyCode.dismiss();
                 }
 
             }
         });
 
-        CancelBtnDia.setOnClickListener(new View.OnClickListener() {
+        CancelBtnVerifyCode.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                dialog.dismiss();
+                dialogVerifyCode.dismiss();
             }
         });
 
+    }
+
+    public void VerifyDeleteCodeDiaLog() {
+
+        dialogDelete = new Dialog(EditProfile.this);
+        dialogDelete.setContentView(R.layout.custom_dialog_delete_account);
+        dialogDelete.getWindow().setBackgroundDrawable(getDrawable(R.drawable.bg_dialog));
+        dialogDelete.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT,ViewGroup.LayoutParams.WRAP_CONTENT);
+        dialogDelete.setCancelable(false);
+
+        ConfirmBtnDiaDelete = dialogDelete.findViewById(R.id.Confirm_dialogDelete_btn);
+        CancelBtnDiaDelete = dialogDelete.findViewById(R.id.Cancel_dialogDelete_btn);
+        DiaVerifyCodeDelete = dialogDelete.findViewById(R.id.verify_code_delete);
+
+        ConfirmBtnDiaDelete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String gVerifyCode = DiaVerifyCodeDelete.getText().toString();
+                if(gVerifyCode.equals(verifyCodeDeleteAccount.toString())) {
+                    Boolean resultDeleteData = db.deleteAccount_User(Integer.valueOf(idUser));
+                    if (resultDeleteData == true) {
+                        dialogDelete.dismiss();
+                        progessLoading.show();
+                        new Handler().postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                Intent intent = new Intent(getApplicationContext(), StartUpScreen.class);
+                                startActivity(intent);
+                                sessionManager.setLogin(false);
+                                sessionManager.setId("0");
+                                progessLoading.dismiss();
+                            }
+                        },2000);
+
+                    } else {
+                        Toast.makeText(EditProfile.this, "Xóa Tài Khoản Thất Bại", Toast.LENGTH_SHORT).show();
+                    }
+                }else{
+                    Toast.makeText(EditProfile.this, "Sai Mã", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
+        CancelBtnDiaDelete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialogDelete.dismiss();
+            }
+        });
+
+    }
+
+    private void sendVerifyEmail(String email){
+        Random random = new Random();
+        verifyCode = random.nextInt(8999) + 1000;
+        String url = "https://sendemailprojectandroid.000webhostapp.com/sendCodeChangeEmail.php";
+        RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+            }
+        }){
+            @Nullable
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String,String> params = new HashMap<>();
+                params.put("email",email);
+                params.put("code", String.valueOf(verifyCode));
+                return params;
+            }
+        };
+        requestQueue.add(stringRequest);
+    }
+
+    private void sendVerifyEmailDelete(String email){
+        Random random = new Random();
+        verifyCodeDeleteAccount = random.nextInt(8999) + 1000;
+        String url = "https://sendemailprojectandroid.000webhostapp.com/sendCodeDeleteAccount.php";
+        RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+            }
+        }){
+            @Nullable
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String,String> params = new HashMap<>();
+                params.put("email",email);
+                params.put("code", String.valueOf(verifyCodeDeleteAccount));
+                return params;
+            }
+        };
+        requestQueue.add(stringRequest);
     }
 
     private void btnBack() {
