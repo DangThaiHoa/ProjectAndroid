@@ -67,6 +67,8 @@ import java.util.Locale;
 
 public class DashBoard extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
+    public static String idUser;
+
     static final float END_SCALE = 1f;
 
     RecyclerView featuredRecycle,mostviewRecycle,categoriesRecycle;
@@ -116,9 +118,9 @@ public class DashBoard extends AppCompatActivity implements NavigationView.OnNav
         drawerLayout = findViewById(R.id.drawer_layout);
         navigationView = findViewById(R.id.navigation_view);
 
-        IdUser = sessionManager.getID();
+        idUser = sessionManager.getID();
 
-        Cursor cursor = db.readDataForMenu_User(Integer.parseInt(IdUser));
+        Cursor cursor = db.readDataForMenu_User(Integer.parseInt(idUser));
         while (cursor.moveToNext()){
 
             loginUserName.setText("Chào Mừng\n " + cursor.getString(0));

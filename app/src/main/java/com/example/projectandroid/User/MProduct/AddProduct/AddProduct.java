@@ -1,5 +1,7 @@
 package com.example.projectandroid.User.MProduct.AddProduct;
 
+import static com.example.projectandroid.User.DashBoard.idUser;
+
 import androidx.activity.result.ActivityResult;
 import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
@@ -29,6 +31,7 @@ import com.example.projectandroid.HelperClasses.Product.ListProduct.GetImageProd
 import com.example.projectandroid.HelperClasses.SqlLite.SqlDatabaseHelper;
 import com.example.projectandroid.ProgessLoading;
 import com.example.projectandroid.R;
+import com.example.projectandroid.SessionManager;
 import com.example.projectandroid.User.MProduct.AddTypeProduct.AddTypeProduct;
 import com.google.android.material.textfield.TextInputEditText;
 
@@ -59,7 +62,6 @@ public class AddProduct extends AppCompatActivity {
 
     Dialog pickImageDialog;
     ImageView GalleryOpen,CameraOpen;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -117,7 +119,7 @@ public class AddProduct extends AppCompatActivity {
 
                 String typeProductName = TypeProduct.getText().toString();
 
-                Cursor cursor = db.getTypeProductID_Product(typeProductName);
+                Cursor cursor = db.getTypeProductID_Product(typeProductName, Integer.valueOf(idUser));
                 if (cursor.getCount() == 0) {
 
                     Toast.makeText(AddProduct.this, "Vui Lòng Nhập Loại Sản Phẩm", Toast.LENGTH_SHORT).show();
@@ -138,10 +140,10 @@ public class AddProduct extends AppCompatActivity {
 
                     } else {
 
-                        Boolean resultNameProduct = db.checkNameProduct_Product(gProductName);
+                        Boolean resultNameProduct = db.checkNameProduct_Product(gProductName, Integer.valueOf(idUser));
                         if (resultNameProduct == false) {
 
-                            Boolean resultInsertData = db.insertData_Product(gProductName, gProductQuality, gProductUnit, gProductPrice, new GetImageProductClass(imageToStore), gIDTypeProduct);
+                            Boolean resultInsertData = db.insertData_Product(gProductName, gProductQuality, gProductUnit, gProductPrice, new GetImageProductClass(imageToStore), gIDTypeProduct, Integer.valueOf(idUser));
                             if (resultInsertData == true) {
 
                                 progessLoading.show();
@@ -202,7 +204,7 @@ public class AddProduct extends AppCompatActivity {
 
     private void loadDataTypeProduct() {
 
-        Cursor cursor = db.readTypeProduct_Product();
+        Cursor cursor = db.readTypeProduct_Product(Integer.valueOf(idUser));
 
         itemTypeProduct = new ArrayList<>();
         if(cursor.getCount() == 0){

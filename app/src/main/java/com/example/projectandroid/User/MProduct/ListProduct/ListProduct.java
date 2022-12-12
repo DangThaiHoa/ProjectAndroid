@@ -1,5 +1,7 @@
 package com.example.projectandroid.User.MProduct.ListProduct;
 
+import static com.example.projectandroid.User.DashBoard.idUser;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -42,6 +44,7 @@ public class ListProduct extends AppCompatActivity {
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
         setContentView(R.layout.activity_list_product);
 
+
         listProductRecycle = findViewById(R.id.List_Product_recycler);
         btnBack = findViewById(R.id.back_btn);
 
@@ -55,7 +58,7 @@ public class ListProduct extends AppCompatActivity {
 
     private void readData() {
 
-        Cursor cursor = db.ReadData_Product();
+        Cursor cursor = db.ReadData_Product(Integer.valueOf(idUser));
         ArrayList<ListProductHelperClass> listProductHelperClassArrayList = new ArrayList<>();
         if(cursor.getCount() == 0){
             new Handler().postDelayed(new Runnable() {

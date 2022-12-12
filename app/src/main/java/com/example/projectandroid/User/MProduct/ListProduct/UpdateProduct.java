@@ -1,5 +1,7 @@
 package com.example.projectandroid.User.MProduct.ListProduct;
 
+import static com.example.projectandroid.User.DashBoard.idUser;
+
 import androidx.activity.result.ActivityResult;
 import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
@@ -117,7 +119,7 @@ public class UpdateProduct extends AppCompatActivity {
 
                 String typeProductName = TypeProduct.getText().toString();
 
-                Cursor cursor = db.getTypeProductID_Product(typeProductName);
+                Cursor cursor = db.getTypeProductID_Product(typeProductName, Integer.valueOf(idUser));
                 if (cursor.getCount() == 0) {
 
                     Toast.makeText(UpdateProduct.this, "Vui Lòng Nhập Loại Sản Phẩm", Toast.LENGTH_SHORT).show();
@@ -138,7 +140,7 @@ public class UpdateProduct extends AppCompatActivity {
 
                     } else {
 
-                        Boolean resultNameProduct = db.checkNameProduct_Product(gProductName);
+                        Boolean resultNameProduct = db.checkNameProduct_Product(gProductName, Integer.valueOf(idUser));
                         if (resultNameProduct == false) {
 
                             Boolean resultUpdateData = db.updateData_Product(id_Product,gProductName, gProductQuality, gProductUnit, gProductPrice, new GetImageProductClass(imageToStore), gIDTypeProduct);
@@ -219,7 +221,7 @@ public class UpdateProduct extends AppCompatActivity {
 
     private void loadDataTypeProduct() {
 
-        Cursor cursor = db.readTypeProduct_Product();
+        Cursor cursor = db.readTypeProduct_Product(Integer.valueOf(idUser));
 
         itemTypeProduct = new ArrayList<>();
         if(cursor.getCount() == 0){

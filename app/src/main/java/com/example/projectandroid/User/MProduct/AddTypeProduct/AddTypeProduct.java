@@ -1,5 +1,7 @@
 package com.example.projectandroid.User.MProduct.AddTypeProduct;
 
+import static com.example.projectandroid.User.DashBoard.idUser;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 
@@ -13,6 +15,7 @@ import android.widget.Toast;
 import com.example.projectandroid.HelperClasses.SqlLite.SqlDatabaseHelper;
 import com.example.projectandroid.ProgessLoading;
 import com.example.projectandroid.R;
+import com.example.projectandroid.SessionManager;
 import com.google.android.material.textfield.TextInputEditText;
 
 public class AddTypeProduct extends AppCompatActivity {
@@ -31,10 +34,12 @@ public class AddTypeProduct extends AppCompatActivity {
 
         final ProgessLoading progessLoading = new ProgessLoading(this);
 
+
         confirmBtn = findViewById(R.id.confirm_btn_addTypeProduct);
         nameTypeProduct = findViewById(R.id.name_typeProduct_typeProduct);
         descTypeProduct = findViewById(R.id.desc_typeProduct_Product);
         backBtn = findViewById(R.id.back_btn);
+
 
         confirmBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -49,10 +54,10 @@ public class AddTypeProduct extends AppCompatActivity {
 
                 }else{
 
-                    Boolean resultNameTypeProduct = db.checkNameTypeProduct_TypeProduct(gName);
+                    Boolean resultNameTypeProduct = db.checkNameTypeProduct_TypeProduct(gName, Integer.valueOf(idUser));
                     if(resultNameTypeProduct == false){
 
-                        Boolean resultInsertData = db.insertData_TypeProduct(gName,gDesc);
+                        Boolean resultInsertData = db.insertData_TypeProduct(gName,gDesc, Integer.valueOf(idUser));
                         if (resultInsertData  == true){
 
                             progessLoading.show();

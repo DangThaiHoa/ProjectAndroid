@@ -21,6 +21,7 @@ import com.example.projectandroid.HelperClasses.Product.ListTypeProduct.ListType
 import com.example.projectandroid.HelperClasses.Product.ListTypeProduct.ListTypeProductHelperClass;
 import com.example.projectandroid.HelperClasses.SqlLite.SqlDatabaseHelper;
 import com.example.projectandroid.R;
+import com.example.projectandroid.SessionManager;
 import com.example.projectandroid.User.MProduct.AddTypeProduct.AddTypeProduct;
 
 import java.util.ArrayList;
@@ -36,12 +37,16 @@ public class ListTypeProduct extends AppCompatActivity {
     TextView ContentDia;
     Dialog dialog;
 
+    String idUser;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
         setContentView(R.layout.activity_list_type_product);
 
+        SessionManager sessionManager = new SessionManager(this);
+        idUser = sessionManager.getID();
 
         listProductRecycle = findViewById(R.id.List_Type_Product_recycler);
         btnBack = findViewById(R.id.back_btn);
@@ -57,7 +62,7 @@ public class ListTypeProduct extends AppCompatActivity {
 
     private void readData() {
 
-        Cursor cursor = db.readData_TypeProduct();
+        Cursor cursor = db.readData_TypeProduct(Integer.valueOf(idUser));
         ArrayList<ListTypeProductHelperClass> listTypeProductHelperClassArrayList = new ArrayList<>();
         if(cursor.getCount() == 0){
             new Handler().postDelayed(new Runnable() {
