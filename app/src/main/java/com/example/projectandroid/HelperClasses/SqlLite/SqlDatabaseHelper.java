@@ -127,8 +127,9 @@ public class SqlDatabaseHelper extends SQLiteOpenHelper {
     //TypeProduct
     private String Create_Table_Type_Product =  "CREATE TABLE IF NOT EXISTS " + TABLE_TYPE_PRODUCT +
             "(" + COLUMN_ID_TYPE_PRODUCT + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
-            COLUMN_TYPE_PRODUCT_NAME + " TEXT UNIQUE, " +
+            COLUMN_TYPE_PRODUCT_NAME + " TEXT , " +
             COLUMN_TYPE_PRODUCT_DESCRIPTION + " TEXT, " +
+            F_TYPE_PRODUCT_COLUMN_ID_USER + " INTEGER, " +
             "FOREIGN KEY ("+F_TYPE_PRODUCT_COLUMN_ID_USER+") REFERENCES "+TABLE_USERS+"("+COLUMN_ID_USERS+"));";
     //TypeProduct
 
@@ -136,12 +137,13 @@ public class SqlDatabaseHelper extends SQLiteOpenHelper {
     //Product
     private String Create_Table_Product =  "CREATE TABLE IF NOT EXISTS " + TABLE_PRODUCT +
             "(" + COLUMN_ID_PRODUCT + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
-            COLUMN_PRODUCT_NAME + " TEXT UNIQUE, " +
+            COLUMN_PRODUCT_NAME + " TEXT , " +
             COLUMN_PRODUCT_QUALITY + " TEXT, " +
             COLUMN_PRODUCT_UNIT + " TEXT, " +
             COLUMN_PRODUCT_PRICE + " REAL," +
             COLUMN_PRODUCT_IMAGE + " BLOB, " +
             F_PRODUCT_COLUMN_ID_TYPE_PRODUCT + " INTEGER," +
+            F_PRODUCT_COLUMN_ID_USER + " INTEGER," +
             "FOREIGN KEY ("+F_PRODUCT_COLUMN_ID_TYPE_PRODUCT+") REFERENCES "+TABLE_TYPE_PRODUCT+"("+COLUMN_ID_TYPE_PRODUCT+"), "+
             "FOREIGN KEY ("+F_PRODUCT_COLUMN_ID_USER+") REFERENCES "+TABLE_USERS+"("+COLUMN_ID_USERS+"));";
     //Product
@@ -156,6 +158,7 @@ public class SqlDatabaseHelper extends SQLiteOpenHelper {
             COLUMN_BILL_CREATE_TIME + " TEXT," +
             F_BILL_COLUMN_ID_TYPE_PRODUCT + " INTEGER, " +
             F_BILL_COLUMN_ID_PRODUCT + " INTEGER, " +
+            F_BILL_COLUMN_ID_USER + " INTEGER, " +
             "FOREIGN KEY ("+F_BILL_COLUMN_ID_TYPE_PRODUCT+") REFERENCES "+TABLE_TYPE_PRODUCT+"("+COLUMN_ID_TYPE_PRODUCT+") ," +
             "FOREIGN KEY ("+F_BILL_COLUMN_ID_PRODUCT+") REFERENCES "+TABLE_PRODUCT+"("+COLUMN_ID_PRODUCT+"), " +
             "FOREIGN KEY ("+F_BILL_COLUMN_ID_USER+") REFERENCES "+TABLE_USERS+"("+COLUMN_ID_USERS+"));";
@@ -171,6 +174,7 @@ public class SqlDatabaseHelper extends SQLiteOpenHelper {
             COLUMN_PROMOTION_END_DAY + " TEXT," +
             F_PROMOTION_COLUMN_ID_TYPE_PRODUCT + " INTEGER, " +
             F_PROMOTION_COLUMN_ID_PRODUCT + " INTEGER, " +
+            F_PROMOTION_COLUMN_ID_USER + " INTEGER, " +
             "FOREIGN KEY ("+F_PROMOTION_COLUMN_ID_TYPE_PRODUCT+") REFERENCES "+TABLE_TYPE_PRODUCT+"("+COLUMN_ID_TYPE_PRODUCT+")," +
             "FOREIGN KEY ("+F_PROMOTION_COLUMN_ID_PRODUCT+") REFERENCES "+TABLE_PRODUCT+"("+COLUMN_ID_PRODUCT+"), " +
             "FOREIGN KEY ("+F_PROMOTION_COLUMN_ID_USER+") REFERENCES "+TABLE_USERS+"("+COLUMN_ID_USERS+"));";
@@ -187,6 +191,7 @@ public class SqlDatabaseHelper extends SQLiteOpenHelper {
             COLUMN_IMPORT_PRODUCT_CREATE_TIME + " TEXT," +
             F_IMPORT_PRODUCT_COLUMN_ID_TYPE_PRODUCT + " INTEGER, " +
             F_IMPORT_PRODUCT_COLUMN_ID_PRODUCT + " INTEGER, " +
+            F_IMPORT_PRODUCT_COLUMN_ID_USER + " INTEGER, " +
             "FOREIGN KEY ("+F_IMPORT_PRODUCT_COLUMN_ID_TYPE_PRODUCT+") REFERENCES "+TABLE_TYPE_PRODUCT+"("+COLUMN_ID_TYPE_PRODUCT+") ," +
             "FOREIGN KEY ("+F_IMPORT_PRODUCT_COLUMN_ID_PRODUCT+") REFERENCES "+TABLE_PRODUCT+"("+COLUMN_ID_PRODUCT+"), " +
             "FOREIGN KEY ("+F_IMPORT_PRODUCT_COLUMN_ID_USER+") REFERENCES "+TABLE_USERS+"("+COLUMN_ID_USERS+"));";
@@ -563,11 +568,9 @@ public class SqlDatabaseHelper extends SQLiteOpenHelper {
     }
 
     public boolean checkNameTypeProduct_TypeProduct(String type_product_name, Integer id_user){
-        String query = "select * from "+ TABLE_TYPE_PRODUCT +" where "+ COLUMN_TYPE_PRODUCT_NAME + "=" + type_product_name + " And " +
-                        F_TYPE_PRODUCT_COLUMN_ID_USER + "=" + id_user;
-
         SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cursor = db.rawQuery(query,null);
+        Cursor cursor = db.rawQuery("select * from "+ TABLE_TYPE_PRODUCT +" Where " + COLUMN_TYPE_PRODUCT_NAME + " = ?" + " And " +
+                F_TYPE_PRODUCT_COLUMN_ID_USER + "=" + id_user,new String[] {type_product_name});
 
         if (cursor.getCount()>0){
             return true;
@@ -591,7 +594,7 @@ public class SqlDatabaseHelper extends SQLiteOpenHelper {
 
     //Product
     public Cursor readTypeProduct_Product(Integer id_user){
-        String query= "Select * from "+ TABLE_TYPE_PRODUCT + " Where " + TABLE_PRODUCT + "=" + id_user;
+        String query= "Select * from "+ TABLE_TYPE_PRODUCT + " Where " + F_TYPE_PRODUCT_COLUMN_ID_USER + "=" + id_user;
         SQLiteDatabase db = this.getReadableDatabase();
 
         Cursor cursor = null;
@@ -632,22 +635,20 @@ public class SqlDatabaseHelper extends SQLiteOpenHelper {
 
     public Cursor getTypeProductID_Product(String type_product_name, Integer id_user){
         SQLiteDatabase db = this.getReadableDatabase();
-        String query = "Select * from "+ TABLE_TYPE_PRODUCT +" Where "+ COLUMN_TYPE_PRODUCT_NAME +" = " + type_product_name +
-                        " And " + F_TYPE_PRODUCT_COLUMN_ID_USER + "=" + id_user;
 
         Cursor cursor = null;
         if(db != null){
-            cursor = db.rawQuery(query,null);
+            cursor = db.rawQuery("Select * from "+ TABLE_TYPE_PRODUCT +" Where "+ COLUMN_TYPE_PRODUCT_NAME +" = ?" +
+                    " And " + F_TYPE_PRODUCT_COLUMN_ID_USER + "=" + id_user,new String[] {type_product_name});
         }
         return cursor;
     }
 
     public boolean checkNameProduct_Product(String product_name, Integer id_user){
         SQLiteDatabase db = this.getReadableDatabase();
-        String query = "select * from "+ TABLE_PRODUCT +" where "+ COLUMN_PRODUCT_NAME +" = " + product_name +
-                        " And " + F_PRODUCT_COLUMN_ID_USER + "=" + id_user;
 
-        Cursor cursor = db.rawQuery(query, null);
+        Cursor cursor = db.rawQuery("select * from "+ TABLE_PRODUCT +" where "+ COLUMN_PRODUCT_NAME +" = ?" +
+                " And " + F_PRODUCT_COLUMN_ID_USER + "=" + id_user, new String[] {product_name});
 
         if (cursor.getCount()>0){
             return true;
@@ -656,8 +657,9 @@ public class SqlDatabaseHelper extends SQLiteOpenHelper {
         }
     }
 
-    public Cursor ReadData_Product(Integer id_user){
-        String query = "Select "+ COLUMN_TYPE_PRODUCT_NAME +","+
+    public Cursor readData_Product(Integer id_user){
+        String query = "Select "+ COLUMN_ID_PRODUCT +","+
+                COLUMN_TYPE_PRODUCT_NAME +","+
                 COLUMN_PRODUCT_NAME +","+
                 COLUMN_PRODUCT_QUALITY +","+
                 COLUMN_PRODUCT_UNIT +"," +
@@ -665,7 +667,6 @@ public class SqlDatabaseHelper extends SQLiteOpenHelper {
                 COLUMN_PRODUCT_IMAGE +
                 " From "+ TABLE_PRODUCT+ ","+ TABLE_TYPE_PRODUCT +
                 " Where "+ TABLE_PRODUCT +"."+ F_PRODUCT_COLUMN_ID_TYPE_PRODUCT +"="+ TABLE_TYPE_PRODUCT +"."+ COLUMN_ID_TYPE_PRODUCT +
-                " And " + TABLE_PRODUCT +"."+ F_PRODUCT_COLUMN_ID_USER +"="+ TABLE_USERS +"."+ COLUMN_ID_USERS +
                 " And " + F_PRODUCT_COLUMN_ID_USER + "=" + id_user +
                 " ORDER BY " + COLUMN_ID_PRODUCT + " ASC ";
 
@@ -700,20 +701,10 @@ public class SqlDatabaseHelper extends SQLiteOpenHelper {
         return cursor;
     }
 
-    public Cursor getIdProduct_Product(String product_name){
-        SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cursor = null;
-        if(db != null) {
-            cursor = db.rawQuery("select " + COLUMN_ID_PRODUCT + " from " + TABLE_PRODUCT + " Where " + COLUMN_PRODUCT_NAME + " = ?", new String[] {product_name});
-
-        }
-        return cursor;
-    }
-
     public boolean deleteData_Product(Integer product_id){
 
         SQLiteDatabase db = this.getWritableDatabase();
-        long result = db.delete(TABLE_PRODUCT,COLUMN_ID_PRODUCT + "= ?", new String[] {String.valueOf(product_id)});
+        long result = db.delete(TABLE_PRODUCT,COLUMN_ID_PRODUCT + "=" + product_id,null);
         if(result == -1){
             return false;
         }else{
@@ -739,39 +730,64 @@ public class SqlDatabaseHelper extends SQLiteOpenHelper {
         contentValues.put(COLUMN_PRODUCT_PRICE, product_price);
         contentValues.put(COLUMN_PRODUCT_IMAGE, imageProductByte);
         contentValues.put(F_PRODUCT_COLUMN_ID_TYPE_PRODUCT, type_product_id);
-        long result = db.update(TABLE_PRODUCT, contentValues, COLUMN_ID_PRODUCT + "= ?", new String[]{String.valueOf(product_id)});
+        long result = db.update(TABLE_PRODUCT, contentValues, COLUMN_ID_PRODUCT + "=" + product_id, null);
         if (result == -1) {
             return false;
         } else {
             return true;
         }
     }
+    public Cursor checkImageProductExits_Product(Integer product_id){
+
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = null;
+        if(db!=null){
+
+            cursor = db.rawQuery("Select " + COLUMN_PRODUCT_IMAGE + " From " + TABLE_PRODUCT + " Where " + COLUMN_ID_PRODUCT + "=" + product_id, null);
+
+        }
+        return cursor;
+
+    }
+
+    public Cursor readNameProductExist_Product(Integer product_id){
+
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = null;
+        if(db!=null){
+
+            cursor = db.rawQuery("Select " + COLUMN_PRODUCT_NAME + " From " + TABLE_PRODUCT + " Where " + COLUMN_ID_PRODUCT + "=" + product_id, null);
+
+        }
+        return cursor;
+
+    }
     //Product
 
 
     //Bill
-    public Cursor getIDTypeProduct_Bill(String type_product_name){
+    public Cursor getIDTypeProduct_Bill(String type_product_name, Integer id_user){
         SQLiteDatabase db = this.getReadableDatabase();
 
         Cursor cursor = null;
         if(db != null){
-            cursor = db.rawQuery("Select "+ COLUMN_ID_TYPE_PRODUCT +" from "+ TABLE_TYPE_PRODUCT +" Where " + COLUMN_TYPE_PRODUCT_NAME + "= ?",new String[] {type_product_name});
+            cursor = db.rawQuery("Select "+ COLUMN_ID_TYPE_PRODUCT +" from "+ TABLE_TYPE_PRODUCT +" Where " + COLUMN_TYPE_PRODUCT_NAME + "= ? " + " And " + F_TYPE_PRODUCT_COLUMN_ID_USER + "=" + id_user,new String[] {type_product_name});
         }
         return cursor;
     }
 
-    public Cursor getIDProduct_Bill(String product_name){
+    public Cursor getIDProduct_Bill(String product_name, Integer id_user){
         SQLiteDatabase db = this.getReadableDatabase();
 
         Cursor cursor = null;
         if(db != null){
-            cursor = db.rawQuery("Select "+ COLUMN_ID_PRODUCT +" from "+ TABLE_PRODUCT +" Where " + COLUMN_PRODUCT_NAME + "= ?",new String[] {product_name});
+            cursor = db.rawQuery("Select "+ COLUMN_ID_PRODUCT +" from "+ TABLE_PRODUCT +" Where " + COLUMN_PRODUCT_NAME + "= ?"+ " And " + F_PRODUCT_COLUMN_ID_USER + "=" + id_user,new String[] {product_name});
         }
         return cursor;
     }
 
-    public Cursor readTypeProduct_Bill(){
-        String query= "Select * from "+ TABLE_TYPE_PRODUCT;
+    public Cursor readTypeProduct_Bill(Integer id_user){
+        String query= "Select * from "+ TABLE_TYPE_PRODUCT + " Where " + F_TYPE_PRODUCT_COLUMN_ID_USER + "=" + id_user;
         SQLiteDatabase db = this.getReadableDatabase();
 
         Cursor cursor = null;
@@ -792,18 +808,18 @@ public class SqlDatabaseHelper extends SQLiteOpenHelper {
         return cursor;
     }
 
-    public Cursor readPriceProduct_Bill(String product_name){
+    public Cursor readPriceProduct_Bill(String product_name, Integer id_user){
 
         SQLiteDatabase db = this.getReadableDatabase();
 
         Cursor cursor = null;
         if(db != null){
-            cursor = db.rawQuery("Select " + COLUMN_PRODUCT_PRICE +" from "+ TABLE_PRODUCT +" Where " + COLUMN_PRODUCT_NAME + "= ?", new String[] {product_name});
+            cursor = db.rawQuery("Select " + COLUMN_PRODUCT_PRICE +" from "+ TABLE_PRODUCT +" Where " + COLUMN_PRODUCT_NAME + "= ?" + " And " + F_PRODUCT_COLUMN_ID_USER + "=" + id_user, new String[] {product_name});
         }
         return cursor;
     }
 
-    public boolean insertData_Bill(String product_quality, String total_price, String bill_create_Day, String bill_create_Time, Integer type_product_id, Integer product_id){
+    public boolean insertData_Bill(String product_quality, String total_price, String bill_create_Day, String bill_create_Time, Integer type_product_id, Integer product_id, Integer id_user){
 
         SQLiteDatabase db = this.getWritableDatabase();
 
@@ -815,6 +831,7 @@ public class SqlDatabaseHelper extends SQLiteOpenHelper {
         contentValues.put(COLUMN_BILL_CREATE_TIME,bill_create_Time);
         contentValues.put(F_BILL_COLUMN_ID_TYPE_PRODUCT,type_product_id);
         contentValues.put(F_BILL_COLUMN_ID_PRODUCT,product_id);
+        contentValues.put(F_BILL_COLUMN_ID_USER,id_user);
 
         long result = db.insert(TABLE_BILL,null, contentValues);
 
@@ -825,7 +842,7 @@ public class SqlDatabaseHelper extends SQLiteOpenHelper {
         }
     }
 
-    public Cursor readData_Bill(){
+    public Cursor readData_Bill(Integer id_user){
         String query = "Select "+ COLUMN_ID_BILL + "," +
                 COLUMN_PRODUCT_NAME +","+
                 COLUMN_BILL_QUALITY +","+
@@ -833,6 +850,7 @@ public class SqlDatabaseHelper extends SQLiteOpenHelper {
                 COLUMN_PRODUCT_IMAGE +
                 " From "+ TABLE_BILL + ","+ TABLE_PRODUCT +
                 " Where "+ TABLE_BILL +"."+ F_BILL_COLUMN_ID_PRODUCT +"="+ TABLE_PRODUCT +"."+ COLUMN_ID_PRODUCT +
+                " And " + F_BILL_COLUMN_ID_USER + "=" + id_user +
                 " ORDER BY " + COLUMN_ID_BILL + " ASC ";
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = null;
@@ -917,13 +935,13 @@ public class SqlDatabaseHelper extends SQLiteOpenHelper {
         return cursor;
     }
 
-    public Cursor readImageProduct_Bill(String product_name){
+    public Cursor readImageProduct_Bill(String product_name, Integer id_user){
 
         SQLiteDatabase db = this.getReadableDatabase();
 
         Cursor cursor = null;
         if(db != null){
-            cursor = db.rawQuery("Select " + COLUMN_PRODUCT_IMAGE +" from "+ TABLE_PRODUCT +" Where " + COLUMN_PRODUCT_NAME + "= ?", new String[] {product_name});
+            cursor = db.rawQuery("Select " + COLUMN_PRODUCT_IMAGE +" from "+ TABLE_PRODUCT +" Where " + COLUMN_PRODUCT_NAME + "= ?" + " And " + F_PRODUCT_COLUMN_ID_USER + "=" +id_user, new String[] {product_name});
         }
         return cursor;
     }
@@ -974,28 +992,28 @@ public class SqlDatabaseHelper extends SQLiteOpenHelper {
 
 
     //Promotion
-    public Cursor getIDTypeProduct_Promotion(String type_product_name){
+    public Cursor getIDTypeProduct_Promotion(String type_product_name, Integer id_user){
         SQLiteDatabase db = this.getReadableDatabase();
 
         Cursor cursor = null;
         if(db != null){
-            cursor = db.rawQuery("Select "+ COLUMN_ID_TYPE_PRODUCT +" from "+ TABLE_TYPE_PRODUCT +" Where " + COLUMN_TYPE_PRODUCT_NAME + "= ?",new String[] {type_product_name});
+            cursor = db.rawQuery("Select "+ COLUMN_ID_TYPE_PRODUCT +" from "+ TABLE_TYPE_PRODUCT +" Where " + COLUMN_TYPE_PRODUCT_NAME + "= ?" + " And " + F_TYPE_PRODUCT_COLUMN_ID_USER + "=" + id_user,new String[] {type_product_name});
         }
         return cursor;
     }
 
-    public Cursor getIDProduct_Promotion(String product_name){
+    public Cursor getIDProduct_Promotion(String product_name, Integer id_user){
         SQLiteDatabase db = this.getReadableDatabase();
 
         Cursor cursor = null;
         if(db != null){
-            cursor = db.rawQuery("Select "+ COLUMN_ID_PRODUCT +" from "+ TABLE_PRODUCT +" Where " + COLUMN_PRODUCT_NAME + "= ?",new String[] {product_name});
+            cursor = db.rawQuery("Select "+ COLUMN_ID_PRODUCT +" from "+ TABLE_PRODUCT +" Where " + COLUMN_PRODUCT_NAME + "= ?" + " And " +  F_PRODUCT_COLUMN_ID_USER + "=" + id_user,new String[] {product_name});
         }
         return cursor;
     }
 
-    public Cursor readTypeProduct_Promotion(){
-        String query= "Select * from "+ TABLE_TYPE_PRODUCT;
+    public Cursor readTypeProduct_Promotion(Integer id_user){
+        String query= "Select * from "+ TABLE_TYPE_PRODUCT + " Where " + F_TYPE_PRODUCT_COLUMN_ID_USER + "=" + id_user;
         SQLiteDatabase db = this.getReadableDatabase();
 
         Cursor cursor = null;
@@ -1016,18 +1034,18 @@ public class SqlDatabaseHelper extends SQLiteOpenHelper {
         return cursor;
     }
 
-    public Cursor readPriceProduct_Promotion(String product_name){
+    public Cursor readPriceProduct_Promotion(String product_name, Integer id_user){
 
         SQLiteDatabase db = this.getReadableDatabase();
 
         Cursor cursor = null;
         if(db != null){
-            cursor = db.rawQuery("Select " + COLUMN_PRODUCT_PRICE +" from "+ TABLE_PRODUCT +" Where " + COLUMN_PRODUCT_NAME + "= ?", new String[] {product_name});
+            cursor = db.rawQuery("Select " + COLUMN_PRODUCT_PRICE +" from "+ TABLE_PRODUCT +" Where " + COLUMN_PRODUCT_NAME + "= ?" + " And " + F_PRODUCT_COLUMN_ID_USER + "=" + id_user , new String[] {product_name});
         }
         return cursor;
     }
 
-    public boolean insertData_Promotion(String promotion_percent, String promotion_price_after, String promotion_start_day, String promotion_end_day, Integer type_product_id, Integer product_id ){
+    public boolean insertData_Promotion(String promotion_percent, String promotion_price_after, String promotion_start_day, String promotion_end_day, Integer type_product_id, Integer product_id, Integer id_user){
 
         SQLiteDatabase db = this.getWritableDatabase();
 
@@ -1039,6 +1057,7 @@ public class SqlDatabaseHelper extends SQLiteOpenHelper {
         contentValues.put(COLUMN_PROMOTION_END_DAY,promotion_end_day);
         contentValues.put(F_PROMOTION_COLUMN_ID_TYPE_PRODUCT,type_product_id);
         contentValues.put(F_PROMOTION_COLUMN_ID_PRODUCT,product_id);
+        contentValues.put(F_PROMOTION_COLUMN_ID_USER,id_user);
 
         long result = db.insert(TABLE_PROMOTION,null, contentValues);
 
@@ -1049,7 +1068,7 @@ public class SqlDatabaseHelper extends SQLiteOpenHelper {
         }
     }
 
-    public Cursor readData_Promotion(){
+    public Cursor readData_Promotion(Integer id_user){
         String query = "Select "+ COLUMN_ID_PROMOTION + "," +
                 COLUMN_PRODUCT_NAME +","+
                 COLUMN_PROMOTION_PERCENT +","+
@@ -1058,6 +1077,7 @@ public class SqlDatabaseHelper extends SQLiteOpenHelper {
                 COLUMN_PRODUCT_IMAGE +
                 " From "+ TABLE_PROMOTION + ","+ TABLE_PRODUCT +
                 " Where "+ TABLE_PROMOTION +"."+ F_PROMOTION_COLUMN_ID_PRODUCT +"="+ TABLE_PRODUCT +"."+ COLUMN_ID_PRODUCT +
+                " And " + F_PROMOTION_COLUMN_ID_USER + "=" + id_user +
                 " ORDER BY " + COLUMN_ID_PROMOTION + " ASC ";
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = null;
@@ -1135,24 +1155,24 @@ public class SqlDatabaseHelper extends SQLiteOpenHelper {
         }
     }
 
-    public Cursor readImageProduct_Promotion(String product_name){
+    public Cursor readImageProduct_Promotion(String product_name, Integer id_user){
 
         SQLiteDatabase db = this.getReadableDatabase();
 
         Cursor cursor = null;
         if(db != null){
-            cursor = db.rawQuery("Select " + COLUMN_PRODUCT_IMAGE +" from "+ TABLE_PRODUCT +" Where " + COLUMN_PRODUCT_NAME + "= ?", new String[] {product_name});
+            cursor = db.rawQuery("Select " + COLUMN_PRODUCT_IMAGE +" from "+ TABLE_PRODUCT +" Where " + COLUMN_PRODUCT_NAME + "= ?" + " And " + F_PRODUCT_COLUMN_ID_USER + "=" + id_user , new String[] {product_name});
         }
         return cursor;
     }
 
-    public Cursor readEndDay_Promotion(){
+    public Cursor readEndDay_Promotion(Integer id_user){
 
         SQLiteDatabase db = this.getReadableDatabase();
 
         Cursor cursor = null;
         if(db != null){
-            cursor = db.rawQuery("Select " + COLUMN_ID_PROMOTION + "," + COLUMN_PROMOTION_END_DAY + " from "+ TABLE_PROMOTION,null);
+            cursor = db.rawQuery("Select " + COLUMN_ID_PROMOTION + "," + COLUMN_PROMOTION_END_DAY + " from "+ TABLE_PROMOTION + " Where " + F_PROMOTION_COLUMN_ID_USER + "=" +id_user,null);
         }
         return cursor;
     }
@@ -1160,7 +1180,7 @@ public class SqlDatabaseHelper extends SQLiteOpenHelper {
 
 
     //ImportProduct
-    public boolean insertData_ImportProduct(String product_old_quality, String product_new_quality,  String total_price, String bill_create_Day, String bill_create_Time, Integer type_product_id, Integer product_id){
+    public boolean insertData_ImportProduct(String product_old_quality, String product_new_quality,  String total_price, String bill_create_Day, String bill_create_Time, Integer type_product_id, Integer product_id, Integer id_user){
 
         SQLiteDatabase db = this.getWritableDatabase();
 
@@ -1173,6 +1193,7 @@ public class SqlDatabaseHelper extends SQLiteOpenHelper {
         contentValues.put(COLUMN_IMPORT_PRODUCT_CREATE_TIME,bill_create_Time);
         contentValues.put(F_IMPORT_PRODUCT_COLUMN_ID_TYPE_PRODUCT,type_product_id);
         contentValues.put(F_IMPORT_PRODUCT_COLUMN_ID_PRODUCT,product_id);
+        contentValues.put(F_IMPORT_PRODUCT_COLUMN_ID_USER,id_user);
 
         long result = db.insert(TABLE_IMPORT_PRODUCT,null, contentValues);
 
@@ -1200,8 +1221,8 @@ public class SqlDatabaseHelper extends SQLiteOpenHelper {
         }
     }
 
-    public Cursor readTypeProduct_ImportProduct(){
-        String query= "Select * from "+ TABLE_TYPE_PRODUCT;
+    public Cursor readTypeProduct_ImportProduct(Integer id_user){
+        String query= "Select * from "+ TABLE_TYPE_PRODUCT + " Where " + F_TYPE_PRODUCT_COLUMN_ID_USER + "=" +id_user;
         SQLiteDatabase db = this.getReadableDatabase();
 
         Cursor cursor = null;
@@ -1222,40 +1243,40 @@ public class SqlDatabaseHelper extends SQLiteOpenHelper {
         return cursor;
     }
 
-    public Cursor readPriceProduct_ImportProduct(String product_name){
+    public Cursor readPriceProduct_ImportProduct(String product_name, Integer id_user){
 
         SQLiteDatabase db = this.getReadableDatabase();
 
         Cursor cursor = null;
         if(db != null){
-            cursor = db.rawQuery("Select " + COLUMN_PRODUCT_PRICE +" from "+ TABLE_PRODUCT +" Where " + COLUMN_PRODUCT_NAME + "= ?", new String[] {product_name});
+            cursor = db.rawQuery("Select " + COLUMN_PRODUCT_PRICE +" from "+ TABLE_PRODUCT +" Where " + COLUMN_PRODUCT_NAME + "= ?" + " And " + F_PRODUCT_COLUMN_ID_USER + "=" + id_user, new String[] {product_name});
         }
         return cursor;
     }
 
-    public Cursor readImageProduct_ImportProduct(String product_name){
+    public Cursor readImageProduct_ImportProduct(String product_name, Integer id_user){
 
         SQLiteDatabase db = this.getReadableDatabase();
 
         Cursor cursor = null;
         if(db != null){
-            cursor = db.rawQuery("Select " + COLUMN_PRODUCT_IMAGE +" from "+ TABLE_PRODUCT +" Where " + COLUMN_PRODUCT_NAME + "= ?", new String[] {product_name});
+            cursor = db.rawQuery("Select " + COLUMN_PRODUCT_IMAGE +" from "+ TABLE_PRODUCT +" Where " + COLUMN_PRODUCT_NAME + "= ?" + " And " + F_PRODUCT_COLUMN_ID_USER + "=" + id_user, new String[] {product_name});
         }
         return cursor;
     }
 
-    public Cursor getQualityProduct_ImportProduct(String product_name){
+    public Cursor getQualityProduct_ImportProduct(String product_name, Integer id_user){
 
         SQLiteDatabase db = this.getReadableDatabase();
 
         Cursor cursor = null;
         if(db != null){
-            cursor = db.rawQuery("Select " + COLUMN_PRODUCT_QUALITY +" from "+ TABLE_PRODUCT +" Where " + COLUMN_PRODUCT_NAME + "= ?", new String[] {product_name});
+            cursor = db.rawQuery("Select " + COLUMN_PRODUCT_QUALITY +" from "+ TABLE_PRODUCT +" Where " + COLUMN_PRODUCT_NAME + "= ?" + " And " + F_PRODUCT_COLUMN_ID_USER + "=" +id_user, new String[] {product_name});
         }
         return cursor;
     }
 
-    public Cursor readData_ImportProduct(){
+    public Cursor readData_ImportProduct(Integer id_user){
         String query = "Select "+ COLUMN_ID_IMPORT_PRODUCT + "," +
                 COLUMN_PRODUCT_NAME +","+
                 COLUMN_IMPORT_PRODUCT_CREATE_DAY +","+
@@ -1264,6 +1285,7 @@ public class SqlDatabaseHelper extends SQLiteOpenHelper {
                 COLUMN_PRODUCT_IMAGE +
                 " From "+ TABLE_IMPORT_PRODUCT + ","+ TABLE_PRODUCT +
                 " Where "+ TABLE_IMPORT_PRODUCT +"."+ F_IMPORT_PRODUCT_COLUMN_ID_PRODUCT +"="+ TABLE_PRODUCT +"."+ COLUMN_ID_PRODUCT +
+                " And " + F_IMPORT_PRODUCT_COLUMN_ID_USER + "=" + id_user +
                 " ORDER BY " + COLUMN_ID_IMPORT_PRODUCT + " ASC ";
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = null;

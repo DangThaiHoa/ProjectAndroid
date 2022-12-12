@@ -1,5 +1,7 @@
 package com.example.projectandroid.User.MProduct.ListHistoryImportProduct;
 
+import static com.example.projectandroid.User.DashBoard.idUser;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -58,7 +60,7 @@ public class ListHistoryImportProduct extends AppCompatActivity {
 
     private void readData() {
 
-        Cursor cursor = db.readData_ImportProduct();
+        Cursor cursor = db.readData_ImportProduct(Integer.valueOf(idUser));
         ArrayList<ListHistoryImportProductHelperClass> listHistoryImportProductHelperClassArrayList = new ArrayList<>();
         if(cursor.getCount() == 0){
             new Handler().postDelayed(new Runnable() {

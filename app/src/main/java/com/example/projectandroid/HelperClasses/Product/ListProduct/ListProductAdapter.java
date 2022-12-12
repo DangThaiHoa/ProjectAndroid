@@ -19,6 +19,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.projectandroid.HelperClasses.SqlLite.SqlDatabaseHelper;
 import com.example.projectandroid.R;
 import com.example.projectandroid.User.MProduct.ListProduct.DetailProduct;
+import com.example.projectandroid.User.MShopping.ListBill.DetailBill;
 
 import java.util.ArrayList;
 
@@ -55,22 +56,12 @@ public class ListProductAdapter extends RecyclerView.Adapter<ListProductAdapter.
             holder.TextQProduct.setText(listProductHelperClass.getQuality());
             holder.ImageProduct.setImageBitmap(bitmap);
 
-
             holder.DetailProduct_btn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    db = new SqlDatabaseHelper(context);
-                    Cursor cursor = db.getIdProduct_Product(listProductHelperClass.getName());
-                    String product_ID = null;
-                    if (cursor == null) {
-                        Toast.makeText(context, "Không có ID ", Toast.LENGTH_SHORT).show();
-                    } else {
-                        while (cursor.moveToNext()) {
-                            product_ID = cursor.getString(0);
-                        }
-                    }
+                    Integer product_ID = listProductHelperClass.getIdProduct();
                     Intent intent = new Intent(context, DetailProduct.class);
-                    intent.putExtra("Id_Product", product_ID);
+                    intent.putExtra("Id_Product", String.valueOf(product_ID));
                     context.startActivity(intent);
                 }
             });

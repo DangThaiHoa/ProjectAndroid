@@ -1,5 +1,7 @@
 package com.example.projectandroid.User.MShopping.ListBill;
 
+import static com.example.projectandroid.User.DashBoard.idUser;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -60,7 +62,7 @@ public class ListBill extends AppCompatActivity {
 
     private void readData() {
 
-        Cursor cursor = db.readData_Bill();
+        Cursor cursor = db.readData_Bill(Integer.valueOf(idUser));
         ArrayList<ListBillHelperClass> listBillHelperClassArrayList = new ArrayList<>();
         if(cursor.getCount() == 0){
             new Handler().postDelayed(new Runnable() {

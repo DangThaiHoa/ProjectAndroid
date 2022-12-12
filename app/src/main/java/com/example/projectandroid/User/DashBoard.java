@@ -55,6 +55,7 @@ import com.example.projectandroid.User.MShopping.CreateBill.CreateBill;
 import com.example.projectandroid.User.MShopping.CreatePromotion.CreatePromotion;
 import com.example.projectandroid.User.MShopping.ListPromotion.ListPromotion;
 import com.example.projectandroid.User.Profile.Profile;
+import com.example.projectandroid.common.LoginSignUp.Login;
 import com.example.projectandroid.common.LoginSignUp.StartUpScreen;
 import com.google.android.material.navigation.NavigationView;
 
@@ -92,7 +93,6 @@ public class DashBoard extends AppCompatActivity implements NavigationView.OnNav
     TextView ContentDia;
     Dialog dialog;
 
-    String IdUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -119,6 +119,14 @@ public class DashBoard extends AppCompatActivity implements NavigationView.OnNav
         navigationView = findViewById(R.id.navigation_view);
 
         idUser = sessionManager.getID();
+
+        if(idUser.equals("0") || idUser.equals("")){
+
+            Intent intent = new Intent(getApplicationContext(), Login.class);
+            startActivity(intent);
+            finish();
+
+        }
 
         Cursor cursor = db.readDataForMenu_User(Integer.parseInt(idUser));
         while (cursor.moveToNext()){
@@ -219,7 +227,7 @@ public class DashBoard extends AppCompatActivity implements NavigationView.OnNav
     private void deletePromotion() {
 
         Date dateAndTime = Calendar.getInstance().getTime();
-        Cursor cursor = db.readEndDay_Promotion();
+        Cursor cursor = db.readEndDay_Promotion(Integer.valueOf(idUser));
         if (cursor.getCount() == 0){
 
         }else {

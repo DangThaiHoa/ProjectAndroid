@@ -58,7 +58,7 @@ public class ListProduct extends AppCompatActivity {
 
     private void readData() {
 
-        Cursor cursor = db.ReadData_Product(Integer.valueOf(idUser));
+        Cursor cursor = db.readData_Product(Integer.valueOf(idUser));
         ArrayList<ListProductHelperClass> listProductHelperClassArrayList = new ArrayList<>();
         if(cursor.getCount() == 0){
             new Handler().postDelayed(new Runnable() {
@@ -70,10 +70,11 @@ public class ListProduct extends AppCompatActivity {
             },500);
         }else{
             while (cursor.moveToNext()) {
-                String productName = cursor.getString(1);
-                String productQuality = cursor.getString(2);
-                byte[] productImage = cursor.getBlob(5);
-                listProductHelperClassArrayList.add(new ListProductHelperClass(productName, productQuality, productImage));
+                Integer idProduct = cursor.getInt(0);
+                String productName = cursor.getString(2);
+                String productQuality = cursor.getString(3);
+                byte[] productImage = cursor.getBlob(6);
+                listProductHelperClassArrayList.add(new ListProductHelperClass(productName, productQuality, productImage, idProduct));
 
             }
             ListProductAdapter listProductAdapter = new ListProductAdapter(this, R.layout.list_product_card_desgin, listProductHelperClassArrayList, sqLiteDatabase);

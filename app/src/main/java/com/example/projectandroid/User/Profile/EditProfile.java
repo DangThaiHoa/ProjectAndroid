@@ -48,6 +48,7 @@ import com.example.projectandroid.HelperClasses.SqlLite.SqlDatabaseHelper;
 import com.example.projectandroid.ProgessLoading;
 import com.example.projectandroid.R;
 import com.example.projectandroid.SessionManager;
+import com.example.projectandroid.common.LoginSignUp.Login;
 import com.example.projectandroid.common.LoginSignUp.SignUp;
 import com.example.projectandroid.common.LoginSignUp.StartUpScreen;
 import com.example.projectandroid.common.LoginSignUp.VerifySignUp;
@@ -146,6 +147,14 @@ public class EditProfile extends AppCompatActivity {
         eGender.setAdapter(adapterItemGender);
 
         idUser = sessionManager.getID();
+
+        if(idUser.equals("0") || idUser.equals("")){
+
+            Intent intent = new Intent(getApplicationContext(), Login.class);
+            startActivity(intent);
+            finish();
+
+        }
 
         eGender.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -1,5 +1,7 @@
 package com.example.projectandroid.User;
 
+import static com.example.projectandroid.User.DashBoard.idUser;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -27,6 +29,7 @@ import com.example.projectandroid.HelperClasses.HomeAdapter.MostViewHelperClass;
 import com.example.projectandroid.R;
 import com.example.projectandroid.SessionManager;
 import com.example.projectandroid.User.Profile.Profile;
+import com.example.projectandroid.common.LoginSignUp.Login;
 import com.example.projectandroid.common.LoginSignUp.StartUpScreen;
 import com.google.android.material.navigation.NavigationView;
 
@@ -50,6 +53,14 @@ public class Analysis extends AppCompatActivity implements NavigationView.OnNavi
         setContentView(R.layout.activity_analysis);
 
         sessionManager = new SessionManager(this);
+
+        if(idUser.equals("0") || idUser.equals("")){
+
+            Intent intent = new Intent(getApplicationContext(), Login.class);
+            startActivity(intent);
+            finish();
+
+        }
 
         menuIcon = findViewById(R.id.menu_icon);
         contentView = findViewById(R.id.content);

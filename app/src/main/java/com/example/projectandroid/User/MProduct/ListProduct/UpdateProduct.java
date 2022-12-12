@@ -131,56 +131,99 @@ public class UpdateProduct extends AppCompatActivity {
                     String gProductQuality = QualityProduct.getText().toString();
                     String gProductUnit = UnitProduct.getText().toString();
                     String gProductPrice = PriceProduct.getText().toString();
+                    String gNameProductExist = null;
                     while (cursor.moveToNext()) {
                         gIDTypeProduct = cursor.getInt(0);
                     }
-                    if (gIDTypeProduct == 0 || gProductName.isEmpty() || gProductQuality.isEmpty() || gProductUnit.isEmpty() || gProductPrice.isEmpty() || ImageProduct.getDrawable() == null || imageToStore == null) {
+                    if (gIDTypeProduct == 0 || gProductName.isEmpty() || gProductQuality.isEmpty() || gProductUnit.isEmpty() || gProductPrice.isEmpty()) {
 
                         Toast.makeText(UpdateProduct.this, "Vui Lòng Nhập Đầy Đủ Thông Tin", Toast.LENGTH_SHORT).show();
 
                     } else {
 
-                        Boolean resultNameProduct = db.checkNameProduct_Product(gProductName, Integer.valueOf(idUser));
-                        if (resultNameProduct == false) {
+                        if (imageToStore == null) {
 
-                            Boolean resultUpdateData = db.updateData_Product(id_Product,gProductName, gProductQuality, gProductUnit, gProductPrice, new GetImageProductClass(imageToStore), gIDTypeProduct);
-                            if (resultUpdateData == true) {
-
-                                progessLoading.show();
-                                new Handler().postDelayed(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        Intent intent = new Intent(UpdateProduct.this, Product.class);
-                                        startActivity(intent);
-                                        Toast.makeText(UpdateProduct.this, "Sửa Sản Phẩm Thành Công", Toast.LENGTH_SHORT).show();
-                                        progessLoading.dismiss();
-                                    }
-                                }, 2000);
-
-                            } else {
-
-                                progessLoading.show();
-                                new Handler().postDelayed(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        Toast.makeText(UpdateProduct.this, "Sửa Sản Phẩm Thất Bại", Toast.LENGTH_SHORT).show();
-                                        progessLoading.dismiss();
-                                    }
-                                }, 2000);
-
+                            Cursor cursorImage = db.checkImageProductExits_Product(id_Product);
+                            while (cursorImage.moveToNext()) {
+                                byte[] image = cursorImage.getBlob(0);
+                                Bitmap bitmap = BitmapFactory.decodeByteArray(image, 0, image.length);
+                                imageToStore = bitmap;
                             }
                         } else {
+                            Cursor cursorReadNameProductExist = db.readNameProductExist_Product(id_Product);
+                            while (cursorReadNameProductExist.moveToNext()) {
+                                gNameProductExist = cursorReadNameProductExist.getString(0);
+                            }
+                            if (gProductName.equals(gNameProductExist)) {
 
-                            progessLoading.show();
-                            new Handler().postDelayed(new Runnable() {
-                                @Override
-                                public void run() {
-                                    Toast.makeText(UpdateProduct.this, "Tên Sản Phẩm Đã Tồn Tại", Toast.LENGTH_SHORT).show();
-                                    progessLoading.dismiss();
-                                    NameProduct.forceLayout();
+                                Boolean resultUpdateData = db.updateData_Product(id_Product, gProductName, gProductQuality, gProductUnit, gProductPrice, new GetImageProductClass(imageToStore), gIDTypeProduct);
+                                if (resultUpdateData == true) {
+
+                                    progessLoading.show();
+                                    new Handler().postDelayed(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            Intent intent = new Intent(UpdateProduct.this, Product.class);
+                                            startActivity(intent);
+                                            Toast.makeText(UpdateProduct.this, "Sửa Sản Phẩm Thành Công", Toast.LENGTH_SHORT).show();
+                                            progessLoading.dismiss();
+                                        }
+                                    }, 2000);
+
+                                } else {
+
+                                    progessLoading.show();
+                                    new Handler().postDelayed(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            Toast.makeText(UpdateProduct.this, "Sửa Sản Phẩm Thất Bại", Toast.LENGTH_SHORT).show();
+                                            progessLoading.dismiss();
+                                        }
+                                    }, 2000);
                                 }
-                            }, 2000);
+                            } else {
+                                Boolean resultNameProduct = db.checkNameProduct_Product(gProductName, Integer.valueOf(idUser));
+                                if (resultNameProduct == false) {
 
+                                    Boolean resultUpdateData = db.updateData_Product(id_Product, gProductName, gProductQuality, gProductUnit, gProductPrice, new GetImageProductClass(imageToStore), gIDTypeProduct);
+                                    if (resultUpdateData == true) {
+
+                                        progessLoading.show();
+                                        new Handler().postDelayed(new Runnable() {
+                                            @Override
+                                            public void run() {
+                                                Intent intent = new Intent(UpdateProduct.this, Product.class);
+                                                startActivity(intent);
+                                                Toast.makeText(UpdateProduct.this, "Sửa Sản Phẩm Thành Công", Toast.LENGTH_SHORT).show();
+                                                progessLoading.dismiss();
+                                            }
+                                        }, 2000);
+
+                                    } else {
+
+                                        progessLoading.show();
+                                        new Handler().postDelayed(new Runnable() {
+                                            @Override
+                                            public void run() {
+                                                Toast.makeText(UpdateProduct.this, "Sửa Sản Phẩm Thất Bại", Toast.LENGTH_SHORT).show();
+                                                progessLoading.dismiss();
+                                            }
+                                        }, 2000);
+
+                                    }
+                                } else {
+
+                                    progessLoading.show();
+                                    new Handler().postDelayed(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            Toast.makeText(UpdateProduct.this, "Tên Sản Phẩm Đã Tồn Tại", Toast.LENGTH_SHORT).show();
+                                            progessLoading.dismiss();
+                                            NameProduct.forceLayout();
+                                        }
+                                    }, 2000);
+                                }
+                            }
                         }
                     }
                 }

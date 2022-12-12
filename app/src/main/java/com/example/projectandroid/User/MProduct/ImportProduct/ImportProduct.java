@@ -1,5 +1,7 @@
 package com.example.projectandroid.User.MProduct.ImportProduct;
 
+import static com.example.projectandroid.User.DashBoard.idUser;
+
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.Dialog;
@@ -73,7 +75,7 @@ public class ImportProduct extends AppCompatActivity {
         TypeProduct.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                Cursor cursor = db.getIDTypeProduct_Bill(TypeProduct.getText().toString());
+                Cursor cursor = db.getIDTypeProduct_Bill(TypeProduct.getText().toString(), Integer.valueOf(idUser));
 
                 if(cursor.getCount() == 0){
 
@@ -139,7 +141,7 @@ public class ImportProduct extends AppCompatActivity {
 
                 String gTypeProduct = TypeProduct.getText().toString();
 
-                Cursor cursorID_TypeProduct = db.getIDTypeProduct_Bill(gTypeProduct);
+                Cursor cursorID_TypeProduct = db.getIDTypeProduct_Bill(gTypeProduct,Integer.valueOf(idUser));
                 if (cursorID_TypeProduct.getCount() == 0) {
 
                     Toast.makeText(ImportProduct.this, "Vui Lòng Chọn Loại Sản Phẩm", Toast.LENGTH_SHORT).show();
@@ -148,7 +150,7 @@ public class ImportProduct extends AppCompatActivity {
 
                     String gNameProduct = NameProduct.getText().toString();
 
-                    Cursor cursorID_Product = db.getIDProduct_Bill(gNameProduct);
+                    Cursor cursorID_Product = db.getIDProduct_Bill(gNameProduct,Integer.valueOf(idUser));
                     if (cursorID_Product.getCount() == 0) {
 
                         Toast.makeText(ImportProduct.this, "Vui Lòng Chọn Sản Phẩm", Toast.LENGTH_SHORT).show();
@@ -180,13 +182,13 @@ public class ImportProduct extends AppCompatActivity {
                         } else {
 
                                 String gOldQuality = null;
-                                Cursor cursor = db.getQualityProduct_ImportProduct(gNameProduct);
+                                Cursor cursor = db.getQualityProduct_ImportProduct(gNameProduct, Integer.valueOf(idUser));
                                 while (cursor.moveToNext()) {
                                     gOldQuality = cursor.getString(0);
                                 }
                                 Integer gNewProductQuality = Integer.parseInt(gOldQuality) + Integer.parseInt(gProductQuality);
 
-                                Boolean resultInsertData = db.insertData_ImportProduct(gOldQuality, gNewProductQuality.toString(), gTotalPrice, gCreateDay, gCreateTime, gIDTypeProduct, gIDProduct);
+                                Boolean resultInsertData = db.insertData_ImportProduct(gOldQuality, gNewProductQuality.toString(), gTotalPrice, gCreateDay, gCreateTime, gIDTypeProduct, gIDProduct, Integer.valueOf(idUser));
                                 Boolean resultUpdateData = db.updateData_ImportProduct(gIDProduct, gNewProductQuality.toString());
                                 if (resultInsertData == true && resultUpdateData == true) {
 
@@ -227,7 +229,7 @@ public class ImportProduct extends AppCompatActivity {
 
     private void loadDataTypeProduct() {
 
-        Cursor cursor = db.readTypeProduct_ImportProduct();
+        Cursor cursor = db.readTypeProduct_ImportProduct(Integer.valueOf(idUser));
 
         itemTypeProduct = new ArrayList<>();
         if(cursor.getCount() == 0){
@@ -274,7 +276,7 @@ public class ImportProduct extends AppCompatActivity {
 
     private void loadDataPriceProduct(String getNameProduct) {
 
-        Cursor cursor = db.readPriceProduct_ImportProduct(getNameProduct);
+        Cursor cursor = db.readPriceProduct_ImportProduct(getNameProduct, Integer.valueOf(idUser));
         if(cursor.getCount() == 0){
 
         }else{
@@ -286,7 +288,7 @@ public class ImportProduct extends AppCompatActivity {
 
     private void loadDataImageProduct(String getNameProduct) {
 
-        Cursor cursor = db.readImageProduct_ImportProduct(getNameProduct);
+        Cursor cursor = db.readImageProduct_ImportProduct(getNameProduct, Integer.valueOf(idUser));
         if(cursor.getCount() == 0){
 
         }else{

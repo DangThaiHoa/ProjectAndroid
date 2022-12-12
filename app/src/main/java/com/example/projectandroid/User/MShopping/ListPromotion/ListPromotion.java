@@ -1,5 +1,7 @@
 package com.example.projectandroid.User.MShopping.ListPromotion;
 
+import static com.example.projectandroid.User.DashBoard.idUser;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -57,7 +59,7 @@ public class ListPromotion extends AppCompatActivity {
 
     private void readData() {
 
-        Cursor cursor = db.readData_Promotion();
+        Cursor cursor = db.readData_Promotion(Integer.valueOf(idUser));
         ArrayList<ListPromotionHelperClass> listPromotionHelperClassArrayList = new ArrayList<>();
         if(cursor.getCount() == 0){
             new Handler().postDelayed(new Runnable() {

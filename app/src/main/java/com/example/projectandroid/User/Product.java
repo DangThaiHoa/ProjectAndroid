@@ -1,5 +1,7 @@
 package com.example.projectandroid.User;
 
+import static com.example.projectandroid.User.DashBoard.idUser;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
@@ -24,6 +26,7 @@ import com.example.projectandroid.User.MProduct.ListTypeProduct.ListTypeProduct;
 import com.example.projectandroid.User.MProduct.AddTypeProduct.AddTypeProduct;
 import com.example.projectandroid.User.MProduct.ListProduct.ListProduct;
 import com.example.projectandroid.User.Profile.Profile;
+import com.example.projectandroid.common.LoginSignUp.Login;
 import com.example.projectandroid.common.LoginSignUp.StartUpScreen;
 import com.google.android.material.navigation.NavigationView;
 
@@ -45,6 +48,14 @@ public class Product extends AppCompatActivity implements NavigationView.OnNavig
         setContentView(R.layout.activity_product);
 
         sessionManager = new SessionManager(this);
+
+        if(idUser.equals("0") || idUser.equals("")){
+
+            Intent intent = new Intent(getApplicationContext(), Login.class);
+            startActivity(intent);
+            finish();
+
+        }
 
         menuIcon = findViewById(R.id.menu_icon);
         contentView = findViewById(R.id.content);

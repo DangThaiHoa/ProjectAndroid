@@ -1,5 +1,7 @@
 package com.example.projectandroid.User.MShopping.CreateBill;
 
+import static com.example.projectandroid.User.DashBoard.idUser;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 
@@ -81,7 +83,7 @@ public class CreateBill extends AppCompatActivity {
         TypeProduct.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                Cursor cursor = db.getIDTypeProduct_Bill(TypeProduct.getText().toString());
+                Cursor cursor = db.getIDTypeProduct_Bill(TypeProduct.getText().toString(),Integer.valueOf(idUser));
 
                 if(cursor.getCount() == 0){
 
@@ -116,7 +118,7 @@ public class CreateBill extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 String gNameProduct = NameProduct.getText().toString();
-                Cursor cursorID_Product = db.getIDProduct_Bill(gNameProduct);
+                Cursor cursorID_Product = db.getIDProduct_Bill(gNameProduct,Integer.valueOf(idUser));
                 while (cursorID_Product.moveToNext()) {
                     gIDProduct = cursorID_Product.getInt(0);
                 }
@@ -144,7 +146,7 @@ public class CreateBill extends AppCompatActivity {
                 } else {
                     String pricePromotion = null;
                     String gNameProduct = NameProduct.getText().toString();
-                    Cursor cursorID_Product = db.getIDProduct_Bill(gNameProduct);
+                    Cursor cursorID_Product = db.getIDProduct_Bill(gNameProduct, Integer.valueOf(idUser));
                     while (cursorID_Product.moveToNext()) {
                         gIDProduct = cursorID_Product.getInt(0);
                     }
@@ -178,7 +180,7 @@ public class CreateBill extends AppCompatActivity {
 
                 String gTypeProduct = TypeProduct.getText().toString();
 
-                Cursor cursorID_TypeProduct = db.getIDTypeProduct_Bill(gTypeProduct);
+                Cursor cursorID_TypeProduct = db.getIDTypeProduct_Bill(gTypeProduct,Integer.valueOf(idUser));
                 if (cursorID_TypeProduct.getCount() == 0) {
 
                     Toast.makeText(CreateBill.this, "Vui Lòng Chọn Loại Sản Phẩm", Toast.LENGTH_SHORT).show();
@@ -187,7 +189,7 @@ public class CreateBill extends AppCompatActivity {
 
                     String gNameProduct = NameProduct.getText().toString();
 
-                    Cursor cursorID_Product = db.getIDProduct_Bill(gNameProduct);
+                    Cursor cursorID_Product = db.getIDProduct_Bill(gNameProduct,Integer.valueOf(idUser));
                     if (cursorID_Product.getCount() == 0) {
 
                         Toast.makeText(CreateBill.this, "Vui Lòng Chọn Sản Phẩm", Toast.LENGTH_SHORT).show();
@@ -239,7 +241,7 @@ public class CreateBill extends AppCompatActivity {
 
                             } else {
 
-                                Boolean resultInsertData = db.insertData_Bill(gProductQuality, gTotalPrice, gCreateDay, gCreateTime, gIDTypeProduct, gIDProduct);
+                                Boolean resultInsertData = db.insertData_Bill(gProductQuality, gTotalPrice, gCreateDay, gCreateTime, gIDTypeProduct, gIDProduct, Integer.valueOf(idUser));
                                 if (resultInsertData == true) {
 
                                     db.updateNewQualityProduct_Bill(gNowQuality.toString(), gIDProduct);
@@ -282,7 +284,7 @@ public class CreateBill extends AppCompatActivity {
 
         String price = null;
         String pricePromotion = null;
-        Cursor cursor = db.readPriceProduct_Bill(product_name);
+        Cursor cursor = db.readPriceProduct_Bill(product_name, Integer.valueOf(idUser));
         if(cursor.getCount() == 0){
 
         }else{
@@ -309,7 +311,7 @@ public class CreateBill extends AppCompatActivity {
 
     private void loadDataTypeProduct() {
 
-        Cursor cursor = db.readTypeProduct_Bill();
+        Cursor cursor = db.readTypeProduct_Bill(Integer.valueOf(idUser));
 
         itemTypeProduct = new ArrayList<>();
         if(cursor.getCount() == 0){
@@ -356,7 +358,7 @@ public class CreateBill extends AppCompatActivity {
 
     private void loadDataImageProduct(String getNameProduct) {
 
-        Cursor cursor = db.readImageProduct_Bill(getNameProduct);
+        Cursor cursor = db.readImageProduct_Bill(getNameProduct, Integer.valueOf(idUser));
         if(cursor.getCount() == 0){
 
         }else{
@@ -370,7 +372,7 @@ public class CreateBill extends AppCompatActivity {
 
     private void loadDataPriceProduct(String getNameProduct) {
 
-        Cursor cursor = db.readPriceProduct_Bill(getNameProduct);
+        Cursor cursor = db.readPriceProduct_Bill(getNameProduct, Integer.valueOf(idUser));
         if(cursor.getCount() == 0){
 
         }else{

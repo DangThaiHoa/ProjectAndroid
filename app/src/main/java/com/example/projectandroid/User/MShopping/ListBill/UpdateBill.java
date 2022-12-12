@@ -1,5 +1,7 @@
 package com.example.projectandroid.User.MShopping.ListBill;
 
+import static com.example.projectandroid.User.DashBoard.idUser;
+
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -76,7 +78,7 @@ public class UpdateBill extends AppCompatActivity {
         TypeProduct.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                Cursor cursor = db.getIDTypeProduct_Bill(TypeProduct.getText().toString());
+                Cursor cursor = db.getIDTypeProduct_Bill(TypeProduct.getText().toString(),Integer.valueOf(idUser));
 
                 if(cursor.getCount() == 0){
 
@@ -104,7 +106,7 @@ public class UpdateBill extends AppCompatActivity {
                 if(TextUtils.isEmpty(TypeProduct.getText().toString())){
                     Toast.makeText(UpdateBill.this, "Vui Lòng Chọn Loại Sản Phẩm", Toast.LENGTH_SHORT).show();
                 }else{
-                    Cursor cursor = db.getIDTypeProduct_Bill(TypeProduct.getText().toString());
+                    Cursor cursor = db.getIDTypeProduct_Bill(TypeProduct.getText().toString(),Integer.valueOf(idUser));
 
                     if(cursor.getCount() == 0){
 
@@ -152,7 +154,7 @@ public class UpdateBill extends AppCompatActivity {
 
                 String gTypeProduct = TypeProduct.getText().toString();
 
-                Cursor cursorID_TypeProduct = db.getIDTypeProduct_Bill(gTypeProduct);
+                Cursor cursorID_TypeProduct = db.getIDTypeProduct_Bill(gTypeProduct,Integer.valueOf(idUser));
                 if (cursorID_TypeProduct.getCount() == 0) {
 
                     Toast.makeText(UpdateBill.this, "Vui Lòng Chọn Loại Sản Phẩm", Toast.LENGTH_SHORT).show();
@@ -161,7 +163,7 @@ public class UpdateBill extends AppCompatActivity {
 
                     String gNameProduct = NameProduct.getText().toString();
 
-                    Cursor cursorID_Product = db.getIDProduct_Bill(gNameProduct);
+                    Cursor cursorID_Product = db.getIDProduct_Bill(gNameProduct,Integer.valueOf(idUser));
                     if (cursorID_Product.getCount() == 0) {
 
                         Toast.makeText(UpdateBill.this, "Vui Lòng Chọn Sản Phẩm", Toast.LENGTH_SHORT).show();
@@ -299,7 +301,7 @@ public class UpdateBill extends AppCompatActivity {
 
     private void loadDataTypeProduct() {
 
-        Cursor cursor = db.readTypeProduct_Bill();
+        Cursor cursor = db.readTypeProduct_Bill(Integer.valueOf(idUser));
 
         itemTypeProduct = new ArrayList<>();
         if(cursor.getCount() == 0){
@@ -337,7 +339,7 @@ public class UpdateBill extends AppCompatActivity {
 
     private void loadDataPriceProduct(String getNameProduct) {
 
-        Cursor cursor = db.readPriceProduct_Bill(getNameProduct);
+        Cursor cursor = db.readPriceProduct_Bill(getNameProduct, Integer.valueOf(idUser));
         if(cursor.getCount() == 0){
 
         }else{

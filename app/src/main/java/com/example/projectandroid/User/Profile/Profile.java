@@ -22,6 +22,7 @@ import com.example.projectandroid.HelperClasses.SqlLite.SqlDatabaseHelper;
 import com.example.projectandroid.R;
 import com.example.projectandroid.SessionManager;
 import com.example.projectandroid.User.DashBoard;
+import com.example.projectandroid.common.LoginSignUp.Login;
 import com.example.projectandroid.common.LoginSignUp.StartUpScreen;
 
 public class Profile extends AppCompatActivity {
@@ -62,6 +63,14 @@ public class Profile extends AppCompatActivity {
 
 
         idUser = sessionManager.getID();
+
+        if(idUser.equals("0") || idUser.equals("")){
+
+            Intent intent = new Intent(getApplicationContext(), Login.class);
+            startActivity(intent);
+            finish();
+
+        }
 
         editProfile();
         btnBack();

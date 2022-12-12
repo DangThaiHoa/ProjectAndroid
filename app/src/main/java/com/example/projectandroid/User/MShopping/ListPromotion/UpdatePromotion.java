@@ -1,5 +1,7 @@
 package com.example.projectandroid.User.MShopping.ListPromotion;
 
+import static com.example.projectandroid.User.DashBoard.idUser;
+
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.DatePickerDialog;
@@ -88,7 +90,7 @@ public class UpdatePromotion extends AppCompatActivity {
         TypeProduct.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                Cursor cursor = db.getIDTypeProduct_Bill(TypeProduct.getText().toString());
+                Cursor cursor = db.getIDTypeProduct_Bill(TypeProduct.getText().toString(),Integer.valueOf(idUser));
 
                 if (cursor.getCount() == 0) {
 
@@ -168,7 +170,7 @@ public class UpdatePromotion extends AppCompatActivity {
 
                     String gTypeProduct = TypeProduct.getText().toString();
 
-                    Cursor cursorID_TypeProduct = db.getIDTypeProduct_Promotion(gTypeProduct);
+                    Cursor cursorID_TypeProduct = db.getIDTypeProduct_Promotion(gTypeProduct, Integer.valueOf(idUser));
                     if (cursorID_TypeProduct.getCount() == 0) {
 
                         Toast.makeText(UpdatePromotion.this, "Vui Lòng Chọn Loại Sản Phẩm", Toast.LENGTH_SHORT).show();
@@ -177,7 +179,7 @@ public class UpdatePromotion extends AppCompatActivity {
 
                         String gNameProduct = NameProduct.getText().toString();
 
-                        Cursor cursorID_Product = db.getIDProduct_Promotion(gNameProduct);
+                        Cursor cursorID_Product = db.getIDProduct_Promotion(gNameProduct, Integer.valueOf(idUser));
                         if (cursorID_Product.getCount() == 0) {
 
                             Toast.makeText(UpdatePromotion.this, "Vui Lòng Chọn Sản Phẩm", Toast.LENGTH_SHORT).show();
@@ -341,7 +343,7 @@ public class UpdatePromotion extends AppCompatActivity {
 
     private void loadDataTypeProduct() {
 
-        Cursor cursor = db.readTypeProduct_Promotion();
+        Cursor cursor = db.readTypeProduct_Promotion(Integer.valueOf(idUser));
 
         itemTypeProduct = new ArrayList<>();
         if (cursor.getCount() == 0) {
@@ -379,7 +381,7 @@ public class UpdatePromotion extends AppCompatActivity {
 
     private void loadDataPriceProduct(String getNameProduct) {
 
-        Cursor cursor = db.readPriceProduct_Promotion(getNameProduct);
+        Cursor cursor = db.readPriceProduct_Promotion(getNameProduct, Integer.valueOf(idUser));
         if (cursor.getCount() == 0) {
 
         } else {
