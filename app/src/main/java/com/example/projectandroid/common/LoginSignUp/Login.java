@@ -224,6 +224,20 @@ public class Login extends AppCompatActivity {
             }
         });
 
+        username.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(username.getText().toString().isEmpty()){
+                    
+                }else{
+
+                    Toast.makeText(Login.this, "Nếu bạn muốn đổi tài khoản khác hãy ấn vào nút đổi tài khoản", Toast.LENGTH_SHORT).show();
+                    swAccount.setTextColor(Color.rgb(255,0,0));
+
+                }
+            }
+        });
+
         backbtn();
         signupBtn();
         forgetPassword();
@@ -250,11 +264,13 @@ public class Login extends AppCompatActivity {
 
         if(idUser.equals("0") || idUser.equals("")){
 
+            username.setFocusableInTouchMode(true);
             swAccount.setVisibility(View.INVISIBLE);
             username.setText("");
 
         }else{
 
+            username.setFocusableInTouchMode(false);
             swAccount.setVisibility(View.VISIBLE);
             Cursor cursor = db.setRememberUserName_User(Integer.valueOf(idUser));
             if(cursor.getCount() == 0){
