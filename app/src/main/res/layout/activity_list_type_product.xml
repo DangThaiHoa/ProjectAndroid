@@ -22,6 +22,13 @@
             android:layout_centerVertical="true"
             android:padding="15dp"/>
 
+        <androidx.appcompat.widget.SearchView
+            android:id="@+id/search_typeProduct"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_alignParentEnd="true" />
+
     </RelativeLayout>
 
     <RelativeLayout

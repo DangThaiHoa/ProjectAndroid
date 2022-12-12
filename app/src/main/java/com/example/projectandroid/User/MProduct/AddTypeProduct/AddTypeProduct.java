@@ -5,6 +5,7 @@ import static com.example.projectandroid.User.DashBoard.idUser;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
@@ -16,6 +17,7 @@ import com.example.projectandroid.HelperClasses.SqlLite.SqlDatabaseHelper;
 import com.example.projectandroid.ProgessLoading;
 import com.example.projectandroid.R;
 import com.example.projectandroid.SessionManager;
+import com.example.projectandroid.User.Product;
 import com.google.android.material.textfield.TextInputEditText;
 
 public class AddTypeProduct extends AppCompatActivity {
@@ -65,6 +67,8 @@ public class AddTypeProduct extends AppCompatActivity {
                                 @Override
                                 public void run() {
                                     Toast.makeText(AddTypeProduct.this, "Thêm Loại Sản Phẩm Thành Công", Toast.LENGTH_SHORT).show();
+                                    Intent intent = new Intent(getApplicationContext(), Product.class);
+                                    startActivity(intent);
                                     progessLoading.dismiss();
                                 }
                             },2000);

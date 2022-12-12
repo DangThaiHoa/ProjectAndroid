@@ -589,6 +589,59 @@ public class SqlDatabaseHelper extends SQLiteOpenHelper {
         }
         return cursor;
     }
+
+    public boolean deleteData_TypeProduct(Integer type_product_id){
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        long resultDelete = db.delete(TABLE_TYPE_PRODUCT, COLUMN_ID_TYPE_PRODUCT + "= ?", new String[]{String.valueOf(type_product_id)});
+        if(resultDelete == -1){
+            return false;
+        }else{
+            return true;
+        }
+
+    }
+
+    public Cursor readNameTypeProductExist_TypeProduct(Integer type_product_id){
+
+        String query= "Select " + COLUMN_TYPE_PRODUCT_NAME + " from "+ TABLE_TYPE_PRODUCT + " Where " + COLUMN_ID_TYPE_PRODUCT + " = " + type_product_id;
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        Cursor cursor = null;
+        if(db != null){
+            cursor = db.rawQuery(query,null);
+        }
+        return cursor;
+
+    }
+
+    public Boolean updateData_TypeProduct(String name_type_product, String desc_type_product, Integer type_product_id){
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+
+        contentValues.put(COLUMN_TYPE_PRODUCT_NAME,name_type_product);
+        contentValues.put(COLUMN_TYPE_PRODUCT_DESCRIPTION,desc_type_product);
+
+        long resultUpdateDate = db.update(TABLE_TYPE_PRODUCT,contentValues,COLUMN_ID_TYPE_PRODUCT + "= ?",new String[] {String.valueOf(type_product_id)});
+
+        if(resultUpdateDate == -1){
+            return false;
+        }else{
+            return true;
+        }
+    }
+
+    public Cursor readDataUpdate_TypeProduct(Integer type_product_id){
+        String query= "Select * from "+ TABLE_TYPE_PRODUCT + " Where " + COLUMN_ID_TYPE_PRODUCT + " = " + type_product_id;
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        Cursor cursor = null;
+        if(db != null){
+            cursor = db.rawQuery(query,null);
+        }
+        return cursor;
+    }
     //TypeProduct
 
 
