@@ -47,34 +47,18 @@
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="50dp">
 
                 <TextView
                     android:id="@+id/username_login"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Get A Way"
+                    android:text="UserName"
                     android:gravity="center"
                     android:fontFamily="@font/muli_black"
                     android:textSize="24sp"
                     android:layout_centerHorizontal="true"/>
-
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="40dp"
-                    android:layout_below="@+id/username_login"
-                    android:layout_marginLeft="40dp"
-                    android:layout_marginRight="40dp"
-                    android:layout_marginTop="20dp"
-                    android:layout_marginBottom="20dp"
-                    android:elevation="8dp">
-
-                    <SearchView
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:layout_centerInParent="true" />
-
-                </RelativeLayout>
 
             </RelativeLayout>
 
@@ -211,7 +195,7 @@
                 </LinearLayout>
 
                 <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/featured_recycler"
+                    android:id="@+id/product_recycler_dashboard"
                     android:layout_width="match_parent"
                     android:layout_height="300dp"
                     android:layout_toRightOf="@id/featured_bg"

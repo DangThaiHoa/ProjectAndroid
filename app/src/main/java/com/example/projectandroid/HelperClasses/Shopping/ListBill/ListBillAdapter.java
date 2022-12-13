@@ -8,6 +8,8 @@ import android.graphics.BitmapFactory;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -15,23 +17,26 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.projectandroid.HelperClasses.Product.ListHistoryImportProduct.ListHistoryImportProductHelperClass;
 import com.example.projectandroid.HelperClasses.SqlLite.SqlDatabaseHelper;
 import com.example.projectandroid.R;
 import com.example.projectandroid.User.MShopping.ListBill.DetailBill;
 
 import java.util.ArrayList;
 
-public class ListBillAdapter extends RecyclerView.Adapter<ListBillAdapter.ListBillViewHolder>{
+public class ListBillAdapter extends RecyclerView.Adapter<ListBillAdapter.ListBillViewHolder> implements Filterable {
 
     private Context context;
     int singleData;
     ArrayList<ListBillHelperClass> listBillHelperClassArrayList;
+    ArrayList<ListBillHelperClass> oldListBillHelperClassArrayList;
     SQLiteDatabase SQLdb;
     SqlDatabaseHelper db;
 
     public ListBillAdapter(Context context, int singleData, ArrayList<ListBillHelperClass> listBillHelperClassArrayList, SQLiteDatabase SQLdb) {
         this.context = context;
         this.listBillHelperClassArrayList = listBillHelperClassArrayList;
+        this.oldListBillHelperClassArrayList = listBillHelperClassArrayList;
         this.singleData = singleData;
         this.SQLdb = SQLdb;
     }
@@ -85,6 +90,41 @@ public class ListBillAdapter extends RecyclerView.Adapter<ListBillAdapter.ListBi
             TextCreBill = itemView.findViewById(R.id.Txv_CreateDay);
             TextQuaBill = itemView.findViewById(R.id.Txv_Quality);
         }
+    }
+
+    @Override
+    public Filter getFilter() {
+        return new Filter() {
+            @Override
+            protected FilterResults performFiltering(CharSequence charSequence) {
+                String strSearch = charSequence.toString();
+                if(strSearch.isEmpty()){
+                    listBillHelperClassArrayList = oldListBillHelperClassArrayList;
+                }else{
+
+                    ArrayList<ListBillHelperClass> listSearch = new ArrayList<>();
+                    for(ListBillHelperClass listBillHelperClass : oldListBillHelperClassArrayList ){
+                        if(listBillHelperClass.getNameBill().toLowerCase().contains(strSearch.toLowerCase())){
+                            listSearch.add(listBillHelperClass);
+                        }
+                    }
+
+                    listBillHelperClassArrayList = listSearch;
+
+                }
+
+                FilterResults filterResults = new FilterResults();
+                filterResults.values = listBillHelperClassArrayList;
+
+                return filterResults;
+            }
+
+            @Override
+            protected void publishResults(CharSequence charSequence, FilterResults filterResults) {
+                listBillHelperClassArrayList = (ArrayList<ListBillHelperClass>) filterResults.values;
+                notifyDataSetChanged();
+            }
+        };
     }
 }
 

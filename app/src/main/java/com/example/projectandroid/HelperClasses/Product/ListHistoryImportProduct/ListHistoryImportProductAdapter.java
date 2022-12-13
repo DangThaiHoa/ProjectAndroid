@@ -8,6 +8,8 @@ import android.graphics.BitmapFactory;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -15,6 +17,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.projectandroid.HelperClasses.Product.ListTypeProduct.ListTypeProductHelperClass;
 import com.example.projectandroid.HelperClasses.Shopping.ListBill.ListBillAdapter;
 import com.example.projectandroid.HelperClasses.Shopping.ListBill.ListBillHelperClass;
 import com.example.projectandroid.HelperClasses.SqlLite.SqlDatabaseHelper;
@@ -24,18 +27,19 @@ import com.example.projectandroid.User.MShopping.ListBill.DetailBill;
 
 import java.util.ArrayList;
 
-public class ListHistoryImportProductAdapter extends RecyclerView.Adapter<ListHistoryImportProductAdapter.ListHistoryImportProductViewHolder>{
+public class ListHistoryImportProductAdapter extends RecyclerView.Adapter<ListHistoryImportProductAdapter.ListHistoryImportProductViewHolder> implements Filterable {
 
     private Context context;
     int singleData;
     ArrayList<ListHistoryImportProductHelperClass> listHistoryImportProductHelperClassArrayList;
+    ArrayList<ListHistoryImportProductHelperClass> oldListHistoryImportProductHelperClassArrayList;
     SQLiteDatabase SQLdb;
-    SqlDatabaseHelper db;
 
     public ListHistoryImportProductAdapter(Context context, int singleData, ArrayList<ListHistoryImportProductHelperClass> listHistoryImportProductHelperClassArrayList, SQLiteDatabase SQLdb) {
         this.context = context;
         this.singleData = singleData;
         this.listHistoryImportProductHelperClassArrayList = listHistoryImportProductHelperClassArrayList;
+        this.oldListHistoryImportProductHelperClassArrayList = listHistoryImportProductHelperClassArrayList;
         this.SQLdb = SQLdb;
     }
 
@@ -90,5 +94,40 @@ public class ListHistoryImportProductAdapter extends RecyclerView.Adapter<ListHi
             TextOldQuaImportProduct = itemView.findViewById(R.id.Txv_oldQuality_import_product);
             TextNewQuaImportProduct = itemView.findViewById(R.id.Txv_newQuality_import_product);
         }
+    }
+
+    @Override
+    public Filter getFilter() {
+        return new Filter() {
+            @Override
+            protected FilterResults performFiltering(CharSequence charSequence) {
+                String strSearch = charSequence.toString();
+                if(strSearch.isEmpty()){
+                    listHistoryImportProductHelperClassArrayList = oldListHistoryImportProductHelperClassArrayList;
+                }else{
+
+                    ArrayList<ListHistoryImportProductHelperClass> listSearch = new ArrayList<>();
+                    for(ListHistoryImportProductHelperClass listHistoryImportProductHelperClass : oldListHistoryImportProductHelperClassArrayList ){
+                        if(listHistoryImportProductHelperClass.getNameImportProduct().toLowerCase().contains(strSearch.toLowerCase())){
+                            listSearch.add(listHistoryImportProductHelperClass);
+                        }
+                    }
+
+                    listHistoryImportProductHelperClassArrayList = listSearch;
+
+                }
+
+                FilterResults filterResults = new FilterResults();
+                filterResults.values = listHistoryImportProductHelperClassArrayList;
+
+                return filterResults;
+            }
+
+            @Override
+            protected void publishResults(CharSequence charSequence, FilterResults filterResults) {
+                listHistoryImportProductHelperClassArrayList = (ArrayList<ListHistoryImportProductHelperClass>) filterResults.values;
+                notifyDataSetChanged();
+            }
+        };
     }
 }

@@ -8,6 +8,8 @@ import android.graphics.BitmapFactory;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -15,22 +17,25 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.projectandroid.HelperClasses.Shopping.ListBill.ListBillHelperClass;
 import com.example.projectandroid.R;
 import com.example.projectandroid.User.MShopping.ListPromotion.DetailPromotion;
 
 import java.util.ArrayList;
 
-public class ListPromotionAdapter extends  RecyclerView.Adapter<ListPromotionAdapter.ListPromotionViewHolder>{
+public class ListPromotionAdapter extends  RecyclerView.Adapter<ListPromotionAdapter.ListPromotionViewHolder> implements Filterable {
 
     private Context context;
     int singleData;
     ArrayList<ListPromotionHelperClass> listPromotionHelperClassArrayList;
+    ArrayList<ListPromotionHelperClass> oldListPromotionHelperClassArrayList;
     SQLiteDatabase SQLdb;
 
     public ListPromotionAdapter(Context context, int singleData, ArrayList<ListPromotionHelperClass> listPromotionHelperClassArrayList, SQLiteDatabase SQLdb) {
         this.context = context;
         this.singleData = singleData;
         this.listPromotionHelperClassArrayList = listPromotionHelperClassArrayList;
+        this.oldListPromotionHelperClassArrayList = listPromotionHelperClassArrayList;
         this.SQLdb = SQLdb;
     }
 
@@ -88,5 +93,40 @@ public class ListPromotionAdapter extends  RecyclerView.Adapter<ListPromotionAda
             TextEPromotion = itemView.findViewById(R.id.Txv_endDayPromotion);
 
         }
+    }
+
+    @Override
+    public Filter getFilter() {
+        return new Filter() {
+            @Override
+            protected FilterResults performFiltering(CharSequence charSequence) {
+                String strSearch = charSequence.toString();
+                if(strSearch.isEmpty()){
+                    listPromotionHelperClassArrayList = oldListPromotionHelperClassArrayList;
+                }else{
+
+                    ArrayList<ListPromotionHelperClass> listSearch = new ArrayList<>();
+                    for(ListPromotionHelperClass listPromotionHelperClass : oldListPromotionHelperClassArrayList ){
+                        if(listPromotionHelperClass.getNamePromotion().toLowerCase().contains(strSearch.toLowerCase())){
+                            listSearch.add(listPromotionHelperClass);
+                        }
+                    }
+
+                    listPromotionHelperClassArrayList = listSearch;
+
+                }
+
+                FilterResults filterResults = new FilterResults();
+                filterResults.values = listPromotionHelperClassArrayList;
+
+                return filterResults;
+            }
+
+            @Override
+            protected void publishResults(CharSequence charSequence, FilterResults filterResults) {
+                listPromotionHelperClassArrayList = (ArrayList<ListPromotionHelperClass>) filterResults.values;
+                notifyDataSetChanged();
+            }
+        };
     }
 }

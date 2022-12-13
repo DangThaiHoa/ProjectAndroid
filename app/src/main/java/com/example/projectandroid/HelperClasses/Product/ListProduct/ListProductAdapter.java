@@ -9,6 +9,8 @@ import android.graphics.BitmapFactory;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -16,6 +18,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.projectandroid.HelperClasses.Product.ListTypeProduct.ListTypeProductHelperClass;
 import com.example.projectandroid.HelperClasses.SqlLite.SqlDatabaseHelper;
 import com.example.projectandroid.R;
 import com.example.projectandroid.User.MProduct.ListProduct.DetailProduct;
@@ -23,18 +26,19 @@ import com.example.projectandroid.User.MShopping.ListBill.DetailBill;
 
 import java.util.ArrayList;
 
-public class ListProductAdapter extends RecyclerView.Adapter<ListProductAdapter.ListProductViewHolder> {
+public class ListProductAdapter extends RecyclerView.Adapter<ListProductAdapter.ListProductViewHolder> implements Filterable {
 
     private Context context;
     int singleData;
     ArrayList<ListProductHelperClass> listProductHelperClassArrayList;
+    ArrayList<ListProductHelperClass> oldListProductHelperClassArrayList;
     SQLiteDatabase SQLdb;
-    SqlDatabaseHelper db;
 
     public ListProductAdapter(Context context, int singleData, ArrayList<ListProductHelperClass> listProductHelperClassArrayList, SQLiteDatabase SQLdb) {
         this.context = context;
         this.singleData = singleData;
         this.listProductHelperClassArrayList = listProductHelperClassArrayList;
+        this.oldListProductHelperClassArrayList = listProductHelperClassArrayList;
         this.SQLdb = SQLdb;
     }
 
@@ -86,5 +90,40 @@ public class ListProductAdapter extends RecyclerView.Adapter<ListProductAdapter.
             ImageProduct = itemView.findViewById(R.id.img_Product);
 
         }
+    }
+
+    @Override
+    public Filter getFilter() {
+        return new Filter() {
+            @Override
+            protected FilterResults performFiltering(CharSequence charSequence) {
+                String strSearch = charSequence.toString();
+                if(strSearch.isEmpty()){
+                    listProductHelperClassArrayList = oldListProductHelperClassArrayList;
+                }else{
+
+                    ArrayList<ListProductHelperClass> listSearch = new ArrayList<>();
+                    for(ListProductHelperClass listProductHelperClass : oldListProductHelperClassArrayList ){
+                        if(listProductHelperClass.getName().toLowerCase().contains(strSearch.toLowerCase())){
+                            listSearch.add(listProductHelperClass);
+                        }
+                    }
+
+                    listProductHelperClassArrayList = listSearch;
+
+                }
+
+                FilterResults filterResults = new FilterResults();
+                filterResults.values = listProductHelperClassArrayList;
+
+                return filterResults;
+            }
+
+            @Override
+            protected void publishResults(CharSequence charSequence, FilterResults filterResults) {
+                listProductHelperClassArrayList = (ArrayList<ListProductHelperClass>) filterResults.values;
+                notifyDataSetChanged();
+            }
+        };
     }
 }

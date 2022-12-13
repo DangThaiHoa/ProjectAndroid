@@ -4,6 +4,7 @@ import static com.example.projectandroid.User.DashBoard.idUser;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
+import androidx.appcompat.widget.SearchView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -19,6 +20,8 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.projectandroid.HelperClasses.Shopping.ListBill.ListBillAdapter;
+import com.example.projectandroid.HelperClasses.Shopping.ListBill.ListBillHelperClass;
 import com.example.projectandroid.HelperClasses.Shopping.ListPromotion.ListPromotionAdapter;
 import com.example.projectandroid.HelperClasses.Shopping.ListPromotion.ListPromotionHelperClass;
 import com.example.projectandroid.HelperClasses.SqlLite.SqlDatabaseHelper;
@@ -34,6 +37,10 @@ public class ListPromotion extends AppCompatActivity {
     RecyclerView listPromotionRecycle;
     SqlDatabaseHelper db;
 
+    SearchView searchView;
+    ListPromotionAdapter listPromotionAdapter;
+    ArrayList<ListPromotionHelperClass> listPromotionHelperClassArrayList = new ArrayList<>();
+
     Button ConfirmBtnDia, CancelBtnDia;
     TextView ContentDia;
     Dialog dialog;
@@ -48,6 +55,22 @@ public class ListPromotion extends AppCompatActivity {
 
         listPromotionRecycle = findViewById(R.id.List_Promotion_recycler);
         btnBack = findViewById(R.id.back_btn);
+        searchView = findViewById(R.id.search_promotion);
+        searchView.setQueryHint("Nhập Tên Sản Phẩm");
+
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                listPromotionAdapter.getFilter().filter(query);
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                listPromotionAdapter.getFilter().filter(newText);
+                return false;
+            }
+        });
 
         listPromotionRecycle.setLayoutManager(new LinearLayoutManager(this, RecyclerView.VERTICAL,false));
 
@@ -80,7 +103,7 @@ public class ListPromotion extends AppCompatActivity {
                 listPromotionHelperClassArrayList.add(new ListPromotionHelperClass(productName, promotionPercent, promotionStartDay, promotionEndDay, productImage, IdPromotion));
 
             }
-            ListPromotionAdapter listPromotionAdapter = new ListPromotionAdapter(this, R.layout.list_promotion_card_desgin, listPromotionHelperClassArrayList, sqLiteDatabase);
+            listPromotionAdapter = new ListPromotionAdapter(this, R.layout.list_promotion_card_desgin, listPromotionHelperClassArrayList, sqLiteDatabase);
             listPromotionRecycle.setAdapter(listPromotionAdapter);
 
         }

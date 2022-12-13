@@ -3,15 +3,11 @@ package com.example.projectandroid.User;
 import static com.example.projectandroid.User.DashBoard.idUser;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -20,20 +16,12 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
-import com.example.projectandroid.HelperClasses.HomeAdapter.CategoriesAdapter;
-import com.example.projectandroid.HelperClasses.HomeAdapter.CategoriesHelperClass;
-import com.example.projectandroid.HelperClasses.HomeAdapter.FeaturedAdapter;
-import com.example.projectandroid.HelperClasses.HomeAdapter.FeaturedHelperClass;
-import com.example.projectandroid.HelperClasses.HomeAdapter.MostViewAdapter;
-import com.example.projectandroid.HelperClasses.HomeAdapter.MostViewHelperClass;
 import com.example.projectandroid.R;
 import com.example.projectandroid.SessionManager;
 import com.example.projectandroid.User.Profile.Profile;
 import com.example.projectandroid.common.LoginSignUp.Login;
 import com.example.projectandroid.common.LoginSignUp.StartUpScreen;
 import com.google.android.material.navigation.NavigationView;
-
-import java.util.ArrayList;
 
 public class Analysis extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 

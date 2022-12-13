@@ -1,7 +1,6 @@
 package com.example.projectandroid.User;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.core.app.NotificationCompat;
@@ -13,19 +12,15 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.Dialog;
 import android.app.Notification;
-import android.app.NotificationManager;
 import android.app.PendingIntent;
-import android.app.TaskStackBuilder;
-import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteOpenHelper;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -40,13 +35,15 @@ import androidx.appcompat.widget.Toolbar;
 import com.example.projectandroid.ChannelNotification;
 import com.example.projectandroid.HelperClasses.HomeAdapter.CategoriesAdapter;
 import com.example.projectandroid.HelperClasses.HomeAdapter.CategoriesHelperClass;
-import com.example.projectandroid.HelperClasses.HomeAdapter.FeaturedAdapter;
-import com.example.projectandroid.HelperClasses.HomeAdapter.FeaturedHelperClass;
+import com.example.projectandroid.HelperClasses.HomeAdapter.ListProductDashBoardAdapter;
+import com.example.projectandroid.HelperClasses.HomeAdapter.ListProductDashBoardHelperClass;
 import com.example.projectandroid.HelperClasses.HomeAdapter.MostViewAdapter;
 import com.example.projectandroid.HelperClasses.HomeAdapter.MostViewHelperClass;
+import com.example.projectandroid.HelperClasses.Product.ListProduct.ListProductAdapter;
+import com.example.projectandroid.HelperClasses.Product.ListProduct.ListProductHelperClass;
 import com.example.projectandroid.HelperClasses.SqlLite.SqlDatabaseHelper;
-import com.example.projectandroid.MainActivity;
 import com.example.projectandroid.R;
+import com.example.projectandroid.RecyclerViewMargin;
 import com.example.projectandroid.SessionManager;
 import com.example.projectandroid.User.MProduct.AddProduct.AddProduct;
 import com.example.projectandroid.User.MProduct.AddTypeProduct.AddTypeProduct;
@@ -72,8 +69,7 @@ public class DashBoard extends AppCompatActivity implements NavigationView.OnNav
 
     static final float END_SCALE = 1f;
 
-    RecyclerView featuredRecycle,mostviewRecycle,categoriesRecycle;
-    RecyclerView.Adapter feadapter,mvadapter,cateadapter;
+    RecyclerView productRecycle,mostviewRecycle,categoriesRecycle;
 
     DrawerLayout drawerLayout;
     NavigationView navigationView;
@@ -93,6 +89,11 @@ public class DashBoard extends AppCompatActivity implements NavigationView.OnNav
     TextView ContentDia;
     Dialog dialog;
 
+    SQLiteDatabase sqLiteDatabase;
+
+    ListProductDashBoardAdapter listProductDashBoardAdapter;
+    ArrayList<ListProductDashBoardHelperClass> listProductDashBoardHelperClassArrayList = new ArrayList<>();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -104,7 +105,7 @@ public class DashBoard extends AppCompatActivity implements NavigationView.OnNav
 
         sessionManager = new SessionManager(this);
 
-        featuredRecycle = findViewById(R.id.featured_recycler);
+        productRecycle = findViewById(R.id.product_recycler_dashboard);
         mostviewRecycle = findViewById(R.id.most_view_recycler);
         categoriesRecycle = findViewById(R.id.categories_recycler);
         menuIcon = findViewById(R.id.menu_icon);
@@ -172,9 +173,9 @@ public class DashBoard extends AppCompatActivity implements NavigationView.OnNav
         btn_analysis();
         ShowDiaLog();
         navigationDrawer();
-        featuredRecycle();
-        mostviewRecycle();
-        categoriesRecycle();
+        productRecycle();
+//        mostviewRecycle();
+//        categoriesRecycle();
         deletePromotion();
     }
 
@@ -392,50 +393,68 @@ public class DashBoard extends AppCompatActivity implements NavigationView.OnNav
 
     }
 
-    private void featuredRecycle() {
+    private void productRecycle() {
 
-        featuredRecycle.setHasFixedSize(true);
-        featuredRecycle.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
+        RecyclerViewMargin decoration = new RecyclerViewMargin(20, 100000);
+        productRecycle.addItemDecoration(decoration);
+        productRecycle.setHasFixedSize(false);
+        productRecycle.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
 
-        ArrayList<FeaturedHelperClass> featuredLocation = new ArrayList<>();
 
-        featuredLocation.add(new FeaturedHelperClass(R.drawable.ls_startupimage,"Mcdonal's","Lorem ipsum dolor sit amet, consectetuer adipiscing elit."));
-        featuredLocation.add(new FeaturedHelperClass(R.drawable.ls_startupimage,"Mcdonal's","Lorem ipsum dolor sit amet, consectetuer adipiscing elit."));
-        featuredLocation.add(new FeaturedHelperClass(R.drawable.ls_startupimage,"Mcdonal's","Lorem ipsum dolor sit amet, consectetuer adipiscing elit."));
+        Cursor cursor = db.readData_Product(Integer.valueOf(idUser));
+        if(cursor.getCount() == 0){
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    ContentDia.setText("Chưa Có Sản Phẩm, Bạn Có Muốn Thêm Không?");
+                    dialog.show();
+                }
+            },500);
+        }else{
+            while (cursor.moveToNext()) {
+                Integer idProduct = cursor.getInt(0);
+                String productName = cursor.getString(2);
+                String productQuality = cursor.getString(3);
+                byte[] productImage = cursor.getBlob(6);
+                listProductDashBoardHelperClassArrayList.add(new ListProductDashBoardHelperClass(productName, productQuality, productImage, idProduct));
 
-        feadapter = new FeaturedAdapter(featuredLocation);
-        featuredRecycle.setAdapter(feadapter);
+            }
+
+            listProductDashBoardAdapter = new ListProductDashBoardAdapter(this, R.layout.list_product_dashboard_card_design, listProductDashBoardHelperClassArrayList, sqLiteDatabase);
+            productRecycle.setAdapter(listProductDashBoardAdapter);
+
+        }
 
     }
 
-    private void mostviewRecycle() {
-
-        mostviewRecycle.setHasFixedSize(true);
-        mostviewRecycle.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
-
-        ArrayList<MostViewHelperClass> mostviewLocation = new ArrayList<>();
-
-        mostviewLocation.add(new MostViewHelperClass(R.drawable.ls_startupimage,"Mcdonal's","Lorem ipsum dolor sit amet, consectetuer adipiscing elit."));
-        mostviewLocation.add(new MostViewHelperClass(R.drawable.ls_startupimage,"Mcdonal's","Lorem ipsum dolor sit amet, consectetuer adipiscing elit."));
-        mostviewLocation.add(new MostViewHelperClass(R.drawable.ls_startupimage,"Mcdonal's","Lorem ipsum dolor sit amet, consectetuer adipiscing elit."));
-
-        mvadapter = new MostViewAdapter(mostviewLocation);
-        mostviewRecycle.setAdapter(mvadapter);
-
-    }
-
-    private void categoriesRecycle() {
-
-        categoriesRecycle.setHasFixedSize(true);
-        categoriesRecycle.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
-
-        ArrayList<CategoriesHelperClass> categoriesLocation = new ArrayList<>();
-
-        categoriesLocation.add(new CategoriesHelperClass(R.drawable.ls_startupimage,"Mcdonal's", Color.parseColor("#FF9800")));
-        categoriesLocation.add(new CategoriesHelperClass(R.drawable.ls_startupimage,"Mcdonal's",Color.parseColor("#FF9800")));
-        categoriesLocation.add(new CategoriesHelperClass(R.drawable.ls_startupimage,"Mcdonal's",Color.parseColor("#FF9800")));
-
-        cateadapter = new CategoriesAdapter(categoriesLocation);
-        categoriesRecycle.setAdapter(cateadapter);
-    }
+//    private void mostviewRecycle() {
+//
+//        mostviewRecycle.setHasFixedSize(true);
+//        mostviewRecycle.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
+//
+//        ArrayList<MostViewHelperClass> mostviewLocation = new ArrayList<>();
+//
+//        mostviewLocation.add(new MostViewHelperClass(R.drawable.ls_startupimage,"Mcdonal's","Lorem ipsum dolor sit amet, consectetuer adipiscing elit."));
+//        mostviewLocation.add(new MostViewHelperClass(R.drawable.ls_startupimage,"Mcdonal's","Lorem ipsum dolor sit amet, consectetuer adipiscing elit."));
+//        mostviewLocation.add(new MostViewHelperClass(R.drawable.ls_startupimage,"Mcdonal's","Lorem ipsum dolor sit amet, consectetuer adipiscing elit."));
+//
+//        mvadapter = new MostViewAdapter(mostviewLocation);
+//        mostviewRecycle.setAdapter(mvadapter);
+//
+//    }
+//
+//    private void categoriesRecycle() {
+//
+//        categoriesRecycle.setHasFixedSize(true);
+//        categoriesRecycle.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
+//
+//        ArrayList<CategoriesHelperClass> categoriesLocation = new ArrayList<>();
+//
+//        categoriesLocation.add(new CategoriesHelperClass(R.drawable.ls_startupimage,"Mcdonal's", Color.parseColor("#FF9800")));
+//        categoriesLocation.add(new CategoriesHelperClass(R.drawable.ls_startupimage,"Mcdonal's",Color.parseColor("#FF9800")));
+//        categoriesLocation.add(new CategoriesHelperClass(R.drawable.ls_startupimage,"Mcdonal's",Color.parseColor("#FF9800")));
+//
+//        cateadapter = new CategoriesAdapter(categoriesLocation);
+//        categoriesRecycle.setAdapter(cateadapter);
+//    }
 }
