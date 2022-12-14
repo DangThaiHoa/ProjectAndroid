@@ -182,7 +182,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="10dp"
                         android:layout_marginTop="50dp"
-                        android:text="ALL Featured \nLocations"
+                        android:text="Tất Cả Các \Sản Phẩm"
                         android:textAllCaps="true"
                         android:textSize="25sp" />
 
@@ -190,7 +190,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_margin="10dp"
-                        android:text="Lorem ipsum dolor sit amet, consectetuer adipiscing elit." />
+                        android:text="Tất cả các sẩn phẩm của bạn đều đang ở đây" />
 
                 </LinearLayout>
 
@@ -217,21 +217,24 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Most Viewed"
+                        android:text="Danh Sách Hóa Đơn"
+                        android:fontFamily="@font/muli_black"
                         android:textSize="20sp"
                         android:textAllCaps="true"/>
 
                     <TextView
+                        android:id="@+id/all_bill"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="View All"
+                        android:text="Tất Cả"
+                        android:fontFamily="@font/muli_black"
                         android:layout_alignParentRight="true"
                         android:layout_centerVertical="true"/>
 
                 </RelativeLayout>
 
                 <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/most_view_recycler"
+                    android:id="@+id/bill_recycler"
                     android:layout_width="match_parent"
                     android:layout_height="150dp"
                     android:background="@color/secColor"/>
@@ -252,23 +255,27 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Categories"
+                        android:text="Danh Sách Khuyến Mãi"
+                        android:fontFamily="@font/muli_black"
                         android:textSize="20sp"
                         android:textAllCaps="true"/>
 
                     <TextView
+                        android:id="@+id/all_promotion"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="View All"
+                        android:text="Tất Cả"
+                        android:fontFamily="@font/muli_black"
                         android:layout_alignParentRight="true"
                         android:layout_centerVertical="true"/>
 
                 </RelativeLayout>
 
                 <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/categories_recycler"
+                    android:id="@+id/promotion_recycler"
                     android:layout_width="match_parent"
-                    android:layout_height="170dp"/>
+                    android:layout_height="210dp"
+                    android:padding="10dp"/>
 
             </LinearLayout>
 

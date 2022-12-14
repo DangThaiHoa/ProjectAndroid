@@ -900,7 +900,8 @@ public class SqlDatabaseHelper extends SQLiteOpenHelper {
                 COLUMN_PRODUCT_NAME +","+
                 COLUMN_BILL_QUALITY +","+
                 COLUMN_BILL_CREATE_DAY +","+
-                COLUMN_PRODUCT_IMAGE +
+                COLUMN_PRODUCT_IMAGE +","+
+                COLUMN_BILL_CREATE_TIME +
                 " From "+ TABLE_BILL + ","+ TABLE_PRODUCT +
                 " Where "+ TABLE_BILL +"."+ F_BILL_COLUMN_ID_PRODUCT +"="+ TABLE_PRODUCT +"."+ COLUMN_ID_PRODUCT +
                 " And " + F_BILL_COLUMN_ID_USER + "=" + id_user +

@@ -33,14 +33,14 @@ import android.widget.Toast;
 import androidx.appcompat.widget.Toolbar;
 
 import com.example.projectandroid.ChannelNotification;
-import com.example.projectandroid.HelperClasses.HomeAdapter.CategoriesAdapter;
-import com.example.projectandroid.HelperClasses.HomeAdapter.CategoriesHelperClass;
+import com.example.projectandroid.HelperClasses.HomeAdapter.ListBillDashBoardAdapter;
+import com.example.projectandroid.HelperClasses.HomeAdapter.ListBillDashBoardHelperClass;
 import com.example.projectandroid.HelperClasses.HomeAdapter.ListProductDashBoardAdapter;
 import com.example.projectandroid.HelperClasses.HomeAdapter.ListProductDashBoardHelperClass;
-import com.example.projectandroid.HelperClasses.HomeAdapter.MostViewAdapter;
-import com.example.projectandroid.HelperClasses.HomeAdapter.MostViewHelperClass;
-import com.example.projectandroid.HelperClasses.Product.ListProduct.ListProductAdapter;
-import com.example.projectandroid.HelperClasses.Product.ListProduct.ListProductHelperClass;
+import com.example.projectandroid.HelperClasses.HomeAdapter.ListPromotionDashBoardAdapter;
+import com.example.projectandroid.HelperClasses.HomeAdapter.ListPromotionDashBoardHelperClass;
+import com.example.projectandroid.HelperClasses.Shopping.ListPromotion.ListPromotionAdapter;
+import com.example.projectandroid.HelperClasses.Shopping.ListPromotion.ListPromotionHelperClass;
 import com.example.projectandroid.HelperClasses.SqlLite.SqlDatabaseHelper;
 import com.example.projectandroid.R;
 import com.example.projectandroid.RecyclerViewMargin;
@@ -50,6 +50,7 @@ import com.example.projectandroid.User.MProduct.AddTypeProduct.AddTypeProduct;
 import com.example.projectandroid.User.MProduct.ImportProduct.ImportProduct;
 import com.example.projectandroid.User.MShopping.CreateBill.CreateBill;
 import com.example.projectandroid.User.MShopping.CreatePromotion.CreatePromotion;
+import com.example.projectandroid.User.MShopping.ListBill.ListBill;
 import com.example.projectandroid.User.MShopping.ListPromotion.ListPromotion;
 import com.example.projectandroid.User.Profile.Profile;
 import com.example.projectandroid.common.LoginSignUp.Login;
@@ -69,13 +70,13 @@ public class DashBoard extends AppCompatActivity implements NavigationView.OnNav
 
     static final float END_SCALE = 1f;
 
-    RecyclerView productRecycle,mostviewRecycle,categoriesRecycle;
+    RecyclerView productRecycle,billRecycle,promotionRecycle;
 
     DrawerLayout drawerLayout;
     NavigationView navigationView;
     ImageView menuIcon;
     Toolbar toolbar;
-    TextView loginUserName;
+    TextView loginUserName, allBill, allPromotion;
 
     LinearLayout contentView;
 
@@ -94,6 +95,12 @@ public class DashBoard extends AppCompatActivity implements NavigationView.OnNav
     ListProductDashBoardAdapter listProductDashBoardAdapter;
     ArrayList<ListProductDashBoardHelperClass> listProductDashBoardHelperClassArrayList = new ArrayList<>();
 
+    ListBillDashBoardAdapter listBillDashBoardAdapter;
+    ArrayList<ListBillDashBoardHelperClass> listBillDashBoardHelperClassArrayList = new ArrayList<>();
+
+    ListPromotionDashBoardAdapter listPromotionDashBoardAdapter;
+    ArrayList<ListPromotionDashBoardHelperClass> listPromotionDashBoardHelperClassArrayList = new ArrayList<>();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -106,14 +113,16 @@ public class DashBoard extends AppCompatActivity implements NavigationView.OnNav
         sessionManager = new SessionManager(this);
 
         productRecycle = findViewById(R.id.product_recycler_dashboard);
-        mostviewRecycle = findViewById(R.id.most_view_recycler);
-        categoriesRecycle = findViewById(R.id.categories_recycler);
+        billRecycle = findViewById(R.id.bill_recycler);
+        promotionRecycle = findViewById(R.id.promotion_recycler);
         menuIcon = findViewById(R.id.menu_icon);
         loginUserName = findViewById(R.id.username_login);
         contentView = findViewById(R.id.content);
         btn_product = findViewById(R.id.dashboard_product);
         btn_shopping = findViewById(R.id.dashboard_shopping);
         btn_analysis = findViewById(R.id.dashboard_analysis);
+        allBill = findViewById(R.id.all_bill);
+        allPromotion = findViewById(R.id.all_promotion);
         toolbar = findViewById(R.id.dashboard_toolBar);
 
         drawerLayout = findViewById(R.id.drawer_layout);
@@ -174,9 +183,35 @@ public class DashBoard extends AppCompatActivity implements NavigationView.OnNav
         ShowDiaLog();
         navigationDrawer();
         productRecycle();
-//        mostviewRecycle();
-//        categoriesRecycle();
+        billRecycle();
+        promotionRecycle();
         deletePromotion();
+        AllBill();
+        AllPromotion();
+    }
+
+    private void AllPromotion() {
+
+        allPromotion.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getApplicationContext(), ListPromotion.class);
+                startActivity(intent);
+            }
+        });
+
+    }
+
+    private void AllBill() {
+
+        allBill.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getApplicationContext(), ListBill.class);
+                startActivity(intent);
+            }
+        });
+
     }
 
     private void sendNotification(Integer promotion_id) {
@@ -395,7 +430,7 @@ public class DashBoard extends AppCompatActivity implements NavigationView.OnNav
 
     private void productRecycle() {
 
-        RecyclerViewMargin decoration = new RecyclerViewMargin(20, 100000);
+        RecyclerViewMargin decoration = new RecyclerViewMargin(20);
         productRecycle.addItemDecoration(decoration);
         productRecycle.setHasFixedSize(false);
         productRecycle.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
@@ -403,14 +438,8 @@ public class DashBoard extends AppCompatActivity implements NavigationView.OnNav
 
         Cursor cursor = db.readData_Product(Integer.valueOf(idUser));
         if(cursor.getCount() == 0){
-            new Handler().postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    ContentDia.setText("Chưa Có Sản Phẩm, Bạn Có Muốn Thêm Không?");
-                    dialog.show();
-                }
-            },500);
-        }else{
+
+        }else {
             while (cursor.moveToNext()) {
                 Integer idProduct = cursor.getInt(0);
                 String productName = cursor.getString(2);
@@ -422,39 +451,56 @@ public class DashBoard extends AppCompatActivity implements NavigationView.OnNav
 
             listProductDashBoardAdapter = new ListProductDashBoardAdapter(this, R.layout.list_product_dashboard_card_design, listProductDashBoardHelperClassArrayList, sqLiteDatabase);
             productRecycle.setAdapter(listProductDashBoardAdapter);
-
         }
-
     }
 
-//    private void mostviewRecycle() {
-//
-//        mostviewRecycle.setHasFixedSize(true);
-//        mostviewRecycle.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
-//
-//        ArrayList<MostViewHelperClass> mostviewLocation = new ArrayList<>();
-//
-//        mostviewLocation.add(new MostViewHelperClass(R.drawable.ls_startupimage,"Mcdonal's","Lorem ipsum dolor sit amet, consectetuer adipiscing elit."));
-//        mostviewLocation.add(new MostViewHelperClass(R.drawable.ls_startupimage,"Mcdonal's","Lorem ipsum dolor sit amet, consectetuer adipiscing elit."));
-//        mostviewLocation.add(new MostViewHelperClass(R.drawable.ls_startupimage,"Mcdonal's","Lorem ipsum dolor sit amet, consectetuer adipiscing elit."));
-//
-//        mvadapter = new MostViewAdapter(mostviewLocation);
-//        mostviewRecycle.setAdapter(mvadapter);
-//
-//    }
-//
-//    private void categoriesRecycle() {
-//
-//        categoriesRecycle.setHasFixedSize(true);
-//        categoriesRecycle.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
-//
-//        ArrayList<CategoriesHelperClass> categoriesLocation = new ArrayList<>();
-//
-//        categoriesLocation.add(new CategoriesHelperClass(R.drawable.ls_startupimage,"Mcdonal's", Color.parseColor("#FF9800")));
-//        categoriesLocation.add(new CategoriesHelperClass(R.drawable.ls_startupimage,"Mcdonal's",Color.parseColor("#FF9800")));
-//        categoriesLocation.add(new CategoriesHelperClass(R.drawable.ls_startupimage,"Mcdonal's",Color.parseColor("#FF9800")));
-//
-//        cateadapter = new CategoriesAdapter(categoriesLocation);
-//        categoriesRecycle.setAdapter(cateadapter);
-//    }
+    private void billRecycle() {
+
+        RecyclerViewMargin decoration = new RecyclerViewMargin(20);
+        billRecycle.addItemDecoration(decoration);
+        billRecycle.setHasFixedSize(false);
+        billRecycle.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
+
+        Cursor cursor = db.readData_Bill(Integer.valueOf(idUser));
+        if(cursor.getCount() == 0){
+
+        }else {
+            while (cursor.moveToNext()) {
+                Integer IdBill = cursor.getInt(0);
+                String ProductName = cursor.getString(1);
+                String BillCreateDay = cursor.getString(3);
+                byte[] ProductImage = cursor.getBlob(4);
+                String BillCreateTime = cursor.getString(5);
+                listBillDashBoardHelperClassArrayList.add(new ListBillDashBoardHelperClass(ProductName, BillCreateDay, BillCreateTime, IdBill, ProductImage));
+
+            }
+            listBillDashBoardAdapter = new ListBillDashBoardAdapter(this, R.layout.list_bill_card_desgin, listBillDashBoardHelperClassArrayList, sqLiteDatabase);
+            billRecycle.setAdapter(listBillDashBoardAdapter);
+        }
+    }
+
+    private void promotionRecycle() {
+
+        RecyclerViewMargin decoration = new RecyclerViewMargin(20);
+        promotionRecycle.addItemDecoration(decoration);
+        promotionRecycle.setHasFixedSize(false);
+        promotionRecycle.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
+
+        Cursor cursor = db.readData_Promotion(Integer.valueOf(idUser));
+        if(cursor.getCount() == 0){
+
+        }else {
+            while (cursor.moveToNext()) {
+                Integer IdPromotion = cursor.getInt(0);
+                String productName = cursor.getString(1);
+                String promotionStartDay = cursor.getString(3);
+                String promotionEndDay = cursor.getString(4);
+                byte[] productImage = cursor.getBlob(5);
+                listPromotionDashBoardHelperClassArrayList.add(new ListPromotionDashBoardHelperClass(productName, promotionStartDay, promotionEndDay, productImage, IdPromotion));
+
+            }
+            listPromotionDashBoardAdapter = new ListPromotionDashBoardAdapter(this, R.layout.list_promotion_dashboard_card_design, listPromotionDashBoardHelperClassArrayList, sqLiteDatabase);
+            promotionRecycle.setAdapter(listPromotionDashBoardAdapter);
+        }
+    }
 }
