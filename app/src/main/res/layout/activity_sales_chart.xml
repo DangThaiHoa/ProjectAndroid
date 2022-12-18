@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".User.MAnalysis.Sales"
+    tools:context=".User.MAnalysis.SalesChart"
     android:orientation="vertical"
     android:padding="10dp">
 
@@ -74,6 +74,7 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
+            android:visibility="invisible"
             android:id="@+id/bart_char_sales"/>
 
     </LinearLayout>

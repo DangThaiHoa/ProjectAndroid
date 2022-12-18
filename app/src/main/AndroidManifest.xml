@@ -22,6 +22,13 @@
         android:theme="@style/Theme.ProjectAndroid"
         tools:targetApi="31">
         <activity
+            android:name=".User.MAnalysis.TotalProductChart"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
             android:name=".common.SplashScreen"
             android:exported="true">
             <intent-filter>
@@ -35,7 +42,7 @@
                 android:value="" />
         </activity>
         <activity
-            android:name=".User.MAnalysis.Sales"
+            android:name=".User.MAnalysis.SalesChart"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"

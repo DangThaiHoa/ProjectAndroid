@@ -19,7 +19,8 @@ import android.widget.RelativeLayout;
 
 import com.example.projectandroid.R;
 import com.example.projectandroid.SessionManager;
-import com.example.projectandroid.User.MAnalysis.Sales;
+import com.example.projectandroid.User.MAnalysis.SalesChart;
+import com.example.projectandroid.User.MAnalysis.TotalProductChart;
 import com.example.projectandroid.User.Profile.Profile;
 import com.example.projectandroid.common.LoginSignUp.Login;
 import com.example.projectandroid.common.LoginSignUp.StartUpScreen;
@@ -36,7 +37,7 @@ public class Analysis extends AppCompatActivity implements NavigationView.OnNavi
 
     SessionManager sessionManager;
 
-    RelativeLayout sales;
+    RelativeLayout sales,totalQualityChart;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,9 +62,23 @@ public class Analysis extends AppCompatActivity implements NavigationView.OnNavi
         navigationView = findViewById(R.id.navigation_view);
 
         sales = findViewById(R.id.Sales);
+        totalQualityChart = findViewById(R.id.QualityChart);
 
         navigationDrawer();
         sales();
+        totalQualityChart();
+    }
+
+    private void totalQualityChart() {
+
+        totalQualityChart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getApplicationContext(), TotalProductChart.class);
+                startActivity(intent);
+            }
+        });
+
     }
 
     private void sales() {
@@ -71,7 +86,7 @@ public class Analysis extends AppCompatActivity implements NavigationView.OnNavi
         sales.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getApplicationContext(), Sales.class);
+                Intent intent = new Intent(getApplicationContext(), SalesChart.class);
                 startActivity(intent);
             }
         });

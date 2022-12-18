@@ -1042,17 +1042,6 @@ public class SqlDatabaseHelper extends SQLiteOpenHelper {
         }
         return cursor;
     }
-
-    public Cursor readDataBarChart_Bill(Integer id_user, String year){
-        SQLiteDatabase db = this.getReadableDatabase();
-
-        Cursor cursor = null;
-        if(db != null){
-            cursor = db.rawQuery("Select "+ COLUMN_BILL_CREATE_DAY + "," + COLUMN_BILL_TOTAL_PRICE + " from "+ TABLE_BILL +
-                    " Where " + F_BILL_COLUMN_ID_USER + "=" + id_user + " And " + COLUMN_BILL_CREATE_DAY + "= ?", new String[]{year});
-        }
-        return cursor;
-    }
     //Bill
 
 
@@ -1394,4 +1383,61 @@ public class SqlDatabaseHelper extends SQLiteOpenHelper {
         }
     }
     //ImportProduct
+
+
+    //Chart
+
+
+    //SalesChart
+    public Cursor readDataBarSales_Chart(Integer id_user, Integer year){
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        Cursor cursor = null;
+        if(db != null){
+            cursor = db.rawQuery("Select "+ COLUMN_BILL_CREATE_DAY + "," + COLUMN_BILL_TOTAL_PRICE + " from "+ TABLE_BILL +
+                    " Where " + F_BILL_COLUMN_ID_USER + "=" + id_user + " And " + COLUMN_BILL_CREATE_DAY + " LIKE '%" + year +"%'",null);
+        }
+        return cursor;
+    }
+    //SalesChart
+
+
+    //TotalQualityChart
+    public Cursor readTypeProductQuality_Chart(Integer id_user){
+
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        Cursor cursor = null;
+        if(db != null){
+            cursor = db.rawQuery("Select "+ COLUMN_TYPE_PRODUCT_NAME + " from "+ TABLE_TYPE_PRODUCT +
+                    " Where " + F_TYPE_PRODUCT_COLUMN_ID_USER + "=" + id_user,null);
+        }
+        return cursor;
+    }
+
+    public Cursor getTypeProductID_Chart(String type_product_name, Integer id_user){
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        Cursor cursor = null;
+        if(db != null){
+            cursor = db.rawQuery("Select * from "+ TABLE_TYPE_PRODUCT +" Where "+ COLUMN_TYPE_PRODUCT_NAME +" = ?" +
+                    " And " + F_TYPE_PRODUCT_COLUMN_ID_USER + "=" + id_user,new String[] {type_product_name});
+        }
+        return cursor;
+    }
+
+    public Cursor readDataBarQuality_Chart(Integer id_user, Integer year, String type_product){
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        Cursor cursor = null;
+        if(db != null){
+            cursor = db.rawQuery("Select "+ COLUMN_BILL_CREATE_DAY + "," + COLUMN_BILL_QUALITY + " from "+ TABLE_BILL +
+                    " Where " + F_BILL_COLUMN_ID_USER + "=" + id_user + " And " + COLUMN_BILL_CREATE_DAY + " LIKE '%" + year +"%'" + " And " + F_BILL_COLUMN_ID_TYPE_PRODUCT + "=" + type_product ,null);
+        }
+        return cursor;
+    }
+    //TotalQualityChart
+
+
+    //Chart
 }
