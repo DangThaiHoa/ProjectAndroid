@@ -49,6 +49,7 @@
             android:layout_height="190dp">
 
             <RelativeLayout
+                android:id="@+id/Sales"
                 android:layout_width="150dp"
                 android:layout_height="150dp"
                 android:layout_marginStart="20dp"
@@ -90,40 +91,6 @@
                 <ImageView
                     android:layout_width="70dp"
                     android:layout_height="70dp"
-                    android:src="@drawable/turnover"
-                    android:layout_centerHorizontal="true"
-                    android:layout_marginTop="10dp"/>
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:padding="10dp"
-                    android:textAlignment="center"
-                    android:text="Doanh Thu"
-                    android:layout_alignParentBottom="true"
-                    android:textSize="20sp" />
-
-            </RelativeLayout>
-
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="190dp">
-
-            <RelativeLayout
-                android:layout_width="150dp"
-                android:layout_height="150dp"
-                android:layout_marginStart="20dp"
-                android:layout_marginTop="20dp"
-                android:layout_marginEnd="20dp"
-                android:layout_marginBottom="20dp"
-                android:background="@drawable/item_cate_bg"
-                android:elevation="8dp">
-
-                <ImageView
-                    android:layout_width="70dp"
-                    android:layout_height="70dp"
                     android:src="@drawable/number_of_sell"
                     android:layout_centerHorizontal="true"
                     android:layout_marginTop="10dp"/>
@@ -139,10 +106,15 @@
 
             </RelativeLayout>
 
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="190dp">
+
             <RelativeLayout
                 android:layout_width="150dp"
                 android:layout_height="150dp"
-                android:layout_alignParentEnd="true"
                 android:layout_marginStart="20dp"
                 android:layout_marginTop="20dp"
                 android:layout_marginEnd="20dp"

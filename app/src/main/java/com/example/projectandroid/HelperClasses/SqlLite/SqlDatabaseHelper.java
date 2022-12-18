@@ -1042,6 +1042,17 @@ public class SqlDatabaseHelper extends SQLiteOpenHelper {
         }
         return cursor;
     }
+
+    public Cursor readDataBarChart_Bill(Integer id_user, String year){
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        Cursor cursor = null;
+        if(db != null){
+            cursor = db.rawQuery("Select "+ COLUMN_BILL_CREATE_DAY + "," + COLUMN_BILL_TOTAL_PRICE + " from "+ TABLE_BILL +
+                    " Where " + F_BILL_COLUMN_ID_USER + "=" + id_user + " And " + COLUMN_BILL_CREATE_DAY + "= ?", new String[]{year});
+        }
+        return cursor;
+    }
     //Bill
 
 

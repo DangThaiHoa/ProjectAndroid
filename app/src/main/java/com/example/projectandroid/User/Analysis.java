@@ -15,9 +15,11 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 
 import com.example.projectandroid.R;
 import com.example.projectandroid.SessionManager;
+import com.example.projectandroid.User.MAnalysis.Sales;
 import com.example.projectandroid.User.Profile.Profile;
 import com.example.projectandroid.common.LoginSignUp.Login;
 import com.example.projectandroid.common.LoginSignUp.StartUpScreen;
@@ -33,6 +35,8 @@ public class Analysis extends AppCompatActivity implements NavigationView.OnNavi
     LinearLayout contentView;
 
     SessionManager sessionManager;
+
+    RelativeLayout sales;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,7 +60,22 @@ public class Analysis extends AppCompatActivity implements NavigationView.OnNavi
         drawerLayout = findViewById(R.id.drawer_layout);
         navigationView = findViewById(R.id.navigation_view);
 
+        sales = findViewById(R.id.Sales);
+
         navigationDrawer();
+        sales();
+    }
+
+    private void sales() {
+
+        sales.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getApplicationContext(), Sales.class);
+                startActivity(intent);
+            }
+        });
+
     }
 
     private void navigationDrawer() {
