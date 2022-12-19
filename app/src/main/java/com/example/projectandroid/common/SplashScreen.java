@@ -14,6 +14,7 @@ import android.widget.TextView;
 
 import com.example.projectandroid.MainActivity;
 import com.example.projectandroid.R;
+import com.example.projectandroid.SessionManager;
 import com.example.projectandroid.common.LoginSignUp.StartUpScreen;
 
 public class SplashScreen extends AppCompatActivity {
@@ -25,8 +26,7 @@ public class SplashScreen extends AppCompatActivity {
 
     Animation sideAnim, bottomAnim;
 
-    SharedPreferences firstTimeRun;
-    SharedPreferences.Editor editorFirstTimeRun;
+    SessionManager sessionManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,8 +34,7 @@ public class SplashScreen extends AppCompatActivity {
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
         setContentView(R.layout.activity_splash_screen);
 
-        firstTimeRun = getSharedPreferences("FirstTime",0);
-        boolean firstRun = firstTimeRun.getBoolean("FirstRun",false);
+        sessionManager = new SessionManager(this);
 
         backgroundImage = findViewById(R.id.background_image);
         poweredBy = findViewById(R.id.powered_By);
@@ -50,14 +49,12 @@ public class SplashScreen extends AppCompatActivity {
             @Override
             public void run() {
 
-                if(firstRun == false){
+                if(sessionManager.isSecTime() == false){
 
-                    editorFirstTimeRun = firstTimeRun.edit();
-                    editorFirstTimeRun.putBoolean("FirstRun",true);
-                    editorFirstTimeRun.commit();
                     Intent i=new Intent(SplashScreen.this,OnBoarding.class);
                     startActivity(i);
                     finish();
+
                 }else{
 
                     Intent a=new Intent(SplashScreen.this,StartUpScreen.class);

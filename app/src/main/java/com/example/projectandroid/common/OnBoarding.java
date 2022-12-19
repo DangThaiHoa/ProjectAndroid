@@ -17,6 +17,7 @@ import android.widget.LinearLayout;
 import com.example.projectandroid.HelperClasses.OnBoarding.OnBoardingItem;
 import com.example.projectandroid.HelperClasses.OnBoarding.OnboardingAdapter;
 import com.example.projectandroid.R;
+import com.example.projectandroid.SessionManager;
 import com.example.projectandroid.common.LoginSignUp.StartUpScreen;
 import com.google.android.material.button.MaterialButton;
 
@@ -29,11 +30,15 @@ public class OnBoarding extends AppCompatActivity {
     private LinearLayout layoutOnboardingIndicators;
     private MaterialButton buttonOnBoardingAction, skipBtn;
 
+    SessionManager sessionManager;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
         setContentView(R.layout.activity_on_boarding);
+
+        sessionManager = new SessionManager(this);
 
         layoutOnboardingIndicators = findViewById(R.id.layoutOnboardingIndicators);
         buttonOnBoardingAction = findViewById(R.id.buttonOnboardingAction);
@@ -64,6 +69,7 @@ public class OnBoarding extends AppCompatActivity {
                 }else{
                     startActivity(new Intent(getApplicationContext(), StartUpScreen.class));
                     finish();
+                    sessionManager.setSecTime(true);
                 }
             }
         });
@@ -79,6 +85,7 @@ public class OnBoarding extends AppCompatActivity {
             public void onClick(View view) {
                 startActivity(new Intent(getApplicationContext(), StartUpScreen.class));
                 finish();
+                sessionManager.setSecTime(true);
             }
         });
 

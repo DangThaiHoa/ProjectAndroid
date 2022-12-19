@@ -15,6 +15,7 @@ public class SessionManager {
 
     private static final String PREF_NAME = "AndroidCheckLogin";
     private static final String KEY_IS_LOGGED_IN = "IsLoggedIn";
+    private static final String KEY_IS_SEC_TIME = "IsSecTime";
     private static final String KEY_IS_TURN_ON_BIO = "IsTurnOn";
 
     public SessionManager (Context context){
@@ -31,6 +32,15 @@ public class SessionManager {
 
     public boolean isLoggedIn(){
         return pref.getBoolean(KEY_IS_LOGGED_IN,false);
+    }
+
+    public void setSecTime (boolean IsSecTime){
+        editor.putBoolean(KEY_IS_SEC_TIME,IsSecTime);
+        editor.commit();
+    }
+
+    public boolean isSecTime(){
+        return pref.getBoolean(KEY_IS_SEC_TIME,false);
     }
 
     public void setId(String myID){
