@@ -6,19 +6,16 @@ import androidx.core.content.ContextCompat;
 import androidx.viewpager2.widget.ViewPager2;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
-import com.example.projectandroid.HelperClasses.SplashScreen.OnBoardingItem;
-import com.example.projectandroid.HelperClasses.SplashScreen.OnboardingAdapter;
-import com.example.projectandroid.MainActivity;
+import com.example.projectandroid.HelperClasses.OnBoarding.OnBoardingItem;
+import com.example.projectandroid.HelperClasses.OnBoarding.OnboardingAdapter;
 import com.example.projectandroid.R;
 import com.example.projectandroid.common.LoginSignUp.StartUpScreen;
 import com.google.android.material.button.MaterialButton;
@@ -92,24 +89,24 @@ public class OnBoarding extends AppCompatActivity {
         List<OnBoardingItem> onBoardingItems = new ArrayList<>();
 
         OnBoardingItem first = new OnBoardingItem();
-        first.setTitle("Search Your Location");
-        first.setDescription("Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.");
-        first.setImage(R.drawable.search_place);
+        first.setTitle("Quản Lý Sản Phẩm Của Bạn");
+        first.setDescription("Ứng Dụng Giúp Bạn Quản Lý Bán Hàng Một Cách Tốt Hơn, Tránh Nhưng Sai Sót Trong Quá Trình Bán Hàng Của Bạn");
+        first.setImage(R.drawable.on_boarding_1);
 
         OnBoardingItem second = new OnBoardingItem();
-        second.setTitle("Make A Call");
-        second.setDescription("Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.");
-        second.setImage(R.drawable.make_a_call);
+        second.setTitle("Tính Toán Tất Cả");
+        second.setDescription("Ứng Dụng Giúp Bạn Tính Toán Hầu Như Tất Cả Những Gì Cần Tính Toán, Bạn Không Cần Phải Tính Toán Gì Nhiều");
+        second.setImage(R.drawable.on_boarding_2);
 
         OnBoardingItem third = new OnBoardingItem();
-        third.setTitle("Add Missing Place");
-        third.setDescription("Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.");
-        third.setImage(R.drawable.add_missing_place);
+        third.setTitle("Bảo Mật Thông Tin");
+        third.setDescription("Thông Tin Sản Phẩm Và Thông Tin Cá Nhân Của Bạn Được Bảo Mật Chắc Chắn Với Các Phương Thức Như Xác Thực Qua Email, Bảo Mật Bằng Sinh Trắc Học");
+        third.setImage(R.drawable.on_boarding_3);
 
         OnBoardingItem four = new OnBoardingItem();
-        four.setTitle("Sit Back And Relax");
-        four.setDescription("Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.");
-        four.setImage(R.drawable.sit_back_and_relax);
+        four.setTitle("Cuối Cùng");
+        four.setDescription("Chúc Bạn Quản Lý Bán Hàng Thành Công Với Ứng Dụng Của Chúng Tôi. Nếu Có Bất Cứ Lỗi Nào Trong Quá Trình Sử Dụng, Vui Lòng Gửi Về Email : 22000330@lttc.edu.vn");
+        four.setImage(R.drawable.on_boarding_4);
 
         onBoardingItems.add(first);
         onBoardingItems.add(second);

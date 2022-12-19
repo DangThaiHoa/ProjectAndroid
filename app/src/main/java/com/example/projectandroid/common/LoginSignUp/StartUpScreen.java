@@ -31,7 +31,7 @@ public class StartUpScreen extends MainActivity {
     private static final int REQUEST_CODE = 1;
     ImageView imageStart;
     Button btnLogin, btnSignUp;
-    TextView textViewWE, textViewDE, textViewWork;
+    TextView textViewWE, textViewDE;
 
     SessionManager sessionManager;
 
@@ -72,21 +72,18 @@ public class StartUpScreen extends MainActivity {
         btnSignUp = findViewById(R.id.signup_btn);
         textViewDE = findViewById(R.id.textviewDE);
         textViewWE = findViewById(R.id.textViewWE);
-        textViewWork = findViewById(R.id.textviewWork);
 
         imageStart.setTranslationX(1000);
         btnLogin.setTranslationY(300);
         btnSignUp.setTranslationY(300);
         textViewDE.setTranslationX(1000);
         textViewWE.setTranslationX(1000);
-        textViewWork.setTranslationY(300);
 
         imageStart.animate().translationX(0).alpha(1).setDuration(1000).setStartDelay(700).start();
         btnLogin.animate().translationY(0).alpha(1).setDuration(1000).setStartDelay(1500).start();
         btnSignUp.animate().translationY(0).alpha(1).setDuration(1000).setStartDelay(1500).start();
         textViewDE.animate().translationX(0).alpha(1).setDuration(1000).setStartDelay(900).start();
         textViewWE.animate().translationX(0).alpha(1).setDuration(1000).setStartDelay(800).start();
-        textViewWork.animate().translationY(0).alpha(1).setDuration(1000).setStartDelay(1600).start();
 
         checkPermission();
     }

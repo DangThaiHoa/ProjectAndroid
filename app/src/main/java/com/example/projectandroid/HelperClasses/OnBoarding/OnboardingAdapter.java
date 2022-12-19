@@ -1,4 +1,4 @@
-package com.example.projectandroid.HelperClasses.SplashScreen;
+package com.example.projectandroid.HelperClasses.OnBoarding;
 
 import android.view.LayoutInflater;
 import android.view.View;

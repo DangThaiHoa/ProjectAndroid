@@ -1,4 +1,4 @@
-package com.example.projectandroid.HelperClasses.SplashScreen;
+package com.example.projectandroid.HelperClasses.OnBoarding;
 
 public class OnBoardingItem {
 
