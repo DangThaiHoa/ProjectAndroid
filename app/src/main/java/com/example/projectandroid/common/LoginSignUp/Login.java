@@ -231,9 +231,12 @@ public class Login extends AppCompatActivity {
                     
                 }else{
 
-                    Toast.makeText(Login.this, "Nếu bạn muốn đổi tài khoản khác hãy ấn vào nút đổi tài khoản", Toast.LENGTH_SHORT).show();
-                    swAccount.setTextColor(Color.rgb(255,0,0));
+                    if( idUser.equals("0") || idUser.equals("")){
 
+                    }else{
+                        Toast.makeText(Login.this, "Nếu bạn muốn đổi tài khoản khác hãy ấn vào nút đổi tài khoản", Toast.LENGTH_SHORT).show();
+                        swAccount.setTextColor(Color.rgb(255,0,0));
+                    }
                 }
             }
         });
