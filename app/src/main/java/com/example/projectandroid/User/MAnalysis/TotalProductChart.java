@@ -84,7 +84,6 @@ public class TotalProductChart extends AppCompatActivity {
                         idTypeProduct = cursor.getString(0);
                     }
                 }
-                BarChart_quality.setVisibility(View.VISIBLE);
                 setData();
                 barChar();
             }
@@ -96,6 +95,9 @@ public class TotalProductChart extends AppCompatActivity {
                 SelectTypeProduct.requestFocus();
             }
         });
+
+        BarChart_quality.setNoDataText("Vui Lòng Chọn Năm Và Loại Sản Phẩm\nĐể Hiển Thị Dữ Liệu");
+        BarChart_quality.setNoDataTextColor(Color.parseColor("#FF9800"));
 
         fillSelectYear();
         fillSelectTypeProduct();
@@ -110,10 +112,14 @@ public class TotalProductChart extends AppCompatActivity {
         barDataSet.setValueTextSize(14f);
 
         BarData barData = new BarData(barDataSet);
-
-        BarChart_quality.setFitBars(true);
         BarChart_quality.setData(barData);
+
+
+        BarChart_quality.setDrawBorders(true);
+        BarChart_quality.setBorderColor(Color.parseColor("#FF9800"));
         BarChart_quality.getDescription().setText("Số Lượng");
+        BarChart_quality.getDescription().setTextSize(15);
+        BarChart_quality.getDescription().setTextColor(Color.parseColor("#FF9800"));
         BarChart_quality.animateY(2000);
     }
 

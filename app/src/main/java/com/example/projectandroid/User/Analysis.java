@@ -19,6 +19,7 @@ import android.widget.RelativeLayout;
 
 import com.example.projectandroid.R;
 import com.example.projectandroid.SessionManager;
+import com.example.projectandroid.User.MAnalysis.GrowthChart;
 import com.example.projectandroid.User.MAnalysis.SalesChart;
 import com.example.projectandroid.User.MAnalysis.TotalProductChart;
 import com.example.projectandroid.User.Profile.Profile;
@@ -37,7 +38,7 @@ public class Analysis extends AppCompatActivity implements NavigationView.OnNavi
 
     SessionManager sessionManager;
 
-    RelativeLayout sales,totalQualityChart;
+    RelativeLayout sales,totalQualityChart, growthChart;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,10 +64,24 @@ public class Analysis extends AppCompatActivity implements NavigationView.OnNavi
 
         sales = findViewById(R.id.Sales);
         totalQualityChart = findViewById(R.id.QualityChart);
+        growthChart = findViewById(R.id.GrowthChart);
 
         navigationDrawer();
         sales();
         totalQualityChart();
+        growthChart();
+    }
+
+    private void growthChart() {
+
+        growthChart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getApplicationContext(), GrowthChart.class);
+                startActivity(intent);
+            }
+        });
+
     }
 
     private void totalQualityChart() {

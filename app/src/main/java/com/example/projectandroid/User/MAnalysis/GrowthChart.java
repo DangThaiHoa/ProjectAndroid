@@ -16,14 +16,14 @@ import android.widget.ImageView;
 import com.example.projectandroid.HelperClasses.SqlLite.SqlDatabaseHelper;
 import com.example.projectandroid.R;
 import com.github.mikephil.charting.charts.BarChart;
+import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
 import com.github.mikephil.charting.data.Entry;
-import com.github.mikephil.charting.formatter.IValueFormatter;
-import com.github.mikephil.charting.formatter.ValueFormatter;
+import com.github.mikephil.charting.data.LineData;
+import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.utils.ColorTemplate;
-import com.github.mikephil.charting.utils.ViewPortHandler;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -31,9 +31,9 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
-public class SalesChart extends AppCompatActivity {
+public class GrowthChart extends AppCompatActivity {
 
-    BarChart barChart_sales;
+    LineChart lineChart_Growth;
 
     ArrayList<String> itemYear;
     AutoCompleteTextView SelectYear;
@@ -43,17 +43,17 @@ public class SalesChart extends AppCompatActivity {
 
     SqlDatabaseHelper db;
 
-    ArrayList<BarEntry> barEntryArrayList;
+    ArrayList<Entry> entryArrayList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_sales_chart);
+        setContentView(R.layout.activity_growth_chart);
 
         db = new SqlDatabaseHelper(this);
 
-        barChart_sales = findViewById(R.id.bart_char_sales);
-        SelectYear = findViewById(R.id.sales_select_year);
+        lineChart_Growth = findViewById(R.id.line_char_growth);
+        SelectYear = findViewById(R.id.growth_select_year);
         backBtn = findViewById(R.id.back_btn);
 
         SelectYear.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -64,11 +64,11 @@ public class SalesChart extends AppCompatActivity {
             }
         });
 
-        barChart_sales.setNoDataText("Vui Lòng Chọn Năm \nĐể Hiển Thị Dữ Liệu");
-        barChart_sales.setNoDataTextColor(Color.parseColor("#FF9800"));
-
         fillSelectYear();
         backBtn();
+
+        lineChart_Growth.setNoDataText("Vui Lòng Chọn Năm \nĐể Hiển Thị Dữ Liệu");
+        lineChart_Growth.setNoDataTextColor(Color.parseColor("#FF9800"));
     }
 
     private void backBtn() {
@@ -76,7 +76,7 @@ public class SalesChart extends AppCompatActivity {
         backBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                SalesChart.super.onBackPressed();
+                GrowthChart.super.onBackPressed();
             }
         });
 
@@ -84,7 +84,7 @@ public class SalesChart extends AppCompatActivity {
 
     private void setData() {
 
-        barEntryArrayList = new ArrayList<>();
+        entryArrayList = new ArrayList<>();
 
         String gDate = SelectYear.getText().toString();
         if(gDate.isEmpty()){
@@ -99,9 +99,9 @@ public class SalesChart extends AppCompatActivity {
 
                 Integer Date = i;
 
-                Cursor cursor = db.readDataBarSales_Chart(Integer.valueOf(idUser), Date);
+                Cursor cursor = db.readDataLineGrowth_Chart(Integer.valueOf(idUser), Date);
                 if(cursor.getCount() == 0){
-                    barEntryArrayList.add(new BarEntry(i, 0));
+                    entryArrayList.add(new BarEntry(i, 0));
                 }else{
                     while(cursor.moveToNext()){
                         String strSplit[] = cursor.getString(0).split("/");
@@ -109,7 +109,7 @@ public class SalesChart extends AppCompatActivity {
                         String gPrice = cursor.getString(1);
                         gTotal += Integer.parseInt(gPrice);
                     }
-                    barEntryArrayList.add(new BarEntry(Integer.parseInt(gYear), gTotal));
+                    entryArrayList.add(new BarEntry(Integer.parseInt(gYear), gTotal));
                 }
             }
         }
@@ -117,20 +117,20 @@ public class SalesChart extends AppCompatActivity {
 
     private void barChar() {
 
-        BarDataSet barDataSet = new BarDataSet(barEntryArrayList,"Tổng Tiền Bán Được (VNĐ) x 1000");
-        barDataSet.setColors(ColorTemplate.MATERIAL_COLORS);
-        barDataSet.setValueTextColor(Color.BLACK);
-        barDataSet.setValueTextSize(14f);
+        LineDataSet lineDataSet = new LineDataSet(entryArrayList,"Mức Tăng Trưởng Qua Từng Năm");
+        lineDataSet.setColors(ColorTemplate.MATERIAL_COLORS);
+        lineDataSet.setValueTextColor(Color.BLACK);
+        lineDataSet.setValueTextSize(15f);
 
-        BarData barData = new BarData(barDataSet);
-        barChart_sales.setData(barData);
+        LineData lineData = new LineData(lineDataSet);
+        lineChart_Growth.setData(lineData);
 
-        barChart_sales.setDrawBorders(true);
-        barChart_sales.setBorderColor(Color.parseColor("#FF9800"));
-        barChart_sales.getDescription().setText("Doanh Số");
-        barChart_sales.getDescription().setTextSize(15);
-        barChart_sales.getDescription().setTextColor(Color.parseColor("#FF9800"));
-        barChart_sales.animateY(2000);
+        lineChart_Growth.setDrawBorders(true);
+        lineChart_Growth.setBorderColor(Color.parseColor("#FF9800"));
+        lineChart_Growth.getDescription().setText("Biểu Đồ Tăng Trưởng");
+        lineChart_Growth.getDescription().setTextSize(15);
+        lineChart_Growth.getDescription().setTextColor(Color.parseColor("#FF9800"));
+        lineChart_Growth.animateY(2000);
     }
 
     private void fillSelectYear() {

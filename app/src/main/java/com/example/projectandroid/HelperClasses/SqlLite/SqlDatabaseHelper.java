@@ -1387,7 +1387,6 @@ public class SqlDatabaseHelper extends SQLiteOpenHelper {
 
     //Chart
 
-
     //SalesChart
     public Cursor readDataBarSales_Chart(Integer id_user, Integer year){
         SQLiteDatabase db = this.getReadableDatabase();
@@ -1438,6 +1437,18 @@ public class SqlDatabaseHelper extends SQLiteOpenHelper {
     }
     //TotalQualityChart
 
+    //GrowthChart
+    public Cursor readDataLineGrowth_Chart(Integer id_user, Integer year){
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        Cursor cursor = null;
+        if(db != null){
+            cursor = db.rawQuery("Select "+ COLUMN_BILL_CREATE_DAY + "," + COLUMN_BILL_TOTAL_PRICE + " from "+ TABLE_BILL +
+                    " Where " + F_BILL_COLUMN_ID_USER + "=" + id_user + " And " + COLUMN_BILL_CREATE_DAY + " LIKE '%" + year +"%'",null);
+        }
+        return cursor;
+    }
+    //GrowthChart
 
     //Chart
 }

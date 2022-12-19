@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".User.MAnalysis.SalesChart"
+    tools:context=".User.MAnalysis.GrowthChart"
     android:orientation="vertical"
     android:padding="10dp">
 
@@ -24,12 +24,12 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="?actionBarSize">
+        android:layout_height="wrap_content">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Doanh Số"
+            android:text="Biểu Đồ \nTăng Trưởng"
             android:textStyle="bold"
             android:textSize="30sp"
             android:padding="10dp"
@@ -45,12 +45,12 @@
         app:boxStrokeWidthFocused="2dp"
         app:endIconMode="dropdown_menu"
         android:layout_marginTop="50dp">
-    <AutoCompleteTextView
-        android:id="@+id/sales_select_year"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:inputType="none"
-        android:fontFamily="@font/muli_black"/>
+        <AutoCompleteTextView
+            android:id="@+id/growth_select_year"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="none"
+            android:fontFamily="@font/muli_black"/>
 
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -70,11 +70,11 @@
         android:layout_marginLeft="20dp"
         android:gravity="center">
 
-        <com.github.mikephil.charting.charts.BarChart
+        <com.github.mikephil.charting.charts.LineChart
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
-            android:id="@+id/bart_char_sales"/>
+            android:id="@+id/line_char_growth"/>
 
     </LinearLayout>
 
