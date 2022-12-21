@@ -6,8 +6,8 @@
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="150dp"
-        android:src="@drawable/image_test"
-        android:scaleType="centerCrop"/>
+        android:src="@drawable/menu_image"
+        android:scaleType="fitCenter"/>
 
     <TextView
         android:id="@+id/menu_slogan"

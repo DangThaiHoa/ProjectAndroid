@@ -22,7 +22,7 @@ public class SplashScreen extends AppCompatActivity {
     private static int Splash_Timer = 5000;
 
     ImageView backgroundImage;
-    TextView poweredBy;
+    TextView poweredBy, textTitle;
 
     Animation sideAnim, bottomAnim;
 
@@ -38,11 +38,13 @@ public class SplashScreen extends AppCompatActivity {
 
         backgroundImage = findViewById(R.id.background_image);
         poweredBy = findViewById(R.id.powered_By);
+        textTitle = findViewById(R.id.text_title);
 
         sideAnim = AnimationUtils.loadAnimation(this,R.anim.side_anim);
         bottomAnim = AnimationUtils.loadAnimation(this,R.anim.bottom_anim);
 
         backgroundImage.setAnimation(sideAnim);
+        textTitle.setAnimation(sideAnim);
         poweredBy.setAnimation(bottomAnim);
 
         new Handler().postDelayed(new Runnable() {
