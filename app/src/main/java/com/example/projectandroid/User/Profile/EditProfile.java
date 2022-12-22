@@ -685,6 +685,7 @@ public class EditProfile extends AppCompatActivity {
                                 sessionManager.setLogin(false);
                                 sessionManager.setId("0");
                                 progessLoading.dismiss();
+                                Toast.makeText(EditProfile.this, "Xóa Tài Khoản Thành Công", Toast.LENGTH_SHORT).show();
                             }
                         },2000);
 

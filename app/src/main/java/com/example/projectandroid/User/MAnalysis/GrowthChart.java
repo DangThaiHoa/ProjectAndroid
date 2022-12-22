@@ -94,7 +94,7 @@ public class GrowthChart extends AppCompatActivity {
             String sYear = strSplitGYear[0];
             String eYear = strSplitGYear[1];
             String gYear = null;
-            Integer gTotal = 0;
+            float gTotal = 0;
             for (int i = Integer.parseInt(sYear); i<= Integer.parseInt(eYear); i++){
 
                 Integer Date = i;
@@ -107,7 +107,7 @@ public class GrowthChart extends AppCompatActivity {
                         String strSplit[] = cursor.getString(0).split("/");
                         gYear = strSplit[2];
                         String gPrice = cursor.getString(1);
-                        gTotal += Integer.parseInt(gPrice);
+                        gTotal += Float.parseFloat(gPrice);
                     }
                     entryArrayList.add(new BarEntry(Integer.parseInt(gYear), gTotal));
                 }
