@@ -50,7 +50,7 @@ public class CreateBill extends AppCompatActivity {
     ImageView btnBack, ImageProduct;
     Button btnConfirm;
     TextInputEditText QualityProduct, PriceProduct, TotalPrice;
-    Integer Total;
+    Float Total;
 
     SqlDatabaseHelper db;
 
@@ -142,7 +142,7 @@ public class CreateBill extends AppCompatActivity {
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 if (TextUtils.isEmpty(QualityProduct.getText().toString())) {
-                    Total = 0;
+                    Total = Float.valueOf(0);
                 } else {
                     String pricePromotion = null;
                     String gNameProduct = NameProduct.getText().toString();
@@ -160,9 +160,9 @@ public class CreateBill extends AppCompatActivity {
                                 pricePromotion = cursorGetPricePromotion.getString(0);
                             }
                         }
-                        Total = Integer.parseInt(pricePromotion) * Integer.parseInt(QualityProduct.getText().toString());
+                        Total = Float.parseFloat(pricePromotion) * Integer.parseInt(QualityProduct.getText().toString());
                     }else{
-                        Total = Integer.parseInt(PriceProduct.getText().toString()) * Integer.parseInt(QualityProduct.getText().toString());
+                        Total = Float.valueOf(Integer.parseInt(PriceProduct.getText().toString()) * Integer.parseInt(QualityProduct.getText().toString()));
                     }
                     TotalPrice.setText(Total.toString());
                 }
