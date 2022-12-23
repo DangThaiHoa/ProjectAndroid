@@ -147,7 +147,7 @@ public class DetailBill extends AppCompatActivity {
             while (cursor.moveToNext()){
                 typeProduct.setText(cursor.getString(1));
                 nameProduct.setText(cursor.getString(2));
-                priceProduct.setText(String.valueOf(Integer.parseInt(cursor.getString(5)) / Integer.parseInt(cursor.getString(4))));
+                priceProduct.setText(String.valueOf(Float.parseFloat(cursor.getString(5)) / Float.parseFloat(cursor.getString(4))));
                 qualityProduct.setText(cursor.getString(4));
                 totalPriceBill.setText(cursor.getString(5));
                 createDayBill.setText(cursor.getString(6));

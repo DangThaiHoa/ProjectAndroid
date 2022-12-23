@@ -834,7 +834,7 @@ public class SqlDatabaseHelper extends SQLiteOpenHelper {
 
         Cursor cursor = null;
         if(db != null){
-            cursor = db.rawQuery("Select "+ COLUMN_ID_PRODUCT +" from "+ TABLE_PRODUCT +" Where " + COLUMN_PRODUCT_NAME + "= ?"+ " And " + F_PRODUCT_COLUMN_ID_USER + "=" + id_user,new String[] {product_name});
+            cursor = db.rawQuery("Select "+ COLUMN_ID_PRODUCT + "," + COLUMN_PRODUCT_PRICE + " from "+ TABLE_PRODUCT +" Where " + COLUMN_PRODUCT_NAME + "= ?"+ " And " + F_PRODUCT_COLUMN_ID_USER + "=" + id_user,new String[] {product_name});
         }
         return cursor;
     }
@@ -1017,13 +1017,13 @@ public class SqlDatabaseHelper extends SQLiteOpenHelper {
         }
     }
 
-    public boolean checkProductPromotion_Bill(Integer id_product){
+    public boolean checkProductPromotion_Bill(Integer id_product, String CDay){
 
-        String query= "Select * from "+ TABLE_PROMOTION +" Where " + F_PROMOTION_COLUMN_ID_PRODUCT + "="+ id_product;
         SQLiteDatabase db = this.getReadableDatabase();
 
         Cursor cursor = null;
-        cursor = db.rawQuery(query,null);
+        cursor = db.rawQuery("Select * from "+ TABLE_PROMOTION +" Where " + F_PROMOTION_COLUMN_ID_PRODUCT + "="+ id_product +
+                " And " + COLUMN_PROMOTION_START_DAY + "=?",new String[]{CDay});
         if(cursor.getCount() > 0){
             return true;
         }else{

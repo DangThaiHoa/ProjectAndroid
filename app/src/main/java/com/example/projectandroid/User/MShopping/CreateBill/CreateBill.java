@@ -121,15 +121,19 @@ public class CreateBill extends AppCompatActivity {
                 Cursor cursorID_Product = db.getIDProduct_Bill(gNameProduct,Integer.valueOf(idUser));
                 while (cursorID_Product.moveToNext()) {
                     gIDProduct = cursorID_Product.getInt(0);
-                }
-                Boolean resultCheckPromotion = db.checkProductPromotion_Bill(gIDProduct);
+                Date dateAndTime = Calendar.getInstance().getTime();
+                SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy", Locale.getDefault());
+                String gCDay = dateFormat.format(dateAndTime);
+                Boolean resultCheckPromotion = db.checkProductPromotion_Bill(gIDProduct,gCDay);
                 if (resultCheckPromotion == true) {
                     Toast.makeText(CreateBill.this, "Sản Phẩm Này Đang Được Giảm Giá, Giá Được Giảm Sẽ Được Hiển Thị", Toast.LENGTH_LONG).show();
                     loadDataImageProduct(NameProduct.getText().toString());
                     getPricePromotion(gIDProduct,gNameProduct);
-                }else{
+                }else {
                     loadDataPriceProduct(NameProduct.getText().toString());
                     loadDataImageProduct(NameProduct.getText().toString());
+                    PriceProduct.setText(cursorID_Product.getString(1));
+                }
                 }
             }
         });
@@ -150,7 +154,10 @@ public class CreateBill extends AppCompatActivity {
                     while (cursorID_Product.moveToNext()) {
                         gIDProduct = cursorID_Product.getInt(0);
                     }
-                    Boolean resultCheckPromotion = db.checkProductPromotion_Bill(gIDProduct);
+                    Date dateAndTime = Calendar.getInstance().getTime();
+                    SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy", Locale.getDefault());
+                    String gCDay = dateFormat.format(dateAndTime);
+                    Boolean resultCheckPromotion = db.checkProductPromotion_Bill(gIDProduct,gCDay);
                     if (resultCheckPromotion == true) {
                         Cursor cursorGetPricePromotion = db.getProductPromotion_Bill(gIDProduct);
                         if(cursorGetPricePromotion.getCount() == 0){
