@@ -27,7 +27,7 @@ public class ChangePassword extends AppCompatActivity {
 
     SqlDatabaseHelper db;
     SessionManager sessionManager;
-    ProgessLoading progessLoading;
+        ProgessLoading progessLoading;
 
     String idUser;
 
